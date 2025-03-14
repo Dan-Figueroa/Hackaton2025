@@ -6,8 +6,16 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CCB115CF2D83F55400169C58 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = CCB115CE2D83F55400169C58 /* FirebaseCore */; };
+		CCB115D12D83F55400169C58 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = CCB115D02D83F55400169C58 /* FirebaseDatabase */; };
+		CCB115D32D83F55400169C58 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CCB115D22D83F55400169C58 /* FirebaseFirestore */; };
+		CCB115D72D83F5AF00169C58 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CCB115D62D83F5AF00169C58 /* GoogleService-Info.plist */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		8D285B272D82E6A400CCEF61 /* Raiva.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Raiva.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCB115D62D83F5AF00169C58 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +44,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCB115D12D83F55400169C58 /* FirebaseDatabase in Frameworks */,
+				CCB115CF2D83F55400169C58 /* FirebaseCore in Frameworks */,
+				CCB115D32D83F55400169C58 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				8D285B292D82E6A400CCEF61 /* Raiva */,
+				CCB115D62D83F5AF00169C58 /* GoogleService-Info.plist */,
 				8D285B282D82E6A400CCEF61 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -78,6 +90,9 @@
 			);
 			name = Raiva;
 			packageProductDependencies = (
+				CCB115CE2D83F55400169C58 /* FirebaseCore */,
+				CCB115D02D83F55400169C58 /* FirebaseDatabase */,
+				CCB115D22D83F55400169C58 /* FirebaseFirestore */,
 			);
 			productName = Raiva;
 			productReference = 8D285B272D82E6A400CCEF61 /* Raiva.app */;
@@ -107,6 +122,9 @@
 			);
 			mainGroup = 8D285B1E2D82E6A400CCEF61;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CCB115CD2D83F55400169C58 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8D285B282D82E6A400CCEF61 /* Products */;
 			projectDirPath = "";
@@ -122,6 +140,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCB115D72D83F5AF00169C58 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +366,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CCB115CD2D83F55400169C58 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CCB115CE2D83F55400169C58 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CCB115CD2D83F55400169C58 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		CCB115D02D83F55400169C58 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CCB115CD2D83F55400169C58 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		CCB115D22D83F55400169C58 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CCB115CD2D83F55400169C58 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8D285B1F2D82E6A400CCEF61 /* Project object */;
 }
