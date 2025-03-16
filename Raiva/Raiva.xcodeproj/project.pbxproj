@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8DEFBE6F2D86B569004C5DE3 /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DEFBE6E2D86B569004C5DE3 /* ARKit.framework */; };
+		8DEFBE712D86B574004C5DE3 /* RealityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DEFBE702D86B574004C5DE3 /* RealityKit.framework */; };
 		CCB115CF2D83F55400169C58 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = CCB115CE2D83F55400169C58 /* FirebaseCore */; };
 		CCB115D12D83F55400169C58 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = CCB115D02D83F55400169C58 /* FirebaseDatabase */; };
 		CCB115D32D83F55400169C58 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CCB115D22D83F55400169C58 /* FirebaseFirestore */; };
@@ -15,6 +17,8 @@
 
 /* Begin PBXFileReference section */
 		8D285B272D82E6A400CCEF61 /* Raiva.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Raiva.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DEFBE6E2D86B569004C5DE3 /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
+		8DEFBE702D86B574004C5DE3 /* RealityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealityKit.framework; path = System/Library/Frameworks/RealityKit.framework; sourceTree = SDKROOT; };
 		CCB115D62D83F5AF00169C58 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -46,7 +50,9 @@
 			files = (
 				CCB115D12D83F55400169C58 /* FirebaseDatabase in Frameworks */,
 				CCB115CF2D83F55400169C58 /* FirebaseCore in Frameworks */,
+				8DEFBE6F2D86B569004C5DE3 /* ARKit.framework in Frameworks */,
 				CCB115D32D83F55400169C58 /* FirebaseFirestore in Frameworks */,
+				8DEFBE712D86B574004C5DE3 /* RealityKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +64,7 @@
 			children = (
 				8D285B292D82E6A400CCEF61 /* Raiva */,
 				CCB115D62D83F5AF00169C58 /* GoogleService-Info.plist */,
+				8DEFBE6D2D86B569004C5DE3 /* Frameworks */,
 				8D285B282D82E6A400CCEF61 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,6 +75,15 @@
 				8D285B272D82E6A400CCEF61 /* Raiva.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8DEFBE6D2D86B569004C5DE3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8DEFBE702D86B574004C5DE3 /* RealityKit.framework */,
+				8DEFBE6E2D86B569004C5DE3 /* ARKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
