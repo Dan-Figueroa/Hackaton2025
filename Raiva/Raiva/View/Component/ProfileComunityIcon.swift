@@ -7,4 +7,14 @@
 
 import SwiftUI
 
-// En espera de lógica
+struct ProfileComunityIcon: View {
+    var body: some View{
+        Text("Hola")
+    }
+}
+
+
+
+#Preview {
+    ProfileComunityIcon()
+}

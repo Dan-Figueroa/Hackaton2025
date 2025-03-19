@@ -22,7 +22,7 @@ struct Principal: View {
                 Button(action: {
                     print("Mapa presionado")
                 }) {
-                    MapComponent(isFinding: true)
+                    MapComponent(mapaType: .points, isFinding: true)
                         
                 }
                 Spacer()

@@ -9,16 +9,30 @@ import SwiftUI
 
 struct MapComponent: View {
     @EnvironmentObject var appData: AppData
+    let mapaType: MapaType
     var isFinding: Bool
     var body: some View {
         ZStack {
             if (isFinding){
                 Finding() // Circulos
             }
-            Image("mapa")
+            Image(mapaType.getMapaType())
                 .padding(.leading, 100)
         }.frame(maxWidth: .infinity)
             
+    }
+}
+
+enum MapaType{
+    case points, noPointed
+    
+    func getMapaType() -> String {
+        switch self {
+        case .points:
+            return "mapa"
+        case .noPointed:
+            return "mapaBlanco"
+        }
     }
 }
 
@@ -56,6 +70,6 @@ private struct Finding: View {
 
 
 #Preview {
-    MapComponent(isFinding: true)
+    MapComponent(mapaType: .points, isFinding: true)
         .environmentObject(AppData())
 }
