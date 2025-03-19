@@ -8,12 +8,15 @@
 import Foundation
 
 enum SideMenuRowType: Int, CaseIterable{
-    case foro = 0
+    case principal
+    case foro
     case informate
     case juguemos
     
     var title: String{
         switch self {
+        case .principal:
+            return "Principal"
         case .foro:
             return "Foro"
         case .informate:
@@ -25,6 +28,8 @@ enum SideMenuRowType: Int, CaseIterable{
     
     var iconName: String{
         switch self {
+        case .principal:
+            return "house.fill"
         case .foro:
             return "message.badge.filled.fill"
         case .informate:

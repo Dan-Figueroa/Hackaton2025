@@ -14,21 +14,22 @@ struct MainTabbedView: View {
     
     var body: some View {
         ZStack {
-            // Mostrar solo la vista seleccionada
+            
             Group {
                 switch selectedSideMenuTab {
                 case 0:
-                    ForoView(presentSideMenu: $presentSideMenu)
+                    Principal(presentSideMenu: $presentSideMenu, selectedSideMenuTab: $selectedSideMenuTab)
                 case 1:
-                    InformateView(presentSideMenu: $presentSideMenu)
+                    ForoView(presentSideMenu: $presentSideMenu)
                 case 2:
+                    InformateView(presentSideMenu: $presentSideMenu)
+                case 3:
                     JuegoView(presentSideMenu: $presentSideMenu)
                 default:
                     EmptyView()
                 }
             }
             
-            // Menú lateral
             SideMenu(isShowing: $presentSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $presentSideMenu)))
         }
     }

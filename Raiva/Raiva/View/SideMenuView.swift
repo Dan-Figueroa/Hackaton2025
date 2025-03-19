@@ -24,7 +24,8 @@ struct SideMenuView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     UserViewType(imageName: "perfilInvitado", name: "Meliza Ortega", style: .vertical)
                         .frame(width: appData.UISW * 0.23, height: appData.UISH * 0.15)
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 80)
+                    
                     
                     ForEach(SideMenuRowType.allCases, id: \.self){ row in
                         RowView(isSelected: selectedSideMenuTab == row.rawValue, imageName: row.iconName, title: row.title) {
@@ -62,7 +63,7 @@ struct SideMenuView: View {
                 .frame(width: 40, height: 40)
                 
                 Text(title)
-                    .font(.custom("Gagalin", size:26))
+                    .font(.custom("Gagalin", size:22))
                     .foregroundColor(isSelected ? .arena : .beige) // Cambia el color del texto
                 
                 Spacer()
@@ -71,7 +72,7 @@ struct SideMenuView: View {
             .padding(.horizontal, 20) // Espaciado horizontal
         }
         .frame(height: 80)
-        .frame(maxWidth: .infinity) // Hace que el botón ocupe todo el ancho disponible
+        .frame(width: 250) // Hace que el botón ocupe todo el ancho disponible
         .background(isSelected ? Color.arena.opacity(0.2) : Color.beige.opacity(0.2)) // Color sólido
         .cornerRadius(8) // Bordes redondeados
     }
