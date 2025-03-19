@@ -17,12 +17,6 @@ struct Principal: View {
                 HStack {
                     RaivaLogo(size: .large)
                         .frame(maxWidth: .infinity, alignment: .center)
-                    Spacer()
-                    Image(systemName: "message.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: appData.UISH * 0.1)
-                        .padding(20)
                 }
                 Spacer()
                 Button(action: {

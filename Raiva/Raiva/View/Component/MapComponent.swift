@@ -16,6 +16,7 @@ struct MapComponent: View {
                 Finding()
             }
             Image("mapa")
+                .padding(.leading, 100)
         }.frame(maxWidth: .infinity)
             
     }
