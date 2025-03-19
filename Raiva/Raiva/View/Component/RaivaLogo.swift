@@ -11,6 +11,7 @@ struct RaivaLogo: View {
     @EnvironmentObject var appData: AppData
     let size: raivaLogoSize
     var body: some View {
+        
         HStack(spacing: 15){
             Group{
                 size.logoSize(appData: appData)
@@ -55,6 +56,7 @@ struct RaivaLogo: View {
         }
     }
 }
+
 
 #Preview {
     RaivaLogo(size: .large)

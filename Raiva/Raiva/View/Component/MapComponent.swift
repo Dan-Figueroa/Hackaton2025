@@ -13,7 +13,7 @@ struct MapComponent: View {
     var body: some View {
         ZStack {
             if (isFinding){
-                Finding()
+                Finding() // Circulos
             }
             Image("mapa")
                 .padding(.leading, 100)
