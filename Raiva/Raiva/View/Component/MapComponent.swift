@@ -67,9 +67,21 @@ private struct Finding: View {
     }
 }
 
+struct infoEtnia{
+    let etnia: EtniasEnum
+    let poblacion: Int
+    let poblacionImage: String
+    let platillo: [String]
+    let vestimenta: String
+    let festividad: [String]
+}
 
+private let infoEtnias: [infoEtnia] = [
+    infoEtnia(etnia: .zoque, poblacion: 49729, poblacionImage: "zoque", platillo: ["Tamal de chipilin", "tamalChipilin"], vestimenta: "zoqueVestimenta", festividad: ["La Fiesta de San Miguel Arcángel", "festividadZoque"]),
+    infoEtnia(etnia: .tsotsil, poblacion: 353897, poblacionImage: "tosotsil", platillo: ["Sikil pak","sikilPak"], vestimenta: "tsotsilVestimenta", festividad: ["La Fiesta de San Sebastián Mártir","festividadTsotsil"])
+]
 
 #Preview {
-    MapComponent(mapaType: .points, isFinding: true)
+    MapComponent(mapaType: .noPointed, isFinding: true)
         .environmentObject(AppData())
 }

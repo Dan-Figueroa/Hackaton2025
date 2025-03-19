@@ -13,8 +13,8 @@ struct Background: View { // RaivaBackground with logo
             Image("fondo")
                 .resizable()
                 .scaledToFill()
-                .frame(maxWidth: .infinity)
                 .ignoresSafeArea()
+                .frame(width: .infinity, height: .infinity)
         }
     }
 }
