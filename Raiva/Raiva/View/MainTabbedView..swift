@@ -8,13 +8,11 @@
 import SwiftUI
 
 struct MainTabbedView: View {
-    
     @State var presentSideMenu = false
     @State var selectedSideMenuTab = 0
     
     var body: some View {
         ZStack {
-            
             Group {
                 switch selectedSideMenuTab {
                 case 0:

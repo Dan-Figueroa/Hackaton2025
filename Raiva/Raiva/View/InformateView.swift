@@ -11,22 +11,41 @@ struct InformateView: View {
     @Binding var presentSideMenu: Bool
     
     var body: some View {
-        VStack{
-            HStack{
-                Button{
+        ZStack(alignment: .top) {
+            // Fondo
+            Background()
+            
+            // Contenido (logo y mapa)
+            VStack {
+                RaivaLogo(size: .large)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                
+                Spacer()
+
+                MapComponent(mapaType: .noPointed, isFinding: true)
+                
+                Spacer()
+            }
+            .offset(x: -280, y: 70)
+            
+            HStack {
+                Button {
                     presentSideMenu.toggle()
                 } label: {
                     Image(systemName: "line.horizontal.3")
-                    .resizable()
-                    .frame(width: 32, height: 32)
-                    .foregroundColor(Color.beige)
+                        .resizable()
+                        .frame(width: 45, height: 45)
+                        .foregroundColor(Color.beige)
                 }
-                    Spacer()
-                }
-            Spacer()
-            Text("InformateView")
-            Spacer()
-        }
+                Spacer()
+            }
             .padding(.horizontal, 24)
+            .offset(y: 32) // Ajusta la posición vertical del botón
+        }
     }
+}
+
+#Preview {
+    InformateView(presentSideMenu: .constant(false))
+        .environmentObject(AppData())
 }

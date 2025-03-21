@@ -11,9 +11,10 @@ struct ForoView: View {
     @Binding var presentSideMenu: Bool
     
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            Color.white.ignoresSafeArea()
-            
+        ZStack(alignment: .top) {
+            ZStack {
+                Background()
+            }
             HStack {
                 Button {
                     presentSideMenu.toggle()
@@ -26,9 +27,7 @@ struct ForoView: View {
                 Spacer()
             }
             .padding(.horizontal, 24)
-            .padding(.top, 16)
-            
-            Spacer()
+            .offset(y: 32)
         }
     }
 }
