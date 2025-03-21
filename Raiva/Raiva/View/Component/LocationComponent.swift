@@ -17,7 +17,7 @@ struct LocationComponent: View {
     }
     
     let state: State
-    var action: () -> Void
+    let action: () -> Void
     
     var body: some View {
         Button(action: action) {
@@ -26,12 +26,12 @@ struct LocationComponent: View {
                 Image("location")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 50, height: 50)
+                    .frame(width: 70, height: 70)
             case .verde:
                 Image("locationGreen")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 80, height: 80)
+                    .frame(width: 100, height: 100)
             }
         }
     }
@@ -39,7 +39,7 @@ struct LocationComponent: View {
 
 #Preview {
     VStack {
-        LocationComponent(state: .verde, action: {
+        LocationComponent(state: .rojo, action: {
             print("Botón normal presionado")
         })
     }

@@ -17,7 +17,6 @@ struct Principal: View {
         ZStack {
             Background()
                 .ignoresSafeArea()
-
             ZStack(alignment: .top) {
                 VStack {
                     RaivaLogo(size: .large)
@@ -48,7 +47,6 @@ struct Principal: View {
                     
                     Spacer()
                 }
-
                 HStack {
                     Button {
                         presentSideMenu.toggle()
