@@ -4,7 +4,6 @@
 //
 //  Created by Dan Figueroa on 18/03/25.
 //
-
 import SwiftUI
 
 struct ForoView: View {

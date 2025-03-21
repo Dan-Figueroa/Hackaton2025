@@ -12,10 +12,7 @@ struct InformateView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            // Fondo
             Background()
-            
-            // Contenido (logo y mapa)
             VStack {
                 RaivaLogo(size: .large)
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -40,7 +37,7 @@ struct InformateView: View {
                 Spacer()
             }
             .padding(.horizontal, 24)
-            .offset(y: 32) // Ajusta la posición vertical del botón
+            .offset(y: 32) 
         }
     }
 }

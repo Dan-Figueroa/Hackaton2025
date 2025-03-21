@@ -4,32 +4,46 @@
 //
 //  Created by Dan Figueroa on 13/03/25.
 //
-
 import SwiftUI
 
 struct Principal: View {
     @StateObject var appData = AppData()
     @Binding var presentSideMenu: Bool
     @Binding var selectedSideMenuTab: Int
-    
     @State private var moveLeft = false
+    @State private var moveDown = false
 
     var body: some View {
         ZStack {
             Background()
                 .ignoresSafeArea()
-            
+
             ZStack(alignment: .top) {
                 VStack {
                     RaivaLogo(size: .large)
                         .frame(maxWidth: .infinity, alignment: .center)
+                        .offset(
+                            x: moveDown ? -280 : 0,
+                            y: moveDown ? 70 : 0
+                        )
+                        .animation(.easeInOut(duration: 0.5), value: moveDown)
                     
                     Spacer()
 
                     Button(action: {
-                        selectedSideMenuTab = 2
+                        withAnimation(.easeInOut(duration: 1.0)) {
+                            moveDown = true
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            selectedSideMenuTab = 2
+                        }
                     }) {
                         MapComponent(mapaType: .points, isFinding: true)
+                            .offset(
+                                x: moveDown ? -280 : 0,
+                                y: moveDown ? 70 : 0
+                            )
+                            .animation(.easeInOut(duration: 0.5), value: moveDown)
                     }
                     
                     Spacer()
@@ -63,7 +77,7 @@ struct Principal: View {
                 .padding(.horizontal, 24)
                 .offset(y: -20)
             }
-            .offset(x: moveLeft ? -UIScreen.main.bounds.width : 0)
+            .offset(x: moveLeft ? -UIScreen.main.bounds.width : 0) 
             .animation(.easeInOut(duration: 0.5), value: moveLeft)
         }
     }
