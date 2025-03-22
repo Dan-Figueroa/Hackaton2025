@@ -15,7 +15,6 @@ struct MapWithLocations: View {
             MapComponent(mapaType: .noPointed, isFinding: true)
                 .frame(height: 400)
             
-            // Botones de ubicación
             LocationComponent(state: selectedEtnia == .zoque ? .verde : .rojo, action: {
                 selectedEtnia = .zoque
             })
