@@ -9,8 +9,8 @@ import SwiftUI
 
 struct InformateView: View {
     @Binding var presentSideMenu: Bool
-    @State private var selectedButton: String? = "tzoque"
-
+    @State private var selectedEtnia: EtniasEnum? = .zoque
+    
     var body: some View {
         ZStack(alignment: .top) {
             Background()
@@ -21,104 +21,72 @@ struct InformateView: View {
                 
                 Spacer()
                 
-                ZStack {
-                    MapComponent(mapaType: .noPointed, isFinding: true)
-                        .frame(height: 400)
-     
-                    LocationComponent(state: selectedButton == "tzoque" ? .verde : .rojo, action: {
-                        selectedButton = "tzoque"
-                    })
-                    .position(x: 538, y: 148)
-                    
-                    LocationComponent(state: selectedButton == "tzotsil" ? .verde : .rojo, action: {
-                        selectedButton = "tzotsil"
-                    })
-                    .position(x: 572, y: 202)
-                    
-                    LocationComponent(state: selectedButton == "chol" ? .verde : .rojo, action: {
-                        selectedButton = "chol"
-                    })
-                    .position(x: 688, y: 151)
-                    
-                    LocationComponent(state: selectedButton == "tojolabal" ? .verde : .rojo, action: {
-                        selectedButton = "tojolabal"
-                    })
-                    .position(x: 679, y: 233)
-                    
-                    LocationComponent(state: selectedButton == "tzetal" ? .verde : .rojo, action: {
-                        selectedButton = "tzetal"
-                    })
-                    .position(x: 745, y: 210)
-                    
-                    LocationComponent(state: selectedButton == "chuj" ? .verde : .rojo, action: {
-                        selectedButton = "chuj"
-                    })
-                    .position(x: 746, y: 316)
-                    
-                    LocationComponent(state: selectedButton == "qanjobal1" ? .verde : .rojo, action: {
-                        selectedButton = "qanjobal1"
-                    })
-                    .position(x: 832, y: 290)
-                    
-                    LocationComponent(state: selectedButton == "qanjobal2" ? .verde : .rojo, action: {
-                        selectedButton = "qanjobal2"
-                    })
-                    .position(x: 654, y: 422)
-                }
+                MapWithLocations(selectedEtnia: $selectedEtnia)
                 
                 Spacer()
             }
             .offset(x: -280, y: 70)
 
-            HStack {
-                Button {
-                    presentSideMenu.toggle()
-                } label: {
-                    Image(systemName: "line.horizontal.3")
-                        .resizable()
-                        .frame(width: 45, height: 45)
-                        .foregroundColor(Color.beige)
-                }
-                Spacer()
-            }
-            .padding(.horizontal, 24)
-            .offset(y: 32)
+            MenuButton(presentSideMenu: $presentSideMenu)
 
             VStack(spacing: 50) {
+            
                 Rectangle()
                     .overlay(
-                        Text("text")
+                        Text(selectedEtnia?.rawValue.uppercased() ?? "SELECCIONA UNA ETNIA")
                             .font(.custom("Gagalin", size: 70))
                             .foregroundStyle(Color.beige)
                     )
                     .foregroundColor(Color.verdeBosque)
                     .frame(width: 400, height: 100)
                     .cornerRadius(30)
-                    
+
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack {
-                        ForEach(1...4, id: \.self) { index in
-                            Rectangle()
-                                .foregroundColor(Color.verdeBosque)
-                                .frame(width: 400, height: 400)
-                                .cornerRadius(30)
-                                .overlay(
-                                    Text("Vista \(index)")
-                                        .foregroundColor(.beige)
-                                        .font(.custom("Gagalin", size: 70))
-                                )
-                                .padding(.horizontal, 10)
+                        if let infoEtnia = getInfoEtnia(selectedEtnia: selectedEtnia) {
+                            InfoRectangle(
+                                title: "POBLACIÓN",
+                                subtitle: "\(infoEtnia.poblacion)",
+                                imageName: infoEtnia.poblacionImage
+                            )
+                            
+                            // Rectángulo de Platillo Típico
+                            InfoRectangle(
+                                title: "PLATILLO TÍPICO",
+                                subtitle: infoEtnia.platillo.first ?? "",
+                                imageName: infoEtnia.platillo.last ?? ""
+                            )
+                            
+                            // Rectángulo de Vestimenta
+                            InfoRectangle(
+                                title: "VESTIMENTA",
+                                subtitle: "",
+                                imageName: infoEtnia.vestimenta
+                            )
+                            
+                            // Rectángulo de Festividad
+                            InfoRectangle(
+                                title: "FESTIVIDAD",
+                                subtitle: infoEtnia.festividad.first ?? "",
+                                imageName: infoEtnia.festividad.last ?? ""
+                            )
                         }
                     }
                 }
                 .frame(width: 450, height: 400)
                 
-                CustomButton(action: {}, fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "Raiva")
+                // Botón de simulación
+                CustomButton(action: {}, fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "simulacion")
                     .frame(width: 200)
             }
             .padding()
             .offset(x: 350, y: 100)
         }
+    }
+    
+
+    private func getInfoEtnia(selectedEtnia: EtniasEnum?) -> InfoEtnia? {
+        return infoEtnias.first { $0.etnia == selectedEtnia }
     }
 }
 

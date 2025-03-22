@@ -13,19 +13,7 @@ struct JuegoView: View {
     var body: some View {
         ZStack(alignment: .top) {
             
-            HStack {
-                Button {
-                    presentSideMenu.toggle()
-                } label: {
-                    Image(systemName: "line.horizontal.3")
-                        .resizable()
-                        .frame(width: 45, height: 45)
-                        .foregroundColor(Color.beige)
-                }
-                Spacer()
-            }
-            .padding(.horizontal, 24)
-            .offset(y: 32)
+            MenuButton(presentSideMenu: $presentSideMenu)
         }
     }
 }
