@@ -4,31 +4,18 @@
 //
 //  Created by Dan Figueroa on 18/03/25.
 //
-
 import SwiftUI
 
 struct ForoView: View {
     @Binding var presentSideMenu: Bool
     
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            Color.white.ignoresSafeArea()
-            
-            HStack {
-                Button {
-                    presentSideMenu.toggle()
-                } label: {
-                    Image(systemName: "line.horizontal.3")
-                        .resizable()
-                        .frame(width: 45, height: 45)
-                        .foregroundColor(Color.beige)
-                }
-                Spacer()
+        ZStack(alignment: .top) {
+            ZStack {
+                Background()
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 16)
-            
-            Spacer()
+            MenuButton(presentSideMenu: $presentSideMenu)
+        
         }
     }
 }
