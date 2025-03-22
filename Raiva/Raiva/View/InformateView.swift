@@ -4,7 +4,6 @@
 //
 //  Created by Dan Figueroa on 18/03/25.
 //
-
 import SwiftUI
 
 struct InformateView: View {
@@ -49,22 +48,20 @@ struct InformateView: View {
                                 subtitle: "\(infoEtnia.poblacion)",
                                 imageName: infoEtnia.poblacionImage
                             )
-                            
-                            // Rectángulo de Platillo Típico
+                        
                             InfoRectangle(
                                 title: "PLATILLO TÍPICO",
                                 subtitle: infoEtnia.platillo.first ?? "",
                                 imageName: infoEtnia.platillo.last ?? ""
                             )
-                            
-                            // Rectángulo de Vestimenta
+                        
                             InfoRectangle(
                                 title: "VESTIMENTA",
                                 subtitle: "",
                                 imageName: infoEtnia.vestimenta
                             )
                             
-                            // Rectángulo de Festividad
+                           
                             InfoRectangle(
                                 title: "FESTIVIDAD",
                                 subtitle: infoEtnia.festividad.first ?? "",
@@ -75,7 +72,7 @@ struct InformateView: View {
                 }
                 .frame(width: 450, height: 400)
                 
-                // Botón de simulación
+               
                 CustomButton(action: {}, fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "simulacion")
                     .frame(width: 200)
             }
