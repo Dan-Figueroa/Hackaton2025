@@ -44,29 +44,36 @@ struct UserViewType: View {
                 
             case .horizontal:
                 return AnyView(
-                    HStack {
-                        Image(imageName)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 80, height: 80)
-                            .clipShape(Circle())
-                            .overlay(
-                                Circle()
-                                    .stroke(Color.green.opacity(0.5), lineWidth: 3)
+                                GeometryReader { geometry in
+                                    let containerSize = min(geometry.size.width, geometry.size.height)
+                                    
+                                    HStack(spacing: containerSize * 0.05) {
+                                        Image(imageName)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: containerSize * 0.4, height: containerSize * 0.4)
+                                            .clipShape(Circle())
+                                            .overlay(
+                                                Circle()
+                                                    .stroke(Color.green.opacity(0.5), lineWidth: containerSize * 0.015)
+                                            )
+                                        
+                                        Text(name)
+                                            .font(.custom("Gagalin", size: containerSize * 0.2))
+                                            .foregroundColor(Color.arena)
+                                            .minimumScaleFactor(0.5)
+                                            .lineLimit(1)
+                                        
+                                        Spacer()
+                                    }
+                                    .padding(containerSize * 0.05)
+                                    .frame(width: geometry.size.width, height: geometry.size.height)
+                                }
                             )
-                        
-                        Text(name)
-                            .font(.custom("Gagalin", size: 24))
-                            .foregroundStyle(Color.arena)
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                )
             }
         }
     }
 
 #Preview {
-    UserViewType(imageName: "perfilInvitado", name: "Meliza Gonzales", style: .vertical)
+    UserViewType(imageName: "perfilInvitado", name: "Meliza Gonzales", style: .horizontal)
 }

@@ -8,7 +8,8 @@
 import Foundation
 
 struct User: Codable, Hashable{
+    var id: String
     var userName: String = "perfilInvitado"
     var profilePicture: String = "profileInvitado"
-    var etnia: String
+    var etnia: EtniasEnum.RawValue?
 }

@@ -8,8 +8,9 @@
 import Foundation
 
 struct Comment: Codable, Hashable{
-    var user: User
-    var forum: Forum
+    var id: String
+    var userID: String
+    var forumID: String
     var tittle: String
     var body: String
 }
