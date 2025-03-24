@@ -14,12 +14,11 @@ struct SideMenuView: View {
     
     var body: some View {
         HStack {
-            
             ZStack{
                 Rectangle()
                     .fill(.verdeBosque)
                     .frame(width: 270)
-                    .shadow(color: .arena, radius: 5, x: 0, y: 3)
+                    .shadow(color: .black.opacity(0.7), radius: 5, x: 0, y: 3)
                 
                 VStack(alignment: .leading, spacing: 20) {
                     UserViewType(imageName: "perfilInvitado", name: "Meliza Ortega", style: .vertical)
@@ -64,16 +63,16 @@ struct SideMenuView: View {
                 
                 Text(title)
                     .font(.custom("Gagalin", size:22))
-                    .foregroundColor(isSelected ? .arena : .beige) // Cambia el color del texto
+                    .foregroundColor(isSelected ? .arena : .beige)
                 
                 Spacer()
             }
-            .padding(.vertical, 10) // Espaciado vertical dentro del botón
-            .padding(.horizontal, 20) // Espaciado horizontal
+            .padding(.vertical, 10)
+            .padding(.horizontal, 20)
         }
         .frame(height: 80)
-        .frame(width: 250) // Hace que el botón ocupe todo el ancho disponible
-        .background(isSelected ? Color.arena.opacity(0.2) : Color.beige.opacity(0.2)) // Color sólido
-        .cornerRadius(8) // Bordes redondeados
+        .frame(width: 250)
+        .background(isSelected ? Color.arena.opacity(0.2) : Color.beige.opacity(0.2))
+        .cornerRadius(8)
     }
 }
