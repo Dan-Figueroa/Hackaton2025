@@ -23,7 +23,7 @@ struct ForoView: View {
                     RaivaLogo(size: .medium)
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
-                .padding(.top, -30)
+                .padding(.top, -10)
                 SideMenuButtonsComponent(selectedButton: $selectedButton)
 
             }

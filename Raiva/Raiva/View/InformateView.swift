@@ -73,7 +73,9 @@ struct InformateView: View {
                 .frame(width: 450, height: 400)
                 
                
-                CustomButton(action: {}, fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "simulacion")
+                CustomButton(action: {},
+                style:.standard(fontColor:.beige,backgroundColor: .verdeBosque,
+                buttonName: "Simulacion"))
                     .frame(width: 200)
             }
             .padding()

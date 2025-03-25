@@ -19,7 +19,7 @@ struct SideMenuButtonsComponent: View {
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 15) {
+        VStack(alignment: .leading, spacing: 25) {
             ForEach(buttons, id: \.text) { button in
                 if button.text == "POPULAR" {
                     Divider()
@@ -29,19 +29,20 @@ struct SideMenuButtonsComponent: View {
                         .padding(.horizontal, 20)
                 }
 
-                CustomButtonComponent(
-                    imageName: button.imageName,
+                CustomButton(
+                    action: {
+                    selectedButton = button.text
+                    button.action()
+                    },
+                    style: .imageWithText(imageName: button.imageName,
                     text: button.text,
                     fontColor: .beige,
-                    isSelected: selectedButton == button.text,
-                    action: {
-                        selectedButton = button.text
-                        button.action() // Llamamos a la función específica de cada botón
-                    }
+                        isSelected: selectedButton == button.text
+                    )
                 )
             }
         }
-        .padding(.leading, 20)
+        .padding(.leading)
     }
 }
 
