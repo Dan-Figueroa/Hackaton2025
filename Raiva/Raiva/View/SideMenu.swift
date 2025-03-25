@@ -26,7 +26,6 @@ struct SideMenu: View {
                 content
                     .frame(width: 270)
                     .background(Color.verdeBosque)
-                    //.shadow(color: .verdeBosque.opacity(0.3), radius: 5, x: 5, y: 0)
                     .offset(x: isShowing ? 0 : -300)
                     .animation(.easeInOut(duration: 0.5), value: isShowing)
 
