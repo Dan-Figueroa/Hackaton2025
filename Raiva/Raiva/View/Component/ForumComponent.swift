@@ -64,8 +64,16 @@ private struct bodyData: View {
 }
 
 private struct footerData: View {
+    var comments: Int?
+    var likes: Int?
+    var isLiked: Bool?
     var body: some View{
-        Text("place holder")
+        HStack{
+            Image(systemName: (isLiked ?? false) ? "Like" : "LikeVacio")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 20, height: 20)
+        }
     }
 }
 
@@ -95,7 +103,8 @@ let forumData: Forum = .init(
 )
 
 #Preview {
-    ForumComponent(communityData: communityData, userData: userData, forumData: forumData)
-        .frame(width: 900)
+    //ForumComponent(communityData: communityData, userData: userData, forumData: forumData)
+        //.frame(width: 900)
+    footerData(isLiked: true)
         .environmentObject(AppData())
 }

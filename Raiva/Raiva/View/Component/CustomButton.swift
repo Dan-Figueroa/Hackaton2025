@@ -2,7 +2,7 @@
 //  CustomButton.swift
 //  Raiva
 //
-//  Created by Jesus Ortega on 13/03/25.
+//  Created by Daniel Figueroa on 13/03/25.
 //
 
 import SwiftUI

@@ -16,7 +16,7 @@ class ARService {
         configuration.planeDetection = [.horizontal]
         arView.session.run(configuration)
         
-        if let combinedModel = loadCustomModel(baseName: genderEnum.woman.rawValue, clothingName: getModel(etnia: .chol, gender: .woman), skinColor: .arena) {
+        if let combinedModel = loadCustomModel(baseName: genderEnum.man.rawValue, clothingName: getModel(etnia: .chuj, gender: .man), skinColor: .arena) {
             combinedModel.position = [0, 0, -0.5]
             
             let anchor = AnchorEntity(plane: .horizontal)
