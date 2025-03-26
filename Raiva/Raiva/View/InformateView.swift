@@ -72,7 +72,6 @@ struct InformateView: View {
                 }
                 .frame(width: 450, height: 400)
                 
-               
                 CustomButton(action: {},
                 style:.standard(fontColor:.beige,backgroundColor: .verdeBosque,
                 buttonName: "Simulacion"))
