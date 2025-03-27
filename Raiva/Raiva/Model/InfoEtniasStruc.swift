@@ -8,8 +8,8 @@ import Foundation
 
 struct InfoEtnia{
     let etnia: EtniasEnum
-    let poblacion: [String]
-    //let poblacioninfo:[String]
+    let poblacion: Int
+    let poblacioninfo:[String]
     let platillo: [String]
     let vestimenta: [String]
     let festividad: [String]

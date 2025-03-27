@@ -47,18 +47,18 @@ struct InformateView: View {
                             createInfoRectangles(for: infoEtnia)
                         }
                     }
+                    
                 }
                 .frame(width: 450, height: 400)
                 
                 CustomButton(
                     action: {},
                     style: .standard(
-                        fontColor: .beige,
-                        backgroundColor: .verdeBosque,
-                        buttonName: "Simulacion"
+                    fontColor: .beige,
+                    backgroundColor: .verdeBosque,
+                    buttonName: "Simulacion"
                     )
-                )
-                .frame(width: 200)
+                ).frame(width: 200)
             }
             .padding()
             .offset(x: 350, y: 100)
@@ -69,13 +69,13 @@ struct InformateView: View {
     private func createInfoRectangles(for infoEtnia: InfoEtnia) -> some View {
         InfoRectangle(
             title: "POBLACIÓN",
-            subtitle: infoEtnia.poblacion[0],
-            imageName: infoEtnia.poblacion[1],
+            subtitle: infoEtnia.poblacion.formatted(),
+            imageName: infoEtnia.poblacioninfo[0],
             soundButtonAction: {
-                audioPlayer.playSound(named: infoEtnia.poblacion[2])
+                audioPlayer.playSound(named: infoEtnia.poblacioninfo[1])
             }
         )
-
+        
         InfoRectangle(
             title: "PLATILLO TÍPICO",
             subtitle: infoEtnia.platillo[0],
@@ -84,6 +84,7 @@ struct InformateView: View {
                 audioPlayer.playSound(named: infoEtnia.platillo[2])
             }
         )
+        
         InfoRectangle(
             title: "VESTIMENTA",
             subtitle: "",
@@ -92,6 +93,7 @@ struct InformateView: View {
                 audioPlayer.playSound(named: infoEtnia.vestimenta[1])
             }
         )
+        
         InfoRectangle(
             title: "FESTIVIDAD",
             subtitle: infoEtnia.festividad[0],
@@ -100,8 +102,8 @@ struct InformateView: View {
                 audioPlayer.playSound(named: infoEtnia.festividad[2])
             }
         )
+        
     }
-    
     private func getInfoEtnia(selectedEtnia: EtniasEnum?) -> InfoEtnia? {
         return infoEtnias.first { $0.etnia == selectedEtnia }
     }
