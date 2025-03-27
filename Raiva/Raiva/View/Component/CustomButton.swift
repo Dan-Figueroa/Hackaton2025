@@ -10,6 +10,8 @@ import SwiftUI
 enum ButtonStyle {
     case standard(fontColor: Color, backgroundColor: Color, buttonName: String)
     case imageWithText(imageName: String, text: String, fontColor: Color, isSelected: Bool)
+    case image(imageName: String)
+    case viewStruct(() -> AnyView)
 }
 
 struct CustomButton: View {
@@ -48,6 +50,27 @@ struct CustomButton: View {
                 }
                 .cornerRadius(8)
             }
+        case .image(imageName: let imageName):
+            Button(action: {
+                action()
+            }) {
+                HStack {
+                    Image(imageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                }
+                .cornerRadius(8)
+            }
+        case .viewStruct(let viewBuilder):
+            Button {
+                action()
+            } label: {
+                AnyView{
+                    viewBuilder()
+                }
+            }
+
         }
     }
 }
