@@ -56,7 +56,7 @@ struct SideMenuView: View {
                     Image(systemName: imageName)
                         .resizable()
                         .renderingMode(.template)
-                        .foregroundColor(isSelected ? .arena : .beige) // Cambia el color del ícono
+                        .foregroundColor(isSelected ? .arena : .beige)
                         .frame(width: 50, height: 40)
                 }
                 .frame(width: 40, height: 40)
