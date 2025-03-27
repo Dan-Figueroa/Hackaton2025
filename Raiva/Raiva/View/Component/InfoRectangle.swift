@@ -11,6 +11,7 @@ struct InfoRectangle: View {
     let title: String
     let subtitle: String
     let imageName: String
+    var soundButtonAction: (() -> Void)? 
     
     var body: some View {
         Rectangle()
@@ -36,6 +37,12 @@ struct InfoRectangle: View {
                         .cornerRadius(30)
                 }
             )
+            .overlay(alignment: .topTrailing) {
+                if let soundButtonAction {
+                    CustomButton(action: soundButtonAction, style: .smallImage(imageName: "sonido1"))
+                        .padding(5)
+                }
+            }
             .padding(.horizontal, 10)
     }
 }

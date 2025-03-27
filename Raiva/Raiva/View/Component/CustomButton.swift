@@ -12,6 +12,7 @@ enum ButtonStyle {
     case imageWithText(imageName: String, text: String, fontColor: Color, isSelected: Bool)
     case image(imageName: String)
     case viewStruct(() -> AnyView)
+    case smallImage(imageName: String)
 }
 
 struct CustomButton: View {
@@ -69,6 +70,15 @@ struct CustomButton: View {
                 AnyView{
                     viewBuilder()
                 }
+            }
+        case .smallImage(let imageName):
+            Button(action: {
+                action()
+            }) {
+                Image(imageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 50, height: 50)
             }
 
         }

@@ -4,14 +4,13 @@
 //
 //  Created by Dan Figueroa on 21/03/25.
 //
-
 import Foundation
 
 struct InfoEtnia{
     let etnia: EtniasEnum
-    let poblacion: Int
-    let poblacionImage: String
+    let poblacion: [String]
+    //let poblacioninfo:[String]
     let platillo: [String]
-    let vestimenta: String
+    let vestimenta: [String]
     let festividad: [String]
 }
