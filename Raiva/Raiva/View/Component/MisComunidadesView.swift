@@ -11,8 +11,8 @@ struct MisComunidadesView: View {
     @Binding var isPresented: Bool
     @State private var showTwoColumns = false
     @State private var arrowImageName: String = "flecha"
-    
-    let users = Array(repeating: (imageName: "perfilInvitado", name: "Meliza Gonzales"), count: 6)
+   
+    let communities = Array(repeating: (name: "Comunidad Ejemplo", icon: "perfilInvitado"), count: 6)
     
     var dynamicWidth: CGFloat {
         showTwoColumns ? 500 : 300
@@ -27,7 +27,7 @@ struct MisComunidadesView: View {
                 .rotationEffect(.degrees(-90))
                 .foregroundColor(Color.verdeBosque)
                 .offset(x: -19, y: 20)
-                
+            
             VStack(spacing: 0) {
                 HStack {
                     CustomButton(action: {
@@ -48,20 +48,19 @@ struct MisComunidadesView: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
                 .padding(.bottom, 12)
-
+                
                 ScrollView {
                     if showTwoColumns {
                         LazyVGrid(
-                            columns: [GridItem(.flexible()), GridItem(.flexible())],
+                            columns: [GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20)],
                             spacing: 20
                         ) {
-                            ForEach(users.indices, id: \.self) { index in
-                                UserViewType(
-                                    imageName: users[index].imageName,
-                                    name: users[index].name,
-                                    style: .horizontal
+                            ForEach(communities.indices, id: \.self) { index in
+                                CommunityForumComponent(
+                                    communityName: communities[index].name,
+                                    communityIcon: communities[index].icon
                                 )
-                                .frame(width: 200, height: 80)
+                                .frame(width: 200, height: 100)
                                 .padding(.vertical, 12)
                                 .padding(.horizontal, 12)
                             }
@@ -69,13 +68,12 @@ struct MisComunidadesView: View {
                         .padding(.horizontal, 16)
                     } else {
                         VStack(alignment: .leading, spacing: 16) {
-                            ForEach(users.indices, id: \.self) { index in
-                                UserViewType(
-                                    imageName: users[index].imageName,
-                                    name: users[index].name,
-                                    style: .horizontal
+                            ForEach(communities.indices, id: \.self) { index in
+                                CommunityForumComponent(
+                                    communityName: communities[index].name,
+                                    communityIcon: communities[index].icon
                                 )
-                                .frame(width: 200, height: 80)
+                                .frame(width: 250, height: 100)
                                 .padding(.vertical, 12)
                             }
                         }
@@ -93,3 +91,4 @@ struct MisComunidadesView: View {
 #Preview {
     MisComunidadesView(isPresented: .constant(true))
 }
+
