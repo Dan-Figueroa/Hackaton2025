@@ -1,35 +1,29 @@
 //
-//  FirebaseService.swift
+//  UserService.swift
 //  Raiva
 //
-//  Created by Jesus Ortega on 22/03/25.
+//  Created by Jesus Ortega on 28/03/25.
 //
 
 import Foundation
 import Firebase
 import FirebaseDatabase
 
-class FirebaseService {
+class UserService{
     private let connection: FirebaseConnectable
     
     init(connection: FirebaseConnectable = FirebaseConnection.shared) {
         self.connection = connection
     }
     
-    // MARK: - Forums functions
-    ///  Upload
+// MARK: - Upload
     
-    /// Read
-    
-    
-    
-    // MARK: - User Functions
-    /// Update
     func guardarUsuario(usuario: User) {
         let usersRef = connection.databaseReference.child("users")
         let newUserRef = usersRef.childByAutoId() // Firebase genera un ID único
         
         let usuarioDict: [String: Any] = [
+            "id" : newUserRef.key ?? "Unknown",
             "userName": usuario.userName,
             "profilePicture": usuario.profilePicture,
             "etnia": usuario.etnia ?? ""
@@ -44,7 +38,31 @@ class FirebaseService {
         }
     }
     
-    /// Read
+// MARK: - GET
+    /// Real time
+    func observarUsuariosEnTiempoReal(completion: @escaping ([User]) -> Void) { // Funcion que nos devuelve en tiempo real todos los usuarios
+        connection.databaseReference.child("users").observe(DataEventType.value, with: { (snapshot) in
+            guard let value = snapshot.value as? [String: Any] else {
+                completion([])
+                return
+            }
+            
+            var usuarios: [User] = []
+            for (key, usuarioData) in value {
+                if let usuarioDict = usuarioData as? [String: Any],
+                   let userName = usuarioDict["userName"] as? String,
+                   let profilePicture = usuarioDict["profilePicture"] as? String,
+                   let etnia = usuarioDict["etnia"] as? String? {
+                    var usuario = User(userName: userName, profilePicture: profilePicture, etnia: etnia)
+                    usuario.id = key
+                    usuarios.append(usuario)
+                }
+            }
+            completion(usuarios)
+        })
+    }
+    
+    /// One request
     func obtenerTodosLosUsuarios() async throws -> [User] { // Función que nos da todos los usuarios con una sola consulta
         do {
             let snapshot = try await connection.databaseReference.child("users").getData()
@@ -70,26 +88,7 @@ class FirebaseService {
             throw error
         }
     }
+    // MARK: - REMOVE
     
-    func observarUsuariosEnTiempoReal(completion: @escaping ([User]) -> Void) { // Funcion que nos devuelve en tiempo real todos los usuarios
-        connection.databaseReference.child("users").observe(DataEventType.value, with: { (snapshot) in
-            guard let value = snapshot.value as? [String: Any] else {
-                completion([])
-                return
-            }
-            
-            var usuarios: [User] = []
-            for (key, usuarioData) in value {
-                if let usuarioDict = usuarioData as? [String: Any],
-                   let userName = usuarioDict["userName"] as? String,
-                   let profilePicture = usuarioDict["profilePicture"] as? String,
-                   let etnia = usuarioDict["etnia"] as? String? {
-                    var usuario = User(userName: userName, profilePicture: profilePicture, etnia: etnia)
-                    usuario.id = key
-                    usuarios.append(usuario)
-                }
-            }
-            completion(usuarios)
-        })
-    }
 }
+

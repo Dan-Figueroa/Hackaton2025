@@ -15,7 +15,7 @@ struct DatabaseTest: View {
         ScrollView {
             VStack {
                 Button("Agregar Usuario") {
-                    viewModel.agregarUsuario(user: userData)
+                    viewModel.crearForo(userID: "OMTqvi6Xs7BYl8y1ZRQ", foro: forumData)
                 }
                 .padding()
                 

@@ -13,7 +13,8 @@ class ForumViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     private let connection: FirebaseConnectable
-    private let firebaseService = FirebaseService()
+    private let userService = UserService()
+    private let forumService = ForumService()
     
     
     private var cancellables = Set<AnyCancellable>()
@@ -26,7 +27,7 @@ class ForumViewModel: ObservableObject {
     func cargarUsuariosUnaVez() {
             Task {
                 do {
-                    let fetchedUsuarios = try await firebaseService.obtenerTodosLosUsuarios()
+                    let fetchedUsuarios = try await userService.obtenerTodosLosUsuarios()
                     await MainActor.run {
                         self.users = fetchedUsuarios
                     }
@@ -36,16 +37,18 @@ class ForumViewModel: ObservableObject {
                 }
             }
         }
-    
     func cargarUsuariosEnTiempoReal() {
-            firebaseService.observarUsuariosEnTiempoReal { [weak self] usuarios in
+            userService.observarUsuariosEnTiempoReal { [weak self] usuarios in
                 DispatchQueue.main.async {
                     self?.users = usuarios
                 }
             }
         }
-
     func agregarUsuario(user: User) {
-            firebaseService.guardarUsuario(usuario: user)
+            userService.guardarUsuario(usuario: user)
         }
+    func crearForo(userID: String, foro: Forum){
+        forumService.guardarForo(forum: foro)
+    }
+    
 }
