@@ -47,8 +47,6 @@ struct UserRowView: View {
     }
 }
 
-
-
 #Preview {
     DatabaseTest()
 }
