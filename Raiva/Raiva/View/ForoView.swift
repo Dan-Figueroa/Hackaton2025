@@ -54,4 +54,3 @@ struct ForoView: View {
     )
     .environmentObject(AppData())
 }
-

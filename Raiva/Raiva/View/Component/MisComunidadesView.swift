@@ -30,32 +30,36 @@ struct MisComunidadesView: View {
                 .offset(x: -19, y: 20)
             
             VStack(spacing: 0) {
-                HStack {
-                    CustomButton(action: {
-                        withAnimation {
-                            isPresented = false
-                        }
-                    }, style: .image(imageName: "filtrar"))
-                    
-                    
-                    if(showComponent == true){
+                ZStack {
+                    HStack {
+                        CustomButton(action: {
+                            withAnimation {
+                                isPresented = false
+                            }
+                        }, style: .image(imageName: "filtrar"))
+          
+                        Spacer()
                         
-                        
+                        CustomButton(action: {
+                            withAnimation(.spring()) {
+                                showComponent.toggle()
+                                showTwoColumns.toggle()
+                                arrowImageName = showTwoColumns ? "flechaAlrevez" : "flecha"
+                            }
+                        }, style: .smallImage(imageName: arrowImageName))
                     }
-                
-                    Spacer()
+                    .padding(.top, 16)
+                    .padding(.bottom, 12)
                     
-                    CustomButton(action: {
-                        withAnimation(.spring()) {
-                            showComponent.toggle()
-                            showTwoColumns.toggle()
-                            arrowImageName = showTwoColumns ? "flechaAlrevez" : "flecha"
-                        }
-                    }, style: .smallImage(imageName: arrowImageName))
+
+                    if showComponent {
+                        SearchBarComponent()
+                            .scaleEffect(0.7)
+                            .frame(width: 450, height: 30)
+                            .transition(.opacity)
+                    }
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 16)
-                .padding(.bottom, 12)
+                .frame(height: 90) 
                 
                 ScrollView {
                     if showTwoColumns {
