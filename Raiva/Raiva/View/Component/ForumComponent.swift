@@ -12,27 +12,24 @@ struct ForumComponent: View {
     let communityData: Community
     let userData: User
     let forumData: Forum
-
+    
     var body: some View {
-        ZStack{
-            Background()
-            VStack(){
-                HeadData(userImageName: userData.profilePicture, userName: userData.userName, communityName: communityData.communityName, communityIcon: communityData.communityProfieImage)
-                    .frame(height: appData.UISH * 0.12)
-                
-                BodyData(tittle: forumData.title, bodyText: forumData.body)
-                
-                FooterData(likeCount: forumData.likes, commentCount: forumData.commentCount)
-                    .padding(.top, 10)
-            }
-            .padding()
-            .background(
-                Rectangle()
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .foregroundStyle(Color.verdeBosque.opacity(0.70))
-            )
-            .frame(maxWidth: .infinity)
+        VStack(){
+            HeadData(userImageName: userData.profilePicture, userName: userData.userName, communityName: communityData.communityName, communityIcon: communityData.communityProfileImage)
+                .frame(height: appData.UISH * 0.12)
+            
+            BodyData(tittle: forumData.title, bodyText: forumData.body)
+            
+            FooterData(likeCount: forumData.likes, commentCount: forumData.commentCount)
+                .padding(.top, 10)
         }
+        .padding()
+        .background(
+            Rectangle()
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .foregroundStyle(Color.verdeBosque.opacity(0.70))
+        )
+        .frame(maxWidth: .infinity)
     }
 }
 
@@ -144,12 +141,11 @@ let communityData: Community = .init(
     id: "fdds",
     communityName: "CholesEstudiantes",
     communityDescription: "Prueba de descripcion de comunidad",
-    communityProfieImage: "perfilInvitado",
+    communityProfileImage: "perfilInvitado",
     communityPortraitImage: "portraitImage"
 )
 
 let userData: User = .init(
-    id: "A",
     userName: "Jesús Ortega",
     profilePicture: "perfilInvitado",
     etnia: EtniasEnum.chol.rawValue
@@ -157,12 +153,12 @@ let userData: User = .init(
 
 let forumData: Forum = .init(
     id: "a",
-    idUser: "Jesus Ortega",
-    idCommunity: "chol",
+    userID: "Jesus Ortega",
+    communityID: "chol",
     title: "Lorem ipsum dolor sit amet",
     body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     likes: 1,
-    commentCount: 10
+    commentCount: 10000000
 )
 
 #Preview {

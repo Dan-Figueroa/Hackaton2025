@@ -8,9 +8,11 @@
 import Foundation
 
 struct Comment: Codable, Hashable{
-    var id: String
+    var id: String = ""
     var userID: String
     var forumID: String
-    var tittle: String
+    var title: String
     var body: String
+    
+    
 }

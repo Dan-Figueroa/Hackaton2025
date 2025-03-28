@@ -45,7 +45,9 @@ struct InformateView: View {
                         if let infoEtnia = getInfoEtnia(selectedEtnia: selectedEtnia) {
                             InfoRectangle(
                                 title: "POBLACIÓN",
-                                subtitle: "\(infoEtnia.poblacion)",
+                                subtitle: "\(infoEtnia.poblacion)"
+                                    
+                                ,
                                 imageName: infoEtnia.poblacionImage
                             )
                         

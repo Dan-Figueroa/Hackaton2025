@@ -7,9 +7,10 @@
 import Foundation
 
 struct Community: Codable, Hashable {
-    var id: String
+    var id: String = ""
     var communityName: String
     var communityDescription: String
-    var communityProfieImage: String
+    var communityProfileImage: String
     var communityPortraitImage: String
+    
 }

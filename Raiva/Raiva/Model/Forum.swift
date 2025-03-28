@@ -8,9 +8,9 @@
 import Foundation
 
 struct Forum: Codable, Hashable {
-    var id: String
-    var idUser: String
-    var idCommunity: String
+    var id: String = ""
+    var userID: String
+    var communityID: String
     var title: String
     var body: String
     var likes: Int = 0
