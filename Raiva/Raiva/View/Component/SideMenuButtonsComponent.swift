@@ -9,11 +9,14 @@ import SwiftUI
 
 struct SideMenuButtonsComponent: View {
     @Binding var selectedButton: String
+    @Binding var showComunidadesSheet: Bool
 
     let buttons: [(imageName: String, text: String, action: () -> Void)] = [
         ("inicio", "INICIO", { print("Navegando a la pantalla de inicio") }),
         ("misForos", "MIS FOROS", { print("Mostrando mis foros") }),
-        ("misComunidades", "MIS COMUNIDADES", { print("Mostrando mis comunidades") }),
+        ("misComunidades", "MIS COMUNIDADES", {
+            // Esta acción ahora se manejará en el CustomButton
+        }),
         ("popular", "POPULAR", { print("Mostrando contenido popular") }),
         ("comunidades", "COMUNIDADES", { print("Explorando todas las comunidades") })
     ]
@@ -31,12 +34,16 @@ struct SideMenuButtonsComponent: View {
 
                 CustomButton(
                     action: {
-                    selectedButton = button.text
-                    button.action()
+                        selectedButton = button.text
+                        if button.text == "MIS COMUNIDADES" {
+                            showComunidadesSheet = true
+                        }
+                        button.action()
                     },
-                    style: .imageWithText(imageName: button.imageName,
-                    text: button.text,
-                    fontColor: .beige,
+                    style: .imageWithText(
+                        imageName: button.imageName,
+                        text: button.text,
+                        fontColor: .beige,
                         isSelected: selectedButton == button.text
                     )
                 )
@@ -44,8 +51,4 @@ struct SideMenuButtonsComponent: View {
         }
         .padding(.leading)
     }
-}
-
-#Preview {
-    SideMenuButtonsComponent(selectedButton: .constant("INICIO"))
 }
