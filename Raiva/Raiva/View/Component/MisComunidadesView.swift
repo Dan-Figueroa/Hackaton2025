@@ -10,6 +10,7 @@ import SwiftUI
 struct MisComunidadesView: View {
     @Binding var isPresented: Bool
     @State private var showTwoColumns = false
+    @State private var showComponent = false
     @State private var arrowImageName: String = "flecha"
    
     let communities = Array(repeating: (name: "Comunidad Ejemplo", icon: "perfilInvitado"), count: 6)
@@ -36,10 +37,17 @@ struct MisComunidadesView: View {
                         }
                     }, style: .image(imageName: "filtrar"))
                     
+                    
+                    if(showComponent == true){
+                        
+                        
+                    }
+                
                     Spacer()
                     
                     CustomButton(action: {
                         withAnimation(.spring()) {
+                            showComponent.toggle()
                             showTwoColumns.toggle()
                             arrowImageName = showTwoColumns ? "flechaAlrevez" : "flecha"
                         }
