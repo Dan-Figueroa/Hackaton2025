@@ -40,6 +40,8 @@ struct UserViewType: View {
                             
                     }
                     .frame(maxWidth: .infinity)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.horizontal)
                 )
                 
             case .horizontal:

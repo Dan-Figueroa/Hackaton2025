@@ -10,12 +10,20 @@ struct ForoView: View {
     @Binding var presentSideMenu: Bool
     @Binding var selectedSideMenuTab: Int
     @State private var selectedButton: String = "INICIO"
-
+    @State private var showComunidades = false
+    
     var body: some View {
         ZStack(alignment: .topLeading) {
             Background()
                 .ignoresSafeArea()
-
+                .onTapGesture {
+                    if showComunidades {
+                        withAnimation {
+                            showComunidades = false
+                        }
+                    }
+                }
+            
             VStack(alignment: .leading, spacing: 110) {
                 Button {
                     selectedSideMenuTab = 0
@@ -24,17 +32,25 @@ struct ForoView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
                 .padding(.top, -10)
-                SideMenuButtonsComponent(selectedButton: $selectedButton)
-
+                
+                SideMenuButtonsComponent(selectedButton: $selectedButton, showComunidadesSheet: $showComunidades)
             }
             .frame(width: 270, height: 809, alignment: .leading)
             .background(Color.verdeBosque.opacity(0.8))
             .edgesIgnoringSafeArea(.vertical)
+            
+            if showComunidades {
+                MisComunidadesView(isPresented: $showComunidades)
+                    .offset(x: 300, y: 140)
+            }
         }
     }
 }
 
 #Preview {
-    ForoView(presentSideMenu: .constant(false), selectedSideMenuTab: .constant(1))
-        .environmentObject(AppData())
+    ForoView(
+        presentSideMenu: .constant(false),
+        selectedSideMenuTab: .constant(1)
+    )
+    .environmentObject(AppData())
 }

@@ -8,14 +8,12 @@
 import Foundation
 
 let infoEtnias: [InfoEtnia] = [
-        InfoEtnia(etnia: .zoque, poblacion: 49729, poblacionImage: "zoque", platillo: ["Tamal de chipilin", "tamalChipilin"], vestimenta: "zoqueVestimenta", festividad: ["La Fiesta de San Miguel Arcángel", "festividadZoque"]),
-        InfoEtnia(etnia: .tsotsil, poblacion: 353897, poblacionImage: "tosotsil", platillo: ["Sikil pak","sikilPak"], vestimenta: "tsotsilVestimenta", festividad: ["La Fiesta de San Sebastián Mártir","festividadTsotsil"]),
-        InfoEtnia(etnia: .chol, poblacion: 150613, poblacionImage: "chol", platillo: ["caldo de res con chayote","caldoderesconchayote"], vestimenta: "cholVestimenta", festividad: ["La Fiesta de San Pedro y San Pablo","festividadChol"]),
-        InfoEtnia(etnia: .tseltal, poblacion: 306054, poblacionImage: "tseltal", platillo: ["Chayote relleno Y atole agrio","chayoterelleno"], vestimenta: "tseltalVestimenta", festividad: ["La Fiesta de San Juan Bautista","festividadTseltal"]),
-        InfoEtnia(etnia: .tojolabal, poblacion: 39575, poblacionImage: "tojolabal", platillo: ["Caldo de res con hierbas locales","Caldoderesconhierbas"], vestimenta: "tojolabalVestimenta", festividad: ["La Fiesta de la Santa Cruz","festividadTojolabal"]),
-        InfoEtnia(etnia: .chuj, poblacion: 219, poblacionImage: "chuj", platillo: ["Caldo de gallina","caldodegallina"], vestimenta: "vestimentaChuj", festividad: ["Fiesta de Santiago Apósto","festividadChuj"]),
-        InfoEtnia(etnia: .qanjobal, poblacion:  9625, poblacionImage: "qanjobal", platillo: ["El saq'ik","Elsaq'ik"], vestimenta: "vestimentaQanjobal", festividad: ["La Fiesta de la Santa Cruz","festividadQanjobal"]),
-        InfoEtnia(etnia: .mam, poblacion: 13031, poblacionImage: "mam", platillo: ["xmaa’k","xmaak"], vestimenta: "vestimentaMam", festividad: ["Feria de San Francisco","festividadMam"])
-        
-        
+    InfoEtnia(etnia: .zoque, poblacion: 49729, poblacioninfo: ["zoque","audioPoblacionZoque"], platillo: ["Tamal de chipilin", "tamalChipilin", "audioPlatilloZoque"], vestimenta: ["zoqueVestimenta","audioVestimentaZoque"], festividad: ["Carnaval coteico", "festividadZoque","audioFestividadZoque"]),
+    InfoEtnia(etnia: .tsotsil, poblacion: 353897,poblacioninfo: ["tsotsil"], platillo: ["Frijol y Maiz ","maizfrijol"], vestimenta: ["tsotsilVestimenta"], festividad: ["La Fiesta de San Sebastián Mártir","festividadTsotsil"]),
+    InfoEtnia(etnia: .chol, poblacion: 150613, poblacioninfo:["chol"], platillo: ["Shote","shote"], vestimenta: ["cholVestimenta"], festividad: ["La Fiesta de San Pedro y San Pablo","festividadChol"]),
+    InfoEtnia(etnia: .tseltal, poblacion: 306054, poblacioninfo:["tseltal"], platillo: ["Tamales en variedad","tamalesv"], vestimenta: ["tseltalVestimenta"], festividad: ["Carnaval Tenejapa","festividadTseltal"]),
+        InfoEtnia(etnia: .tojolabal, poblacion: 39575, poblacioninfo:["tojolabal"], platillo: ["Caldo de res con hierbas locales","Caldoderesconhierbas"], vestimenta: ["tojolabalVestimenta"], festividad: ["La Fiesta de la Santa Cruz","festividadTojolabal"]),
+        InfoEtnia(etnia: .chuj, poblacion: 219, poblacioninfo:["chuj"], platillo: ["Chuchitos","chuchitos"], vestimenta: ["vestimentaChuj"], festividad: ["Fiesta de Santiago Apósto","festividadChuj"]),
+        InfoEtnia(etnia: .qanjobal, poblacion: 9625,poblacioninfo:["qanjobal"], platillo: ["Tamal de masa","tamalmasa"], vestimenta: ["vestimentaQanjobal"], festividad: ["La Fiesta de la Santa Cruz","festividadQanjobal"]),
+        InfoEtnia(etnia: .mam, poblacion: 13031, poblacioninfo:["mam"], platillo: ["Frijoles Negros","frijoles"], vestimenta: ["vestimentaMam"], festividad: ["San Francisco de Asis","festividadMam"])
 ]

@@ -11,6 +11,7 @@ struct InfoRectangle: View {
     let title: String
     let subtitle: String
     let imageName: String
+    var soundButtonAction: (() -> Void)? 
     
     var body: some View {
         Rectangle()
@@ -18,7 +19,7 @@ struct InfoRectangle: View {
             .frame(width: 400, height: 400)
             .cornerRadius(30)
             .overlay(
-                VStack(spacing: 50) {
+                VStack(spacing: 40) {
                     Text(title)
                         .foregroundColor(.beige)
                         .font(.custom("Gagalin", size: 40))
@@ -33,8 +34,15 @@ struct InfoRectangle: View {
                         .resizable()
                         .scaledToFit()
                         .frame(height: 200)
+                        .cornerRadius(30)
                 }
             )
+            .overlay(alignment: .topTrailing) {
+                if let soundButtonAction {
+                    CustomButton(action: soundButtonAction, style: .smallImage(imageName: "sonido1"))
+                        .padding(5)
+                }
+            }
             .padding(.horizontal, 10)
     }
 }

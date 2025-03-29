@@ -9,6 +9,7 @@ import SwiftUI
 struct InformateView: View {
     @Binding var presentSideMenu: Bool
     @State private var selectedEtnia: EtniasEnum? = .zoque
+    @StateObject private var audioPlayer = AudioPlayer()
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -29,7 +30,6 @@ struct InformateView: View {
             MenuButton(presentSideMenu: $presentSideMenu)
 
             VStack(spacing: 50) {
-            
                 Rectangle()
                     .overlay(
                         Text(selectedEtnia?.rawValue.uppercased() ?? "SELECCIONA UNA ETNIA")
@@ -43,48 +43,67 @@ struct InformateView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack {
                         if let infoEtnia = getInfoEtnia(selectedEtnia: selectedEtnia) {
-                            InfoRectangle(
-                                title: "POBLACIÓN",
-                                subtitle: "\(infoEtnia.poblacion)"
-                                    
-                                ,
-                                imageName: infoEtnia.poblacionImage
-                            )
-                        
-                            InfoRectangle(
-                                title: "PLATILLO TÍPICO",
-                                subtitle: infoEtnia.platillo.first ?? "",
-                                imageName: infoEtnia.platillo.last ?? ""
-                            )
-                        
-                            InfoRectangle(
-                                title: "VESTIMENTA",
-                                subtitle: "",
-                                imageName: infoEtnia.vestimenta
-                            )
-                            
-                           
-                            InfoRectangle(
-                                title: "FESTIVIDAD",
-                                subtitle: infoEtnia.festividad.first ?? "",
-                                imageName: infoEtnia.festividad.last ?? ""
-                            )
+
+                            createInfoRectangles(for: infoEtnia)
                         }
                     }
+                    
                 }
                 .frame(width: 450, height: 400)
                 
-                CustomButton(action: {},
-                style:.standard(fontColor:.beige,backgroundColor: .verdeBosque,
-                buttonName: "Simulacion"))
-                    .frame(width: 200)
+                CustomButton(
+                    action: {},
+                    style: .standard(
+                    fontColor: .beige,
+                    backgroundColor: .verdeBosque,
+                    buttonName: "Simulacion"
+                    )
+                ).frame(width: 200)
             }
             .padding()
             .offset(x: 350, y: 100)
         }
     }
     
-
+    @ViewBuilder
+    private func createInfoRectangles(for infoEtnia: InfoEtnia) -> some View {
+        InfoRectangle(
+            title: "POBLACIÓN",
+            subtitle: infoEtnia.poblacion.formatted(),
+            imageName: infoEtnia.poblacioninfo[0],
+            soundButtonAction: {
+                audioPlayer.playSound(named: infoEtnia.poblacioninfo[1])
+            }
+        )
+        
+        InfoRectangle(
+            title: "PLATILLO TÍPICO",
+            subtitle: infoEtnia.platillo[0],
+            imageName: infoEtnia.platillo[1],
+            soundButtonAction: {
+                audioPlayer.playSound(named: infoEtnia.platillo[2])
+            }
+        )
+        
+        InfoRectangle(
+            title: "VESTIMENTA",
+            subtitle: "",
+            imageName: infoEtnia.vestimenta[0],
+            soundButtonAction: {
+                audioPlayer.playSound(named: infoEtnia.vestimenta[1])
+            }
+        )
+        
+        InfoRectangle(
+            title: "FESTIVIDAD",
+            subtitle: infoEtnia.festividad[0],
+            imageName: infoEtnia.festividad[1],
+            soundButtonAction: {
+                audioPlayer.playSound(named: infoEtnia.festividad[2])
+            }
+        )
+        
+    }
     private func getInfoEtnia(selectedEtnia: EtniasEnum?) -> InfoEtnia? {
         return infoEtnias.first { $0.etnia == selectedEtnia }
     }
