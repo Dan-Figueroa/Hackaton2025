@@ -10,19 +10,19 @@ import Combine
 
 struct DatabaseTest: View {
     @ObservedObject var viewModel = ForumViewModel()
+    @EnvironmentObject var appData: AppData
     
     var body: some View {
         ScrollView {
             VStack {
                 Button("Agregar Usuario") {
-                    viewModel.crearForo(userID: "OMTqvi6Xs7BYl8y1ZRQ", foro: forumData)
+                    viewModel.crearForo(userID: "OMVx_zLKidSzuepp_pr", foro: forumData)
                 }
                 .padding()
                 
                 ForEach(viewModel.users, id: \.self) { usuario in
-                    UserRowView(user: usuario)
-                        .padding(.horizontal)
-                }
+                    ForumComponent(communityData: communityData, userData: userData, forumData: forumData)
+                }.padding()
             }
             .padding(.top)
         }
@@ -49,4 +49,5 @@ struct UserRowView: View {
 
 #Preview {
     DatabaseTest()
+        .environmentObject(AppData())
 }

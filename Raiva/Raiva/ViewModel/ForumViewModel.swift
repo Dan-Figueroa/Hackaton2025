@@ -15,7 +15,7 @@ class ForumViewModel: ObservableObject {
     private let connection: FirebaseConnectable
     private let userService = UserService()
     private let forumService = ForumService()
-    
+    private let communityService = CommunityService()
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -33,7 +33,6 @@ class ForumViewModel: ObservableObject {
                     }
                 } catch {
                     print("Error al cargar usuarios: \(error)")
-                    // Manejar el error apropiadamente (por ejemplo, mostrar una alerta)
                 }
             }
         }
@@ -49,6 +48,10 @@ class ForumViewModel: ObservableObject {
         }
     func crearForo(userID: String, foro: Forum){
         forumService.guardarForo(forum: foro)
+    }
+    
+    func crearComunidad(ownerID: String, comunidad: Community){
+        communityService.guardarComunidad(comunidad: comunidad)
     }
     
 }

@@ -15,4 +15,6 @@ struct Forum: Codable, Hashable {
     var body: String
     var likes: Int = 0
     var commentCount: Int = 0
+    
+    
 }
