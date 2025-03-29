@@ -16,7 +16,7 @@ class UserService{
         self.connection = connection
     }
     
-// MARK: - Upload
+    // MARK: - Upload
     
     func guardarUsuario(usuario: User) {
         let usersRef = connection.databaseReference.child("users")
@@ -38,7 +38,7 @@ class UserService{
         }
     }
     
-// MARK: - GET
+    // MARK: - GET
     /// Real time
     func observarUsuariosEnTiempoReal(completion: @escaping ([User]) -> Void) { // Funcion que nos devuelve en tiempo real todos los usuarios
         connection.databaseReference.child("users").observe(DataEventType.value, with: { (snapshot) in
@@ -88,7 +88,44 @@ class UserService{
             throw error
         }
     }
+
+    func obtenerUsuarioPorID(userID: String) async throws -> User? {
+        return try await withCheckedThrowingContinuation { continuation in
+            let usersRef = connection.databaseReference.child("users")
+            
+            usersRef.queryOrdered(byChild: "id").queryEqual(toValue: userID).observeSingleEvent(of: .value) { (snapshot) in
+                
+                guard snapshot.exists(), let value = snapshot.value as? [String: [String: Any]] else {
+                    print("No se encontró ningún usuario con el ID: \(userID)")
+                    continuation.resume(returning: nil)
+                    return
+                }
+                
+                for (_, userData) in value {
+                    guard let userName = userData["userName"] as? String,
+                          let profilePicture = userData["profilePicture"] as? String,
+                          let etnia = userData["etnia"] as? String else {
+                        print("Error al parsear los datos del usuario")
+                        continuation.resume(returning: nil)
+                        return
+                    }
+                    
+                    
+                    let user = User(id: userID, userName: userName, profilePicture: profilePicture, etnia: etnia)
+                    continuation.resume(returning: user)
+                    return
+                }
+                
+            } withCancel: { (error) in
+                print("Error al obtener el usuario: \(error.localizedDescription)")
+                continuation.resume(throwing: error)
+            }
+        }
+    }
+
+    
     // MARK: - REMOVE
     
 }
+
 
