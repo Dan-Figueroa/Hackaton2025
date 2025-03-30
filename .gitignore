@@ -62,3 +62,6 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 Raiva/Raiva/Source
 /Users/shegberg/Documents/Hackaton2025/Raiva/.DS_Store
+FETCH_HEAD
+.DS_Store
+Raiva/.DS_Store
