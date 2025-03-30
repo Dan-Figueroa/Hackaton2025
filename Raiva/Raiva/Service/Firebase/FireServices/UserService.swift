@@ -88,15 +88,18 @@ class UserService{
             throw error
         }
     }
-
-    func obtenerUsuarioPorID(userID: String) async throws -> User? {
+    
+// MARK: - REMOVE
+// MARK: - Login
+    /// Get user
+    func obtenerUsuarioPorID(userName: String) async throws -> User? {
         return try await withCheckedThrowingContinuation { continuation in
             let usersRef = connection.databaseReference.child("users")
             
-            usersRef.queryOrdered(byChild: "id").queryEqual(toValue: userID).observeSingleEvent(of: .value) { (snapshot) in
+            usersRef.queryOrdered(byChild: "userName").queryEqual(toValue: userName).observeSingleEvent(of: .value) { (snapshot) in
                 
                 guard snapshot.exists(), let value = snapshot.value as? [String: [String: Any]] else {
-                    print("No se encontró ningún usuario con el ID: \(userID)")
+                    print("No se encontró ningún usuario con el ID: \(userName)")
                     continuation.resume(returning: nil)
                     return
                 }
@@ -111,7 +114,7 @@ class UserService{
                     }
                     
                     
-                    let user = User(id: userID, userName: userName, profilePicture: profilePicture, etnia: etnia)
+                    let user = User(id: userName, userName: userName, profilePicture: profilePicture, etnia: etnia)
                     continuation.resume(returning: user)
                     return
                 }
@@ -122,10 +125,6 @@ class UserService{
             }
         }
     }
-
-    
-    // MARK: - REMOVE
-    
 }
 
 

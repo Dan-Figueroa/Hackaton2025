@@ -16,13 +16,22 @@ struct DatabaseTest: View {
         ScrollView {
             VStack {
                 Button("Agregar Usuario") {
-                    viewModel.crearForo(userID: "OMVx_zLKidSzuepp_pr", foro: forumData)
+                    viewModel.getUsuarioPorUserName(userName: "Jesus Ortega A.")
                 }
                 .padding()
                 
                 ForEach(viewModel.users, id: \.self) { usuario in
-                    ForumComponent(communityData: communityData, userData: userData, forumData: forumData)
+                    //                    ForumComponent(communityData: communityData, userData: userData, forumData: forumData)
+                    UserRowView(user: usuario)
                 }.padding()
+                
+                if let user = viewModel.user {
+                    Text("Nombre de usuario: \(user.userName)")
+                    Text("Etina: \(user.etnia ?? "Sin etnia")")
+                    Text("ProfilePic: \(user.profilePicture)")
+                } else {
+                    Text("Cargando usuario...")
+                }
             }
             .padding(.top)
         }
