@@ -1,16 +1,17 @@
 //
-//  LoginView.swift
+//  RegisterView.swift
 //  Raiva
 //
-//  Created by Dan Figueroa on 29/03/25.
+//  Created by Dan Figueroa on 30/03/25.
 //
 
 import SwiftUI
 
-struct LoginView: View {
-    @StateObject private var loginData = LoginViewModel()
+struct RegisterView: View {
+    @StateObject private var registerData = RegisterViewModel()
     @State private var rememberMe = false
     @State private var norobot = false
+    @State private var showSheet = false
     
     var body: some View {
         ZStack {
@@ -48,17 +49,17 @@ struct LoginView: View {
                 .offset(y: 70)
                 .overlay(
                     VStack {
-                        Text("Iniciar sesion")
+                        Text("Registro")
                             .foregroundColor(Color.verdeBosque)
                             .bold()
                             .font(.largeTitle)
-                            .padding(.top, 130)
-                            .padding(.bottom, 20)
+                            .padding(.top, 160)
+                            .padding(.bottom, 40)
                         
                         CustomTextField(
                             title: "Ingresa tu correo",
                             placeholder: "",
-                            text: $loginData.loginCorreo,
+                            text: $registerData.registerCorreo,
                             type: .normal,
                             backgroundColor: Color.verdeBosque.opacity(0.8),
                             foregroundColor: .white,
@@ -70,50 +71,39 @@ struct LoginView: View {
                         CustomTextField(
                             title: "Ingresa tu contraseña",
                             placeholder: "",
-                            text: $loginData.loginContraña,
+                            text: $registerData.registerContraña,
                             type: .secure,
                             backgroundColor: Color.verdeBosque.opacity(0.8),
                             foregroundColor: .white,
                             width: 300,
                             borderColor: Color.arena
                         )
+                        
                         .padding(.bottom, 20)
                         
                         CustomCheckbox(label: "No soy un robot", isChecked: $norobot)
                             .padding(.leading, -130)
-                        
-                        
-                        
-                        ZStack() {
-                            CustomButton(
-                                action: {
-                                    
-                                },
-                                style: .standard(
-                                    fontColor: .verdeBosque,
-                                    backgroundColor: .beige,
-                                    buttonName: "regístrate"
-                                )
-                            ).padding(.leading, 170)
-                            
-                            Text("¿Aun no eres miembro?")
-                                .foregroundColor(.verdeBosque)
-                                .padding(.leading, -100)
-                        }
-                        .frame(height: 40)
+                            .padding(.bottom, 20)
                         
                         CustomButton(action: {
-                            
+                            showSheet = true
                         }, style: .standard(fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "continuar"))
                         .frame(width: 300)
                         
+                    }
+                    .sheet(isPresented: $showSheet) {
+                        UserInfoRegister()
+                        .environmentObject(AppData())
+                        .presentationBackground(.clear)
                     }
                 )
         }
     }
 }
 
+
 #Preview {
-    LoginView()
+    RegisterView()
         .environmentObject(AppData())
 }
+
