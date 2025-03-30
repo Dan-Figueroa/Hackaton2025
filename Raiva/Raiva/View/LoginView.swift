@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginView: View {
     @StateObject private var loginData = LoginViewModel()
     @State private var rememberMe = false
+    @State private var norobot = false
     
     var body: some View {
         ZStack {
@@ -76,13 +77,10 @@ struct LoginView: View {
                             width: 300,
                             borderColor: Color.arena
                         )
+                        .padding(.bottom, 20)
                         
-                        Toggle("No soy un robot", isOn: $rememberMe)
-                            .toggleStyle(CheckboxToggleStyle())
-                            .foregroundColor(.verdeBosque)
-                            .padding(.top, 20)
+                        CustomCheckbox(label: "No soy un robot", isChecked: $norobot)
                             .padding(.leading, -130)
-                            .padding(.bottom,10)
                         
                         
                         
@@ -111,17 +109,6 @@ struct LoginView: View {
                         
                     }
                 )
-        }
-    }
-}
-struct CheckboxToggleStyle: ToggleStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        HStack {
-            Image(systemName: configuration.isOn ? "checkmark.square.fill" : "square")
-                .resizable()
-                .frame(width: 20, height: 20)
-                .onTapGesture { configuration.isOn.toggle() }
-            configuration.label
         }
     }
 }
