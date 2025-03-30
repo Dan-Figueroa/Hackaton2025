@@ -11,6 +11,7 @@ import Combine
 class ForumViewModel: ObservableObject {
     @Published var users: [User] = []
     @Published var errorMessage: String?
+    @Published var user: User?
     
     private let connection: FirebaseConnectable
     private let userService = UserService()
@@ -54,4 +55,20 @@ class ForumViewModel: ObservableObject {
         communityService.guardarComunidad(comunidad: comunidad)
     }
     
+    func getUsuarioPorUserName(userName: String) {
+        Task {
+            do {
+                let fetchedUser = try await userService.obtenerUsuarioPorID(userName: userName)
+                await MainActor.run {
+                    self.user = fetchedUser
+                }
+            } catch {
+                print("Error al obtener usuario por ID: \(error)")
+                await MainActor.run {
+                    self.errorMessage = "No se pudo obtener el usuario con ID: \(userName)"
+                }
+            }
+        }
+    }
+
 }

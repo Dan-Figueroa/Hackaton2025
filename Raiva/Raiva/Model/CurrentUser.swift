@@ -7,6 +7,29 @@
 
 import Foundation
 
-class CurrentUser: Codable {
-    let currentUserID: String
+final class CurrentUser{
+    
+    static let shared = CurrentUser()
+    private var _user: User? // Contenedor del usario actual
+    
+    var id: String { _user?.id ?? "" }
+    var userName: String { _user?.userName ?? "perfilInvitado" }
+    var profilePicture: String { _user?.profilePicture ?? "profileInvitado" }
+    var etnia: EtniasEnum.RawValue? { _user?.etnia }
+    
+    var isLogged: Bool {_user != nil}
+    
+    func updateUser(user: User){
+        _user = user
+    }
+    
+    func logout(){
+        _user = nil
+    }
+    
+    func getActualUser() -> User?{
+        return _user
+    }
+    
 }
+
