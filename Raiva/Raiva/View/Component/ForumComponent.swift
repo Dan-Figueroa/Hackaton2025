@@ -84,7 +84,7 @@ private struct FooterData: View {
     }
 }
 
-private struct InteractionButton: View {
+struct InteractionButton: View {
     enum InteractionType {
         case like
         case comment
@@ -119,7 +119,7 @@ private struct InteractionButton: View {
     private var imageName: String {
         switch type {
         case .like:
-            return isLiked ? "Like" : "LikeVacio"
+            return isLiked ? "like" : "LikeVacio"
         case .comment:
             return "comentario"
         }
