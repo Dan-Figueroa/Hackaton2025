@@ -13,6 +13,7 @@ struct CreateComunity: View {
     @State private var selectedImage: String = "perfilInvitado"
     
     let availableImages = ["chol", "festividadChol", "chuj", "mam","qanjobal","tojolabal","tsotsil","tseltal","zoque", "perfilInvitado"]
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -20,12 +21,23 @@ struct CreateComunity: View {
                 .foregroundColor(.verdeBosque)
                 .opacity(0.9)
                 .cornerRadius(30)
-            
+
             VStack(spacing: 0) {
-                Rectangle()
-                    .foregroundColor(.arena.opacity(0.3))
-                    .frame(height: 180)
-                    .cornerRadius(30)
+                ZStack {
+                    Image(selectedImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: 180)
+                        .offset(y: 80)
+                        .blur(radius: 1)
+        
+                    Rectangle()
+                        .foregroundColor(.black.opacity(0.5))
+                        .cornerRadius(30)
+                }
+                .frame(height: 180)
+                .cornerRadius(30)
+                
                 Spacer()
             }
             .frame(width: 900, height: 700)
@@ -40,6 +52,7 @@ struct CreateComunity: View {
                             .scaledToFill()
                             .frame(width: 160, height: 160)
                             .clipShape(Circle())
+                        
                         Circle()
                             .stroke(Color.arena, lineWidth: 3)
                         
@@ -56,7 +69,7 @@ struct CreateComunity: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .padding(.leading, 70)
                 .padding(.top, 90)
-            
+
             VStack(spacing: 40) {
                 CustomTextField(
                     title: "Nombre",
@@ -80,15 +93,10 @@ struct CreateComunity: View {
                     borderColor: Color.arena
                 )
                 
-                CustomButton(action: {
-                    
-                }, style: .standard(fontColor: .arena, backgroundColor: .verdeBosque.opacity(0.8), buttonName: "Publicar"))
+                CustomButton(action: {}, style: .standard(fontColor: .arena, backgroundColor: .verdeBosque.opacity(0.8), buttonName: "Publicar"))
                 .frame(width: 200)
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .padding(.trailing, 40)
-                
-                
-                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding(.leading, 10)
