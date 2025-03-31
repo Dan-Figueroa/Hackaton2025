@@ -92,7 +92,7 @@ class UserService{
 // MARK: - REMOVE
 // MARK: - Login
     /// Get user
-    func obtenerUsuarioPorID(userName: String) async throws -> User? {
+    func obtenerUsuarioPorUser(userName: String) async throws -> User? {
         return try await withCheckedThrowingContinuation { continuation in
             let usersRef = connection.databaseReference.child("users")
             

@@ -58,7 +58,7 @@ class ForumViewModel: ObservableObject {
     func getUsuarioPorUserName(userName: String) {
         Task {
             do {
-                let fetchedUser = try await userService.obtenerUsuarioPorID(userName: userName)
+                let fetchedUser = try await userService.obtenerUsuarioPorUser(userName: userName)
                 await MainActor.run {
                     self.user = fetchedUser
                 }
