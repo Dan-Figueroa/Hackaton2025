@@ -20,7 +20,7 @@ struct CreateComunity: View {
 
             VStack(spacing: 0) {
                 ZStack {
-                    Image(createComunnityData.selectedImage)
+                    Image(createComunnityData.communityProfileImage)
                         .resizable()
                         .scaledToFill()
                         .frame(height: 180)
@@ -43,7 +43,7 @@ struct CreateComunity: View {
                 .frame(width: 180, height: 180)
                 .overlay(
                     ZStack {
-                        Image(createComunnityData.selectedImage)
+                        Image(createComunnityData.communityProfileImage)
                             .resizable()
                             .scaledToFill()
                             .frame(width: 160, height: 160)
@@ -52,7 +52,7 @@ struct CreateComunity: View {
                         Circle()
                             .stroke(Color.arena, lineWidth: 3)
 
-                        if createComunnityData.selectedImage == "perfilInvitado" {
+                        if createComunnityData.communityProfileImage == "perfilInvitado" {
                             VStack(spacing: 5) {
                                 CustomButton(action: {
                                     showImagePicker.toggle()
@@ -72,7 +72,7 @@ struct CreateComunity: View {
                 CustomTextField(
                     title: "Nombre",
                     placeholder: "",
-                    text: $createComunnityData.nameComunnity,
+                    text: $createComunnityData.communityName,
                     type: .normal,
                     backgroundColor: Color.verdeBosque.opacity(0.3),
                     foregroundColor: .white,
@@ -83,7 +83,7 @@ struct CreateComunity: View {
                 CustomTextField(
                     title: "Descripción",
                     placeholder: "",
-                    text: $createComunnityData.descriptionComunnity,
+                    text: $createComunnityData.communityDescription,
                     type: .textEditor,
                     backgroundColor: Color.verdeBosque.opacity(0.3),
                     foregroundColor: .white,
@@ -91,7 +91,9 @@ struct CreateComunity: View {
                     borderColor: Color.arena
                 )
 
-                CustomButton(action: {}, style: .standard(fontColor: .arena, backgroundColor: .verdeBosque.opacity(0.8), buttonName: "Publicar"))
+                CustomButton(action: {
+                    
+                }, style: .standard(fontColor: .arena, backgroundColor: .verdeBosque.opacity(0.8), buttonName: "Publicar"))
                     .frame(width: 200)
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .padding(.trailing, 40)
@@ -100,7 +102,9 @@ struct CreateComunity: View {
             .padding(.leading, 10)
             .padding(.top, 330)
 
-            CustomButton(action: {}, style: .image(imageName: "x"))
+            CustomButton(action: {
+                
+            }, style: .image(imageName: "x"))
                 .scaleEffect(0.8)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .padding(.leading, 20)
@@ -108,10 +112,11 @@ struct CreateComunity: View {
         }
         .frame(width: 900, height: 700)
         .sheet(isPresented: $showImagePicker) {
-            ImagePickerComponent(selectedImage: $createComunnityData.selectedImage, availableImages: createComunnityData.availableImages)
+            ImagePickerComponent(communityProfileImage: $createComunnityData.communityProfileImage, availableImages: createComunnityData.availableImages)
         }
     }
 }
+
 #Preview {
     CreateComunity()
 }

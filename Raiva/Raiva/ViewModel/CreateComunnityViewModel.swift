@@ -7,9 +7,9 @@
 
 import Foundation
 class CreateComunnityViewModel: ObservableObject {
-    @Published var nameComunnity: String = ""
-    @Published var descriptionComunnity: String = ""
-    @Published var selectedImage: String = "perfilInvitado" 
+    @Published var communityName: String = ""
+    @Published var communityDescription: String = ""
+    @Published var communityProfileImage: String = "perfilInvitado" 
     @Published var availableImages: [String] = [
         "perfilInvitado", "chol", "festividadChol", "chuj", "mam",
         "qanjobal", "tojolabal", "tsotsil", "tseltal", "zoque"

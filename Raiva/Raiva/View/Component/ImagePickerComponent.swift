@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ImagePickerComponent: View {
-    @Binding var selectedImage: String
+    @Binding var communityProfileImage: String
     let availableImages: [String]
     @Environment(\.dismiss) var dismiss
 
@@ -23,7 +23,7 @@ struct ImagePickerComponent: View {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
                     ForEach(availableImages, id: \.self) { imageName in
                         Button(action: {
-                            selectedImage = imageName
+                            communityProfileImage = imageName
                             dismiss()
                         }) {
                             Image(imageName)
@@ -33,7 +33,7 @@ struct ImagePickerComponent: View {
                                 .clipShape(Circle())
                                 .overlay(
                                     Circle()
-                                        .stroke(selectedImage == imageName ? Color.arena : Color.clear, lineWidth: 4)
+                                        .stroke(communityProfileImage == imageName ? Color.arena : Color.clear, lineWidth: 4)
                                 )
                         }
                         .buttonStyle(PlainButtonStyle())
