@@ -9,11 +9,12 @@ import SwiftUI
 struct pruebasheets: View {
     @State private var showSheet1 = false
     @State private var showSheet2 = false
+    @StateObject private var sheetViewModel = LoginViewModel()
     
     var body: some View {
         VStack(spacing: 20) {
             Button("Mostrar Sheet 1") {
-                showSheet1 = true
+                showSheet1.toggle()
             }
             .buttonStyle(.borderedProminent)
             .tint(.blue)
@@ -23,13 +24,14 @@ struct pruebasheets: View {
             }
             .buttonStyle(.borderedProminent)
             .tint(.green)
+            
+            Image(CurrentUser.shared.profilePicture)
         }
         .sheet(isPresented: $showSheet1) {
             LoginView()
                 .environmentObject(AppData())
                 .presentationBackground(.clear)
                 .interactiveDismissDisabled(true)
-
         }
         .sheet(isPresented: $showSheet2) {
             RegisterView()

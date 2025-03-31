@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SideMenuView: View {
     @EnvironmentObject var appData: AppData
+    @StateObject var vm = SideMenuViewModel()
     @Binding var selectedSideMenuTab: Int
     @Binding var presentSideMenu: Bool
     
@@ -21,13 +22,21 @@ struct SideMenuView: View {
                     .shadow(color: .black.opacity(0.7), radius: 5, x: 0, y: 3)
                 
                 VStack(alignment: .leading, spacing: 20) {
-                    UserViewType(imageName: "perfilInvitado", name: "Meliza Ortega", style: .vertical)
-                        .frame(width: appData.UISW * 0.23, height: appData.UISH * 0.15)
+                    UserViewType(
+                        imageName: (CurrentUser.shared.isLogged) ? CurrentUser.shared.profilePicture : "cool",
+                        name: (CurrentUser.shared.isLogged) ? CurrentUser.shared.userName : "Invitado",
+                        style: .vertical
+                    )
+                    .frame(width: appData.UISW * 0.23, height: appData.UISH * 0.15)
                     .padding(.bottom, 80)
                     
                     
                     ForEach(SideMenuRowType.allCases, id: \.self){ row in
-                        RowView(isSelected: selectedSideMenuTab == row.rawValue, imageName: row.iconName, title: row.title) {
+                        RowView(
+                            isSelected: selectedSideMenuTab == row.rawValue,
+                            imageName: row.iconName,
+                            title: row.title
+                        ) {
                             selectedSideMenuTab = row.rawValue
                             presentSideMenu.toggle()
                         }
@@ -75,4 +84,9 @@ struct SideMenuView: View {
         .background(isSelected ? Color.arena.opacity(0.2) : Color.beige.opacity(0.2))
         .cornerRadius(8)
     }
+}
+
+#Preview {
+    SideMenuView(selectedSideMenuTab: .constant(0), presentSideMenu: .constant(true))
+        .environmentObject(AppData())
 }

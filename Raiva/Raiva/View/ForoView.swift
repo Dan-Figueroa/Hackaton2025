@@ -11,6 +11,7 @@ struct ForoView: View {
     @Binding var selectedSideMenuTab: Int
     @State private var selectedButton: String = "INICIO"
     @State private var showComunidades = false
+    @State private var isPresented: Bool = false
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -43,6 +44,18 @@ struct ForoView: View {
                 MisComunidadesView(isPresented: $showComunidades)
                     .offset(x: 300, y: 140)
             }
+        }.onAppear{
+            if CurrentUser.shared.isLogged != true {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    isPresented.toggle()
+                }
+            }
+        }
+        .sheet(isPresented: $isPresented) {
+            LoginView()
+                .environmentObject(AppData())
+                .presentationBackground(.clear)
+                .interactiveDismissDisabled(true)
         }
     }
 }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var loginViewModel = LoginViewModel()
     @State private var rememberMe = false
     @State private var norobot = false
@@ -102,17 +103,18 @@ struct LoginView: View {
                         .frame(height: 40)
                         
                         CustomButton(action: {
-                            print("Usuario actual:\(CurrentUser.shared.id)")
                             Task {
                                 await loginViewModel.login()
                                 
                                 if loginViewModel.user != nil {
                             
                                     print("Login exitoso para el usuario: \(loginViewModel.user?.userName ?? "")")
-                                    
-                                    
                                     if let user = loginViewModel.user {
+                                        if loginViewModel.isWrong == true {
+                                            loginViewModel.isWrong.toggle()
+                                        }
                                         CurrentUser.shared.updateUser(user: user)
+                                        dismiss()
                                     }
                                 } else if let error = loginViewModel.errorMessage {
                                     loginViewModel.isWrong.toggle()

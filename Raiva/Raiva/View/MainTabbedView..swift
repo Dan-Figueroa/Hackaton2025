@@ -18,6 +18,7 @@ struct MainTabbedView: View {
                     Principal(presentSideMenu: $presentSideMenu, selectedSideMenuTab: $selectedSideMenuTab)
                 case 1:
                     ForoView(presentSideMenu: $presentSideMenu, selectedSideMenuTab: $selectedSideMenuTab)
+                    
                 case 2:
                     InformateView(presentSideMenu: $presentSideMenu)
                 case 3:

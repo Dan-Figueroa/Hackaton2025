@@ -14,7 +14,9 @@ final class CurrentUser{
     
     var id: String { _user?.id ?? "" }
     var userName: String { _user?.userName ?? "perfilInvitado" }
+    
     var profilePicture: String { _user?.profilePicture ?? "profileInvitado" }
+    
     var etnia: EtniasEnum.RawValue? { _user?.etnia }
     
     var isLogged: Bool {_user != nil}

@@ -76,6 +76,7 @@ struct CreateComunity: View {
                     type: .normal,
                     backgroundColor: Color.verdeBosque.opacity(0.3),
                     foregroundColor: .white,
+                    tittleColor: .black,
                     width: 800,
                     borderColor: Color.arena
                 )
@@ -87,6 +88,7 @@ struct CreateComunity: View {
                     type: .textEditor,
                     backgroundColor: Color.verdeBosque.opacity(0.3),
                     foregroundColor: .white,
+                    tittleColor: .black,
                     width: 800,
                     borderColor: Color.arena
                 )
