@@ -8,23 +8,46 @@
 import Foundation
 
 class LoginViewModel: ObservableObject {
-    @Published var loginCorreo: String = ""
-    @Published var loginContraña: String = ""
+    @Published var loginUsername: String = ""
+    @Published var loginContraseña: String = ""
     @Published var user: User?
+    @Published var isLoading: Bool = false
+    @Published var isWrong: Bool = false
+    @Published var errorMessage: String?
     
     private let userService = UserService()
     
-    func login(userName: String) async throws {
-        Task{
-            do{
-                let fetchUser = try await userService.obtenerUsuarioPorUser(userName: userName)
-                await MainActor.run {
-                    self.user = fetchUser
+    func login() async {
+        guard !loginUsername.isEmpty else {
+            await MainActor.run {
+                errorMessage = "El nombre de usuario no puede estar vacío"
+            }
+            return
+        }
+        
+        await MainActor.run {
+            isLoading = true
+            errorMessage = nil
+        }
+        
+        do {
+            let fetchedUser = try await userService.obtenerUsuarioPorUser(userName: loginUsername)
+            
+            await MainActor.run {
+                if let fetchedUser = fetchedUser {
+                    self.user = fetchedUser
+                    CurrentUser.shared.updateUser(user: fetchedUser)
+                    errorMessage = nil
+                } else {
+                    errorMessage = "Usuario no encontrado"
                 }
-            }catch{
-                
+                isLoading = false
+            }
+        } catch {
+            await MainActor.run {
+                errorMessage = "Error al iniciar sesión: \(error.localizedDescription)"
+                isLoading = false
             }
         }
-        CurrentUser.shared.updateUser(user: user ?? userData)
     }
 }

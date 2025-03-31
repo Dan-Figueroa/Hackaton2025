@@ -20,6 +20,7 @@ struct CustomTextField: View {
     let type: FieldType
     var backgroundColor: Color
     var foregroundColor: Color
+    var tittleColor: Color
     var width: CGFloat
     var cornerRadius: CGFloat = 5
     var borderColor: Color
@@ -32,6 +33,7 @@ struct CustomTextField: View {
         VStack(alignment: .leading) {
             Text(title)
                 .padding(.leading, 5)
+                .foregroundStyle(tittleColor)
             
             Group {
                 switch type {

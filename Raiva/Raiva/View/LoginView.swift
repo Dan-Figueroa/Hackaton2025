@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
-    @StateObject private var loginData = LoginViewModel()
+    @StateObject private var loginViewModel = LoginViewModel()
     @State private var rememberMe = false
     @State private var norobot = false
     
@@ -17,7 +17,7 @@ struct LoginView: View {
             Rectangle()
                 .foregroundColor(Color.verdeBosque)
                 .frame(width: 400, height: 600)
-                //.border(Color.beige, width: 4)
+            //.border(Color.beige, width: 4)
                 .cornerRadius(26)
                 .overlay(
                     ZStack {
@@ -26,12 +26,21 @@ struct LoginView: View {
                                 .padding(.top, 30)
                             Spacer()
                         }
-                       
-                        
+            
+                        VStack {
+                            HStack {
+                                CustomButton(action: {}, style: .image(imageName: "x"))
+                                    .scaleEffect(0.5)
+                                    .padding(.leading, -5)
+                                    .padding(.top, 2)
+                                Spacer()
+                            }
+                            Spacer()
+                        }
                     }
-                    .frame(width: 400, height: 600)
+                        .frame(width: 400, height: 600)
                 )
-   
+            
             Rectangle()
                 .foregroundColor(Color.beige)
                 .frame(width: 400, height: 480)
@@ -47,12 +56,12 @@ struct LoginView: View {
                             .padding(.bottom, 20)
                         
                         CustomTextField(
-                            title: "Ingresa tu correo",
+                            title: loginViewModel.isWrong ? "Usuario incorrecto" : "Ingresa tu usuario",
                             placeholder: "",
-                            text: $loginData.loginCorreo,
+                            text: $loginViewModel.loginUsername,
                             type: .normal,
                             backgroundColor: Color.verdeBosque.opacity(0.8),
-                            foregroundColor: .white,
+                            foregroundColor: .white, tittleColor: (loginViewModel.isWrong) ? Color.red : Color.black,
                             width: 300,
                             borderColor: Color.arena
                         )
@@ -61,10 +70,10 @@ struct LoginView: View {
                         CustomTextField(
                             title: "Ingresa tu contraseña",
                             placeholder: "",
-                            text: $loginData.loginContraña,
+                            text: $loginViewModel.loginContraseña,
                             type: .secure,
                             backgroundColor: Color.verdeBosque.opacity(0.8),
-                            foregroundColor: .white,
+                            foregroundColor: .white, tittleColor: .black,
                             width: 300,
                             borderColor: Color.arena
                         )
@@ -78,7 +87,6 @@ struct LoginView: View {
                         ZStack() {
                             CustomButton(
                                 action: {
-                                    
                                 },
                                 style: .standard(
                                     fontColor: .verdeBosque,
@@ -94,7 +102,24 @@ struct LoginView: View {
                         .frame(height: 40)
                         
                         CustomButton(action: {
+                            print("Usuario actual:\(CurrentUser.shared.id)")
+                            Task {
+                                await loginViewModel.login()
+                                
+                                if loginViewModel.user != nil {
                             
+                                    print("Login exitoso para el usuario: \(loginViewModel.user?.userName ?? "")")
+                                    
+                                    
+                                    if let user = loginViewModel.user {
+                                        CurrentUser.shared.updateUser(user: user)
+                                    }
+                                } else if let error = loginViewModel.errorMessage {
+                                    loginViewModel.isWrong.toggle()
+                                    print("Eerror en login: \(error)")
+                                }
+                                print("Usuario actual:\(CurrentUser.shared.id)")
+                            }
                         }, style: .standard(fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "continuar"))
                         .frame(width: 300)
                         

@@ -62,7 +62,7 @@ struct RegisterView: View {
                             text: $registerData.registerCorreo,
                             type: .normal,
                             backgroundColor: Color.verdeBosque.opacity(0.8),
-                            foregroundColor: .white,
+                            foregroundColor: .white, tittleColor: Color.black,
                             width: 300,
                             borderColor: Color.arena
                         )
@@ -74,7 +74,7 @@ struct RegisterView: View {
                             text: $registerData.registerContraña,
                             type: .secure,
                             backgroundColor: Color.verdeBosque.opacity(0.8),
-                            foregroundColor: .white,
+                            foregroundColor: .white, tittleColor: Color.black,
                             width: 300,
                             borderColor: Color.arena
                         )

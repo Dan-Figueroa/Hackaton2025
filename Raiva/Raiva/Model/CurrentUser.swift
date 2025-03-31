@@ -21,6 +21,8 @@ final class CurrentUser{
     
     func updateUser(user: User){
         _user = user
+        print("UsuaioActualizado")
+        print(_user?.id ?? "")
     }
     
     func logout(){

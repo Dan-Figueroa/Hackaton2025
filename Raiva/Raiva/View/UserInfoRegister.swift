@@ -93,7 +93,7 @@ struct UserInfoRegister: View {
                                 text: $registerData.registerEtnia,
                                 type: .normal,
                                 backgroundColor: Color.beige,
-                                foregroundColor: .black,
+                                foregroundColor: .black, tittleColor: Color.black,
                                 width: 200,
                                 borderColor: Color.arena
                             )
