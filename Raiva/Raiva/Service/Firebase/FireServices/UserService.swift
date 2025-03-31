@@ -42,17 +42,20 @@ class UserService{
     /// Real time
     func observarUsuariosEnTiempoReal(completion: @escaping ([User]) -> Void) { // Funcion que nos devuelve en tiempo real todos los usuarios
         connection.databaseReference.child("users").observe(DataEventType.value, with: { (snapshot) in
+            
             guard let value = snapshot.value as? [String: Any] else {
                 completion([])
                 return
             }
             
             var usuarios: [User] = []
+            
             for (key, usuarioData) in value {
                 if let usuarioDict = usuarioData as? [String: Any],
                    let userName = usuarioDict["userName"] as? String,
                    let profilePicture = usuarioDict["profilePicture"] as? String,
                    let etnia = usuarioDict["etnia"] as? String? {
+                    
                     var usuario = User(userName: userName, profilePicture: profilePicture, etnia: etnia)
                     usuario.id = key
                     usuarios.append(usuario)
