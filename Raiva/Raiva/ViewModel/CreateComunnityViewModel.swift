@@ -9,4 +9,5 @@ import Foundation
 class CreateComunnityViewModel: ObservableObject {
     @Published var nameComunnity: String = ""
     @Published var descriptionComunnity: String = ""
+    
 }
