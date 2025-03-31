@@ -8,8 +8,8 @@ import SwiftUI
 
 struct CreateComunity: View {
     @StateObject private var createComunnityVM = CreateComunnityViewModel()
-    @State private var showImagePicker = false
 
+    @State private var showImagePicker = false
     var body: some View {
         ZStack {
             Rectangle()
