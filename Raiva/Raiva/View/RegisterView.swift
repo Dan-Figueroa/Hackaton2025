@@ -24,18 +24,7 @@ struct RegisterView: View {
                     ZStack {
                         VStack {
                             RaivaLogo(size: .medium)
-                                .padding(.top, 40)
-                            Spacer()
-                        }
-                       
-                        VStack {
-                            HStack {
-                                CustomButton(action: {}, style: .image(imageName: "x"))
-                                    .scaleEffect(0.5)
-                                    .padding(.leading, -5)
-                                    .padding(.top, 2)
-                                Spacer()
-                            }
+                                .padding(.top, 30)
                             Spacer()
                         }
                     }
@@ -95,6 +84,7 @@ struct RegisterView: View {
                         UserInfoRegister()
                         .environmentObject(AppData())
                         .presentationBackground(.clear)
+                        .interactiveDismissDisabled(true)
                     }
                 )
         }

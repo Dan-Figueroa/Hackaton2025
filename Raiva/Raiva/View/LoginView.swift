@@ -23,20 +23,11 @@ struct LoginView: View {
                     ZStack {
                         VStack {
                             RaivaLogo(size: .medium)
-                                .padding(.top, 40)
+                                .padding(.top, 30)
                             Spacer()
                         }
                        
-                        VStack {
-                            HStack {
-                                CustomButton(action: {}, style: .image(imageName: "x"))
-                                    .scaleEffect(0.5)
-                                    .padding(.leading, -5)
-                                    .padding(.top, 2)
-                                Spacer()
-                            }
-                            Spacer()
-                        }
+                        
                     }
                     .frame(width: 400, height: 600)
                 )
