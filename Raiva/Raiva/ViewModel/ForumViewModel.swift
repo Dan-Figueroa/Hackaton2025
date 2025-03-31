@@ -51,10 +51,6 @@ class ForumViewModel: ObservableObject {
         forumService.guardarForo(forum: foro)
     }
     
-    func crearComunidad(ownerID: String, comunidad: Community){
-        communityService.guardarComunidad(comunidad: comunidad)
-    }
-    
     func getUsuarioPorUserName(userName: String) {
         Task {
             do {

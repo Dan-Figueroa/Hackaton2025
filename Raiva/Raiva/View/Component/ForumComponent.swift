@@ -12,6 +12,7 @@ struct ForumComponent: View {
     let communityData: Community
     let userData: User
     let forumData: Forum
+    let withBackground: Bool
     
     var body: some View {
         VStack(){
@@ -25,9 +26,13 @@ struct ForumComponent: View {
         }
         .padding()
         .background(
-            Rectangle()
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .foregroundStyle(Color.verdeBosque.opacity(0.70))
+            withBackground ?
+                AnyView(
+                    Rectangle()
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .foregroundStyle(Color.verdeBosque.opacity(0.70))
+                )
+                : AnyView(EmptyView())
         )
         .frame(maxWidth: .infinity)
     }
@@ -138,7 +143,7 @@ struct InteractionButton: View {
 
 #Preview {
     //    FooterData()
-    ForumComponent(communityData: communityData, userData: userData, forumData: forumData)
+    ForumComponent(communityData: communityData, userData: userData, forumData: forumData, withBackground: true)
         .environmentObject(AppData())
         .frame(width: 1000)
     //    LikeComponent()
