@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct CreateComunity: View {
-    @StateObject private var createComunnityData = CreateComunnityViewModel()
+    @StateObject private var createComunnityVM = CreateComunnityViewModel()
     @State private var showImagePicker = false
 
     var body: some View {
@@ -20,7 +20,7 @@ struct CreateComunity: View {
 
             VStack(spacing: 0) {
                 ZStack {
-                    Image(createComunnityData.communityProfileImage)
+                    Image(createComunnityVM.selectImage)
                         .resizable()
                         .scaledToFill()
                         .frame(height: 180)
@@ -43,7 +43,7 @@ struct CreateComunity: View {
                 .frame(width: 180, height: 180)
                 .overlay(
                     ZStack {
-                        Image(createComunnityData.communityProfileImage)
+                        Image(createComunnityVM.selectImage)
                             .resizable()
                             .scaledToFill()
                             .frame(width: 160, height: 160)
@@ -52,7 +52,7 @@ struct CreateComunity: View {
                         Circle()
                             .stroke(Color.arena, lineWidth: 3)
 
-                        if createComunnityData.communityProfileImage == "perfilInvitado" {
+                        if createComunnityVM.selectImage == "perfilInvitado" {
                             VStack(spacing: 5) {
                                 CustomButton(action: {
                                     showImagePicker.toggle()
@@ -72,7 +72,7 @@ struct CreateComunity: View {
                 CustomTextField(
                     title: "Nombre",
                     placeholder: "",
-                    text: $createComunnityData.communityName,
+                    text: $createComunnityVM.communityName,
                     type: .normal,
                     backgroundColor: Color.verdeBosque.opacity(0.3),
                     foregroundColor: .white,
@@ -83,7 +83,7 @@ struct CreateComunity: View {
                 CustomTextField(
                     title: "Descripción",
                     placeholder: "",
-                    text: $createComunnityData.communityDescription,
+                    text: $createComunnityVM.communityDescription,
                     type: .textEditor,
                     backgroundColor: Color.verdeBosque.opacity(0.3),
                     foregroundColor: .white,
@@ -112,7 +112,7 @@ struct CreateComunity: View {
         }
         .frame(width: 900, height: 700)
         .sheet(isPresented: $showImagePicker) {
-            ImagePickerComponent(communityProfileImage: $createComunnityData.communityProfileImage, availableImages: createComunnityData.availableImages)
+            ImagePickerComponent(selectImage: $createComunnityVM.selectImage, availableImages: createComunnityVM.availableImages)
         }
     }
 }

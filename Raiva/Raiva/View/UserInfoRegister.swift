@@ -128,7 +128,7 @@ struct UserInfoRegister: View {
                 )
         }
         .sheet(isPresented: $showImagePicker) {
-            ImagePickerComponent(communityProfileImage: $registerData.selectedImage,
+            ImagePickerComponent(selectImage: $registerData.selectedImage,
                           availableImages: registerData.availableImages)
         }
     }

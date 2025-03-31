@@ -4,11 +4,10 @@
 //
 //  Created by Dan Figueroa on 31/03/25.
 //
-
 import SwiftUI
 
 struct ImagePickerComponent: View {
-    @Binding var communityProfileImage: String
+    @Binding var selectImage: String
     let availableImages: [String]
     @Environment(\.dismiss) var dismiss
 
@@ -23,7 +22,7 @@ struct ImagePickerComponent: View {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
                     ForEach(availableImages, id: \.self) { imageName in
                         Button(action: {
-                            communityProfileImage = imageName
+                            selectImage = imageName
                             dismiss()
                         }) {
                             Image(imageName)
@@ -33,7 +32,7 @@ struct ImagePickerComponent: View {
                                 .clipShape(Circle())
                                 .overlay(
                                     Circle()
-                                        .stroke(communityProfileImage == imageName ? Color.arena : Color.clear, lineWidth: 4)
+                                        .stroke(selectImage == imageName ? Color.arena : Color.clear, lineWidth: 4)
                                 )
                         }
                         .buttonStyle(PlainButtonStyle())
