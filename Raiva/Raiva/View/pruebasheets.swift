@@ -4,7 +4,6 @@
 //
 //  Created by Dan Figueroa on 30/03/25.
 //
-
 import SwiftUI
 
 struct pruebasheets: View {
@@ -28,12 +27,16 @@ struct pruebasheets: View {
         .sheet(isPresented: $showSheet1) {
             LoginView()
                 .environmentObject(AppData())
-                .presentationBackground(.clear) 
+                .presentationBackground(.clear)
+                .interactiveDismissDisabled(true)
+
         }
         .sheet(isPresented: $showSheet2) {
             RegisterView()
                 .environmentObject(AppData())
                 .presentationBackground(.clear)
+                .interactiveDismissDisabled(true)
+
         }
     }
 }

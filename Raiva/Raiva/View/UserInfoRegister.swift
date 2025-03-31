@@ -12,36 +12,23 @@ struct UserInfoRegister: View {
     @State private var si = false
     @State private var no = false
     @State private var nose = false
+    @State private var showImagePicker = false
     
     var body: some View {
         ZStack {
+            
             Rectangle()
                 .foregroundColor(Color.verdeBosque)
                 .frame(width: 400, height: 600)
-                //.border(Color.beige, width: 4)
                 .cornerRadius(26)
                 .overlay(
-                    ZStack {
-                        VStack {
-                            RaivaLogo(size: .medium)
-                                .padding(.top, 40)
-                            Spacer()
-                        }
-                       
-                        VStack {
-                            HStack {
-                                CustomButton(action: {}, style: .image(imageName: "x"))
-                                    .scaleEffect(0.5)
-                                    .padding(.leading, -5)
-                                    .padding(.top, 2)
-                                Spacer()
-                            }
-                            Spacer()
-                        }
+                    VStack {
+                        RaivaLogo(size: .medium)
+                            .padding(.top, 30)
+                        Spacer()
                     }
-                    .frame(width: 400, height: 600)
                 )
-   
+            
             Rectangle()
                 .foregroundColor(Color.beige)
                 .frame(width: 400, height: 480)
@@ -50,25 +37,33 @@ struct UserInfoRegister: View {
                 .overlay(
                     VStack {
                         HStack {
-                            Circle()
-                            .frame(width: 70, height: 70)
+                            ZStack {
+                                Circle()
+                                    .frame(width: 70, height: 70)
+                                    .foregroundColor(.verdeBosque)
+                                
+                                Image(registerData.selectedImage)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 65, height: 65)
+                                    .clipShape(Circle())
+                                
+                                if registerData.selectedImage == "perfilInvitado" {
+                                    CustomButton(action: {
+                                        showImagePicker.toggle()
+                                    }, style: .image(imageName: "camara"))
+                                    .scaleEffect(0.7)
+                                }
+                            }
                             .padding(.top, 160)
                             .padding(.bottom, 40)
-                            .foregroundColor(.verdeBosque)
-                            .overlay(
-                                CustomButton(action: {
-                                    
-                                }, style: .image(imageName: "camara")).scaleEffect(0.7)
-                                    .padding(.top, 160)
-                                    .padding(.bottom, 40)
-                            )
                             Text("¿Perteneces a un pueblo originario?")
                                 .foregroundColor(Color.verdeBosque)
                                 .bold()
                                 .padding(.top, 160)
                                 .padding(.bottom, 20)
                         }
-                        
+
                         CustomCheckbox(label: "Si", isChecked: $si)
                             .padding(.leading, -130)
                             .padding(.bottom, 10)
@@ -125,12 +120,15 @@ struct UserInfoRegister: View {
                                 }
                             }
                         
-                        CustomButton(action: {
-                            
-                        }, style: .standard(fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "continuar"))
+                        CustomButton(action: {}, style: .standard(fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "continuar"))
+
                         .frame(width: 300)
                     }
                 )
+        }
+        .sheet(isPresented: $showImagePicker) {
+            ImagePickerComponent(selectImage: $registerData.selectedImage,
+                          availableImages: registerData.availableImages)
         }
     }
 }

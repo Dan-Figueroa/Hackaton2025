@@ -12,9 +12,10 @@ struct AltaForo: View {
     
     var body: some View {
         Rectangle()
-            .frame(width: 800, height: 600)
+            .frame(width: 900, height: 700)
             .foregroundColor(Color.verdeBosque)
             .opacity(0.9)
+            .cornerRadius(30)
             .overlay(
                 VStack(spacing: 10) {
                     HStack {
@@ -38,12 +39,13 @@ struct AltaForo: View {
                         Spacer()
                     }
                     .padding(.top, 10)
+                    
                     HStack {
                         UserViewType(imageName: "perfilInvitado", name: "Meliza Gonzales", style: .horizontal)
-                            .scaleEffect(1.4)
-                            .padding(.leading,160)
+                            .scaleEffect(1.2)
+                            .padding(.leading,150)
                         
-                        Spacer()
+                        //tSpacer()
                     }
 
                     
@@ -72,7 +74,7 @@ struct AltaForo: View {
                         TextEditor(text: $foroData.postContent)
                             .scrollContentBackground(.hidden)
                             .padding()
-                            .frame(width: 720, height: 200)
+                            .frame(width: 720, height: 250)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
                                     .stroke(Color.beige, lineWidth: 1)

@@ -95,6 +95,8 @@ struct RegisterView: View {
                         UserInfoRegister()
                         .environmentObject(AppData())
                         .presentationBackground(.clear)
+                        .interactiveDismissDisabled(true)
+
                     }
                 )
         }

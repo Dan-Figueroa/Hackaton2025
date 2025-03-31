@@ -11,6 +11,7 @@ struct CustomTextField: View {
     enum FieldType {
         case normal
         case secure
+        case textEditor
     }
     
     let title: String
@@ -23,6 +24,9 @@ struct CustomTextField: View {
     var cornerRadius: CGFloat = 5
     var borderColor: Color
     var borderWidth: CGFloat = 3
+    var height: CGFloat = 70 // Solo usado para textEditor
+    
+    @FocusState private var isFocused: Bool
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -35,6 +39,20 @@ struct CustomTextField: View {
                     TextField(placeholder, text: $text)
                 case .secure:
                     SecureField(placeholder, text: $text)
+                case .textEditor:
+                    ZStack(alignment: .topLeading) {
+                        TextEditor(text: $text)
+                            .focused($isFocused)
+                            .scrollContentBackground(.hidden)
+                            .frame(height: height)
+                        
+                        if text.isEmpty && !isFocused {
+                            Text(placeholder)
+                                .foregroundColor(foregroundColor.opacity(0.5))
+                                .padding(.top, 8)
+                                .padding(.leading, 4)
+                        }
+                    }
                 }
             }
             .textFieldStyle(.plain)
@@ -48,6 +66,10 @@ struct CustomTextField: View {
             )
             .font(.headline)
             .foregroundColor(foregroundColor)
+            .onAppear {
+                // Configuración para TextEditor
+                UITextView.appearance().backgroundColor = .clear
+            }
         }
     }
 }
