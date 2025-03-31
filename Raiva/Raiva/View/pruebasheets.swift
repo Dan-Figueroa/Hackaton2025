@@ -29,12 +29,14 @@ struct pruebasheets: View {
                 .environmentObject(AppData())
                 .presentationBackground(.clear)
                 .interactiveDismissDisabled(true)
+
         }
         .sheet(isPresented: $showSheet2) {
             RegisterView()
                 .environmentObject(AppData())
                 .presentationBackground(.clear)
                 .interactiveDismissDisabled(true)
+
         }
     }
 }

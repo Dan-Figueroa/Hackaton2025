@@ -57,15 +57,13 @@ struct UserInfoRegister: View {
                             }
                             .padding(.top, 160)
                             .padding(.bottom, 40)
-                            
                             Text("¿Perteneces a un pueblo originario?")
                                 .foregroundColor(Color.verdeBosque)
                                 .bold()
                                 .padding(.top, 160)
                                 .padding(.bottom, 20)
                         }
-                        
-                     
+
                         CustomCheckbox(label: "Si", isChecked: $si)
                             .padding(.leading, -130)
                             .padding(.bottom, 10)
@@ -123,6 +121,7 @@ struct UserInfoRegister: View {
                             }
                         
                         CustomButton(action: {}, style: .standard(fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "continuar"))
+
                         .frame(width: 300)
                     }
                 )
