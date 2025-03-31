@@ -13,7 +13,7 @@ struct InformateView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            Background()
+            Background(imageName: "fondo")
             
             VStack {
                 RaivaLogo(size: .large)

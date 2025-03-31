@@ -15,7 +15,7 @@ struct ForoView: View {
     
     var body: some View {
         ZStack(alignment: .topLeading) {
-            Background()
+            Background(imageName: "fondo")
                 .ignoresSafeArea()
                 .onTapGesture {
                     if showComunidades {

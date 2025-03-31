@@ -7,10 +7,11 @@
 
 import SwiftUI
 
-struct Background: View { // RaivaBackground with logo
+struct Background: View {
+    var imageName: String
     var body: some View {
         ZStack{
-            Image("fondo")
+            Image(imageName)
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
@@ -20,5 +21,5 @@ struct Background: View { // RaivaBackground with logo
 }
 
 #Preview {
-    Background()
+    Background(imageName: "fondo")
 }
