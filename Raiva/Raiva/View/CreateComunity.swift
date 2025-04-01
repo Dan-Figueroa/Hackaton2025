@@ -101,6 +101,7 @@ struct CreateComunity: View {
                             communityProfileImage: createComunnityVM.selectImage,
                             communityOwner: CurrentUser.shared.id)
                     )
+                    showCreateComunity.toggle()
                 }, style: .standard(fontColor: .arena, backgroundColor: .verdeBosque.opacity(0.8), buttonName: "Publicar"))
                 .frame(width: 200)
                 .frame(maxWidth: .infinity, alignment: .trailing)

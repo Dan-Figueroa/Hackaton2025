@@ -108,7 +108,8 @@ class UserService{
                 }
                 
                 for (_, userData) in value {
-                    guard let userName = userData["userName"] as? String,
+                    guard let id = userData["id"] as? String,
+                          let userName = userData["userName"] as? String,
                           let profilePicture = userData["profilePicture"] as? String,
                           let etnia = userData["etnia"] as? String else {
                         print("Error al parsear los datos del usuario")
@@ -117,7 +118,7 @@ class UserService{
                     }
                     
                     
-                    let user = User(id: userName, userName: userName, profilePicture: profilePicture, etnia: etnia)
+                    let user = User(id: id, userName: userName, profilePicture: profilePicture, etnia: etnia)
                     continuation.resume(returning: user)
                     return
                 }
