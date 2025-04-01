@@ -25,7 +25,6 @@ struct ForoView: View {
                         }
                     }
                 }
-            
             HStack(spacing: 40) {
                 VStack(alignment: .leading, spacing: 110) {
                     Button {
@@ -47,7 +46,7 @@ struct ForoView: View {
                     
                     if showCreateCommunity {
                         CreateComunity(showCreateComunity: $showCreateCommunity)
-                            .frame(width: 880, height: 809)
+                            .frame(width: 860, height: 809)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .transition(.asymmetric(
                                 insertion: .opacity.combined(with: .scale(scale: 0.95)),
@@ -63,7 +62,6 @@ struct ForoView: View {
                 .animation(.spring(duration: 0.4, bounce: 0.1), value: showCreateCommunity)
                 .zIndex(1)
             }
-            
             if showComunidades {
                 MisComunidadesView(isPresented: $showComunidades)
                     .offset(x: 300, y: 140)

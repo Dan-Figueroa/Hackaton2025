@@ -12,7 +12,7 @@ struct InstruccionesView: View {
     
     var body: some View {
         ZStack(alignment: .center) {
-            Background(imageName: "fondoPE")
+            Background(imageName: "fondoPES")
 
             Rectangle()
                 .frame(width: 1100, height: 750)
@@ -40,30 +40,29 @@ struct InstruccionesView: View {
             .offset(y: -300)
             
             VStack(alignment: .leading, spacing: 20){
-                Text("•Jugadores: ").bold() + Text("2-4 jugadores")
+                Text("•Jugadores: ").bold() + Text("2 jugadores.")
               
-                Text("•Objetivo: ").bold() + Text("Responder preguntas para subir el palo. Gana quien acierte primero el mayor número de preguntas de 5.")
+                Text("•Objetivo: ").bold() + Text("Responder preguntas para subir el palo. Gana quien acierte primero el mayor número de preguntas de 5")
                 
-                (Text("•Como jugar: ").bold() +
+                (Text("•Cómo jugar: ").bold() +
                            Text("""
                                
-                                    1. Presiona jugar.
+                                    1. Presiona "Jugar".
                                     2. Aparecerá una pregunta sobre pueblos originarios de Chiapas.
                                     3. Toca la respuesta correcta antes que tu oponente.
                                     4. Acierto: Subes en el palo.
                                     5. Error: Te quedas en el mismo lugar.
                                """))
                            
-                Text("•Fin de Juego: ").bold() + Text("Quien acierte el mayor número de 5 preguntas, gana.")
+                Text("•Fin del juego: ").bold() + Text("Quien acierte el mayor número de 5 preguntas, gana.")
                        }
                        .font(.system(size: 32))
                        .foregroundColor(.beige)
                        .multilineTextAlignment(.leading)
                        .fixedSize(horizontal: false, vertical: true)
-                       .frame(maxWidth: 700, alignment: .leading)
-                       .padding(.leading, 350)
-                       .padding(.trailing, 40)
-                       .padding(.top, 50)
+                       .frame(width: 1000, height: 800)
+                       .padding(.leading,100)
+                       
         }
     }
 }

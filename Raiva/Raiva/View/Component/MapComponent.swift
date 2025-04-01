@@ -29,7 +29,7 @@ enum MapaType{
     func getMapaType() -> String {
         switch self {
         case .points:
-            return "Mapa"
+            return "mapa"
         case .noPointed:
             return "mapaBlanco"
         }
