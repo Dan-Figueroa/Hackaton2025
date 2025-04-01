@@ -12,10 +12,11 @@ struct ForoView: View {
     @State private var selectedButton: String = "INICIO"
     @State private var showComunidades = false
     @State private var isPresented: Bool = false
+    @State private var showCreateCommunity = false
     
     var body: some View {
         ZStack(alignment: .topLeading) {
-            Background()
+            Background(imageName: "fondo")
                 .ignoresSafeArea()
                 .onTapGesture {
                     if showComunidades {
@@ -25,20 +26,43 @@ struct ForoView: View {
                     }
                 }
             
-            VStack(alignment: .leading, spacing: 110) {
-                Button {
-                    selectedSideMenuTab = 0
-                } label: {
-                    RaivaLogo(size: .medium)
-                        .frame(maxWidth: .infinity, alignment: .center)
+            HStack(spacing: 40) {
+                VStack(alignment: .leading, spacing: 110) {
+                    Button {
+                        selectedSideMenuTab = 0
+                    } label: {
+                        RaivaLogo(size: .medium)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
+                    .padding(.top, -10)
+                    
+                    SideMenuButtonsComponent(selectedButton: $selectedButton, showComunidadesSheet: $showComunidades)
                 }
-                .padding(.top, -10)
+                .frame(width: 270, height: 809, alignment: .leading)
+                .background(Color.verdeBosque.opacity(0.8))
+                .edgesIgnoringSafeArea(.vertical)
                 
-                SideMenuButtonsComponent(selectedButton: $selectedButton, showComunidadesSheet: $showComunidades)
+                ZStack {
+                    Color.clear
+                    
+                    if showCreateCommunity {
+                        CreateComunity(showCreateComunity: $showCreateCommunity)
+                            .frame(width: 880, height: 809)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .transition(.asymmetric(
+                                insertion: .opacity.combined(with: .scale(scale: 0.95)),
+                                removal: .opacity
+                            ))
+                    } else {
+                        InicioView(showCreateComunity: $showCreateCommunity)
+                            .frame(width: 880, height: 809)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .transition(.opacity)
+                    }
+                }
+                .animation(.spring(duration: 0.4, bounce: 0.1), value: showCreateCommunity)
+                .zIndex(1)
             }
-            .frame(width: 270, height: 809, alignment: .leading)
-            .background(Color.verdeBosque.opacity(0.8))
-            .edgesIgnoringSafeArea(.vertical)
             
             if showComunidades {
                 MisComunidadesView(isPresented: $showComunidades)
@@ -59,7 +83,6 @@ struct ForoView: View {
         }
     }
 }
-
 #Preview {
     ForoView(
         presentSideMenu: .constant(false),

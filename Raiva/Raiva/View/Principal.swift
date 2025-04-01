@@ -15,7 +15,7 @@ struct Principal: View {
 
     var body: some View {
         ZStack {
-            Background()
+            Background(imageName: "fondo")
                 .ignoresSafeArea()
             ZStack(alignment: .top) {
                 VStack {
