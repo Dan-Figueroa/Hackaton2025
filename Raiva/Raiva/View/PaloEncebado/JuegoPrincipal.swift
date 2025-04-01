@@ -34,12 +34,15 @@ struct JuegoPrincipal: View {
                     Image("paloEncebado")
                         .scaleEffect(1.5)
                 }
+                
                 Spacer()
+                
+                buttons
             }
             personLeftCard
             personRightCard
          
-            HStack {
+            /*HStack {
                
                 Button(action: {
                     juegoVM.subirIzquierdo()
@@ -72,11 +75,11 @@ struct JuegoPrincipal: View {
                 }
                 .padding(.top, 20)
                 Spacer()
-            }
+            }*/
         }
     }
 
-    struct ControlButton: View {
+    /*struct ControlButton: View {
         let systemName: String
         let color: Color
         
@@ -87,7 +90,7 @@ struct JuegoPrincipal: View {
                 .background(Circle().fill(color).shadow(radius: 5))
                 .padding()
         }
-    }
+    }*/
     
     private var playerCard: some View {
         ZStack {
@@ -148,6 +151,22 @@ struct JuegoPrincipal: View {
             .scaleEffect(1.2)
             .offset(x: 260, y: CGFloat(juegoVM.rightMoveY))
             .animation(.easeOut(duration: 0.8), value: juegoVM.rightMoveY)
+    }
+    
+    private var buttons: some View{
+        HStack (spacing: 40){
+            CustomButton(action: {
+                
+            }, style: .image(imageName: "music"))
+            
+            CustomButton(action: {
+                
+            }, style: .image(imageName: "back"))
+            
+            CustomButton(action: {
+                
+            }, style: .image(imageName: "exit"))
+        }
     }
 }
 

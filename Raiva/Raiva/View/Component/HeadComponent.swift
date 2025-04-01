@@ -26,7 +26,7 @@ struct HeadComponent: View {
                 Image("crear")
                     .resizable()
                     .frame(width: 40, height: 40)
-                CustomButton(action: createAction,  // ← Aquí está el cambio importante
+                CustomButton(action: createAction,
                            style: .standard(fontColor: .beige,
                                          backgroundColor: .clear,
                                          buttonName: "Crear"))
