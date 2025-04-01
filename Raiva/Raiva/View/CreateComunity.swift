@@ -8,8 +8,8 @@ import SwiftUI
 
 struct CreateComunity: View {
     @StateObject private var createComunnityVM = CreateComunnityViewModel()
-
     @State private var showImagePicker = false
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         ZStack {
             Rectangle()
@@ -105,7 +105,7 @@ struct CreateComunity: View {
             .padding(.top, 330)
 
             CustomButton(action: {
-                
+                dismiss()
             }, style: .image(imageName: "x"))
                 .scaleEffect(0.8)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -121,4 +121,5 @@ struct CreateComunity: View {
 
 #Preview {
     CreateComunity()
+        
 }

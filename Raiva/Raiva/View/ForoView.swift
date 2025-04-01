@@ -25,20 +25,26 @@ struct ForoView: View {
                     }
                 }
             
-            VStack(alignment: .leading, spacing: 110) {
-                Button {
-                    selectedSideMenuTab = 0
-                } label: {
-                    RaivaLogo(size: .medium)
-                        .frame(maxWidth: .infinity, alignment: .center)
+            HStack(spacing: 40) {
+                VStack(alignment: .leading, spacing: 110) {
+                    Button {
+                        selectedSideMenuTab = 0
+                    } label: {
+                        RaivaLogo(size: .medium)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
+                    .padding(.top, -10)
+                    
+                    SideMenuButtonsComponent(selectedButton: $selectedButton, showComunidadesSheet: $showComunidades)
                 }
-                .padding(.top, -10)
+                .frame(width: 270, height: 809, alignment: .leading)
+                .background(Color.verdeBosque.opacity(0.8))
+                .edgesIgnoringSafeArea(.vertical)
                 
-                SideMenuButtonsComponent(selectedButton: $selectedButton, showComunidadesSheet: $showComunidades)
+                InicioView()
+                    .frame(width: 880, height: 809)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
             }
-            .frame(width: 270, height: 809, alignment: .leading)
-            .background(Color.verdeBosque.opacity(0.8))
-            .edgesIgnoringSafeArea(.vertical)
             
             if showComunidades {
                 MisComunidadesView(isPresented: $showComunidades)
