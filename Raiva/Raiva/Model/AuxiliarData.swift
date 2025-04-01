@@ -15,8 +15,18 @@ let communityData: Community = .init(
     communityOwner: "OMVx_zLKidSzuepp_pr"
 )
 
+let commetData: Comment = .init(
+    userID: "OMVx_zLKidSzuepp_pr",
+    forumID: "OMW4skWByxPqa8hpbAP",
+    title: "Place Holder", 
+    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+)
 
-let userData: User = .init(userName: "Jesus Ortega A.", profilePicture: "raiva", etnia: EtniasEnum.chol.rawValue)
+let userData: User = .init(
+    userName: "Jesus Ortega A.",
+    profilePicture: "logo",
+    etnia: EtniasEnum.chol.rawValue
+)
 
 let forumData: Forum = .init(
     userID: "OMVx_zLKidSzuepp_pr",
