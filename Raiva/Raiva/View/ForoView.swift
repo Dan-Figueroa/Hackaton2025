@@ -12,6 +12,7 @@ struct ForoView: View {
     @State private var selectedButton: String = "INICIO"
     @State private var showComunidades = false
     @State private var isPresented: Bool = false
+    @State private var showCreateCommunity = false
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -41,9 +42,26 @@ struct ForoView: View {
                 .background(Color.verdeBosque.opacity(0.8))
                 .edgesIgnoringSafeArea(.vertical)
                 
-                InicioView()
-                    .frame(width: 880, height: 809)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                ZStack {
+                    Color.clear
+                    
+                    if showCreateCommunity {
+                        CreateComunity(showCreateComunity: $showCreateCommunity)
+                            .frame(width: 880, height: 809)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .transition(.asymmetric(
+                                insertion: .opacity.combined(with: .scale(scale: 0.95)),
+                                removal: .opacity
+                            ))
+                    } else {
+                        InicioView(showCreateComunity: $showCreateCommunity)
+                            .frame(width: 880, height: 809)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .transition(.opacity)
+                    }
+                }
+                .animation(.spring(duration: 0.4, bounce: 0.1), value: showCreateCommunity)
+                .zIndex(1)
             }
             
             if showComunidades {
@@ -65,7 +83,6 @@ struct ForoView: View {
         }
     }
 }
-
 #Preview {
     ForoView(
         presentSideMenu: .constant(false),

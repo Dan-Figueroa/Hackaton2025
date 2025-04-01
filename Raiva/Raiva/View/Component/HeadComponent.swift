@@ -26,9 +26,10 @@ struct HeadComponent: View {
                 Image("crear")
                     .resizable()
                     .frame(width: 40, height: 40)
-                CustomButton(action: {
-                    
-                }, style: .standard(fontColor: .beige, backgroundColor:.clear, buttonName: "Crear"))
+                CustomButton(action: createAction,  // ← Aquí está el cambio importante
+                           style: .standard(fontColor: .beige,
+                                         backgroundColor: .clear,
+                                         buttonName: "Crear"))
                 .frame(width: 77, height:40)
                 
             }.frame(width: 130, height:50 )
@@ -41,7 +42,6 @@ struct HeadComponent: View {
         .frame(height: 60)
     }
 }
-
 #Preview {
     HeadComponent(
         filterAction: {

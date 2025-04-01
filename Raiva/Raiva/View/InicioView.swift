@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct InicioView: View {
-    @State private var showCreateComunity = false
+    @Binding var showCreateComunity: Bool
+    
     var body: some View {
         VStack {
-            
             HeadComponent(
                 filterAction: {
                     print("Filtrar presionado")
                 },
                 createAction: {
-                    showCreateComunity.toggle()
+                    showCreateComunity = true
                 }
             )
             .padding(.top, 30)
@@ -35,19 +35,12 @@ struct InicioView: View {
                 .padding()
             }
         }
-        if showCreateComunity {
-            Color.black.opacity(0.5)
-            .edgesIgnoringSafeArea(.all)
-            .onTapGesture {
-                showCreateComunity = false
-            }
-            CreateComunity()
-            .transition(.scale.combined(with: .opacity))
-            .zIndex(1)
-        }
     }
 }
-
 #Preview {
-    InicioView()
+    ForoView(
+        presentSideMenu: .constant(false),
+        selectedSideMenuTab: .constant(1)
+    )
+    .environmentObject(AppData())
 }
