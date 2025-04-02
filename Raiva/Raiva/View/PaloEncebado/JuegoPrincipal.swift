@@ -4,45 +4,62 @@
 //
 //  Created by Dan Figueroa on 01/04/25.
 //
-
 import SwiftUI
 
 struct JuegoPrincipal: View {
     @StateObject private var juegoVM = JuegoPrincipalViewModel()
-    
+    @Environment(\.dismiss) var dismiss
+    @State private var mostrarEmpecemos = true 
     var body: some View {
-        ZStack(alignment: .center) {
-            Background(imageName: "fondoPES")
-            
-            VStack {
-                HStack(spacing: 40) {
-                    Image("logoPE")
-                        .resizable()
-                        .frame(width: 250, height: 100)
-                        .padding(.leading, -120)
+        ZStack {
+          
+            ZStack(alignment: .center) {
+                Background(imageName: "fondoPES")
                 
-                    playerCard
-                    coinsCard
-                    scoreCard
-                }
-                .padding(.bottom, 100)
-                
-                HStack(spacing: 400) {
-                    Image("paloEncebado")
-                        .scaleEffect(1.5)
+                VStack {
+                    HStack(spacing: 40) {
+                        Image("logoPE")
+                            .resizable()
+                            .frame(width: 250, height: 100)
+                            .padding(.leading, -120)
                     
-                    Image("paloEncebado")
-                        .scaleEffect(1.5)
+                        playerCard
+                        coinsCard
+                        scoreCard
+                    }
+                    .padding(.bottom, 100)
+                    
+                    HStack(spacing: 400) {
+                        Image("paloEncebado")
+                            .scaleEffect(1.5)
+                        
+                        Image("paloEncebado")
+                            .scaleEffect(1.5)
+                    }
+                    
+                    Spacer()
+                    
+                    buttons
                 }
-                
-                Spacer()
-                
-                buttons
+                personLeftCard
+                personRightCard
             }
-            personLeftCard
-            personRightCard
-         
-            HStack {
+            .disabled(mostrarEmpecemos)
+            if mostrarEmpecemos {
+                Empecemos()
+                    .transition(.opacity)
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                            withAnimation {
+                                mostrarEmpecemos = false
+                            }
+                        }
+                    }
+                    .zIndex(1)
+            }
+        }
+    }
+            /*HStack {
                
                 Button(action: {
                     juegoVM.subirIzquierdo()
@@ -59,25 +76,8 @@ struct JuegoPrincipal: View {
             }
             .padding(.horizontal, 40)
             .frame(maxHeight: .infinity, alignment: .bottom)
-            .padding(.bottom, 50)
-            
-       
-            VStack {
-                Button(action: {
-                    juegoVM.reiniciarPosiciones()
-                    juegoVM.reiniciarScores()
-                }) {
-                    Text("Reiniciar")
-                        .font(.custom("Gagalin", size: 20))
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Capsule().fill(Color.gray))
-                }
-                .padding(.top, 20)
-                Spacer()
-            }
-        }
-    }
+            .padding(.bottom, 50)*/
+    
 
     struct ControlButton: View {
         let systemName: String
@@ -160,11 +160,12 @@ struct JuegoPrincipal: View {
             }, style: .image(imageName: "music"))
             
             CustomButton(action: {
-                
+                juegoVM.reiniciarPosiciones()
+                juegoVM.reiniciarScores()
             }, style: .image(imageName: "back"))
             
             CustomButton(action: {
-                
+                dismiss()
             }, style: .image(imageName: "exit"))
         }.padding(.leading,-20)
     }

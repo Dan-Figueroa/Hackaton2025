@@ -9,6 +9,7 @@ import SwiftUI
 
 struct InstruccionesView: View {
     @Binding var presentSideMenu: Bool
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack(alignment: .center) {
@@ -21,7 +22,7 @@ struct InstruccionesView: View {
             
             HStack {
                 CustomButton(action: {
-                    presentSideMenu.toggle()
+                    dismiss()
                 }, style: .image(imageName: "regresar"))
                 .padding(.leading, -23)
                 Spacer()

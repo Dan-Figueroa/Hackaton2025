@@ -22,14 +22,14 @@ struct JuegoView: View {
                 
             }, style: .image(imageName: "Sonido1"))
             .scaleEffect(0.8)
+            .padding(.leading, 1100)
             
             VStack {
                 Image("logoPE").resizable()
                     .frame(width: 700, height: 300)
                 
-                VStack(spacing: 10) {
+                VStack(spacing: 60) {
                     ZStack {
-                       
                         CustomButton(action: {
                             mostrarInstrucciones = true
                         }, style: .image(imageName: "instrucciones"))

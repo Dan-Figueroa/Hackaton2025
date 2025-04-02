@@ -7,62 +7,71 @@
 import SwiftUI
 
 struct Questions: View {
-    @State private var tiempoRestante: CGFloat = 10
-    @State private var tiempoTotal: CGFloat = 10
-    @State private var timer: Timer?
-    @State private var estaActivo = false
+    @StateObject private var timerVM = TimerViewModel(tiempoTotal: 10)
+    @StateObject private var questionVM = QuestionViewModel()
     
     var body: some View {
         ZStack(alignment: .center) {
+
             CardContainer(width: 700, height: 500, color: .arena)
             
-         
+            
             CardContainer(width: 660, height: 450, color: .beige, strokeColor: .brown) {
                 VStack(spacing: 10) {
-                   
+                    
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 5)
-                            .frame(width: 560, height: 20)
+                            .frame(width: 560, height: 30)
                             .foregroundColor(Color.gray.opacity(0.3))
                         
                         RoundedRectangle(cornerRadius: 5)
-                            .frame(width: 560 * (tiempoRestante / tiempoTotal), height: 20)
+                            .frame(width: 560 * (timerVM.tiempoRestante / timerVM.tiempoTotal), height: 30)
                             .foregroundColor(tiempoColor)
-                            .animation(.linear, value: tiempoRestante)
+                            .animation(.linear, value: timerVM.tiempoRestante)
+                        
+                        Text("\(Int(timerVM.tiempoRestante))s")
+                            .frame(width: 560, alignment: .center)
+                            .font(.custom("Gagalin", size: 20))
+                            .foregroundColor(.black)
                     }
+                    .padding(.bottom, 80)
                     .padding(.top, 10)
-
-                    Text("¡Pon a prueba tus conocimientos y sube hasta la cima del Palo Ensebado! 🌿")
+                 
+                    
+                    Text(questionVM.preguntaActual.texto)
                         .frame(width: 560)
                         .font(.custom("Gagalin", size: 25))
                         .multilineTextAlignment(.center)
+                        .padding(.bottom, 60)
                     
-                    HStack {
-                        Text("\(Int(tiempoRestante))s")
-                            .font(.custom("Gagalin", size: 20))
-                            .foregroundColor(.black)
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            estaActivo.toggle()
-                            estaActivo ? iniciarCronometro() : pausarCronometro()
-                        }) {
-                            Image(systemName: estaActivo ? "pause.fill" : "play.fill")
-                                .font(.system(size: 20))
+                    
+                    HStack(spacing: 20) {
+                        ForEach(0..<questionVM.preguntaActual.opciones.count, id: \.self) { index in
+                            CustomButton(
+                                action: {
+                                    questionVM.verificarRespuesta(opcionSeleccionada: index)
+                                },
+                                style: .standard(
+                                    fontColor: .blanco,
+                                    backgroundColor: colorParaOpcion(index: index),
+                                    buttonName: questionVM.preguntaActual.opciones[index]
+                                )
+                            )
+                            .frame(width: 180, height: 50)
                         }
                     }
-                    .frame(width: 560)
-                    .padding(.bottom, 10)
                 }
+                .padding(.horizontal, 20)
             }
-        
+            
+           
             VStack {
                 CardContainer(width: 400, height: 60, color: .arena)
                 Spacer().frame(height: 95)
             }
             .offset(y: -190)
             
+           
             CardContainer(width: 360, height: 40, color: .beige, strokeColor: .brown) {
                 HStack(spacing: 80) {
                     GrayRectangle()
@@ -75,37 +84,34 @@ struct Questions: View {
         }
         .frame(height: 170)
         .onAppear {
-            iniciarCronometro()
+            timerVM.iniciar()
         }
         .onDisappear {
-            detenerCronometro()
+            timerVM.detener()
         }
+    }
+    
+    private func colorParaOpcion(index: Int) -> Color {
+        guard questionVM.esCorrecto != nil else { return .yellow }
+        
+        if index == questionVM.preguntaActual.respuestaCorrecta {
+            return .green
+        } else if index == questionVM.respuestaSeleccionada {
+            return .red
+        }
+        return .yellow
     }
     
     private var tiempoColor: Color {
-        let porcentaje = tiempoRestante / tiempoTotal
+        let porcentaje = timerVM.tiempoRestante / timerVM.tiempoTotal
         switch porcentaje {
         case 0..<0.3: return .red
-        case 0.2..<0.6: return .orange
+        case 0.3..<0.6: return .orange
         default: return .green
         }
     }
-
-    private func iniciarCronometro() {
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            if tiempoRestante > 0 {
-                tiempoRestante -= 1
-            } else {
-                detenerCronometro()
-            }
-        }
-    }
     
-    private func pausarCronometro() { timer?.invalidate() }
-    private func detenerCronometro() { timer?.invalidate(); estaActivo = false }
-    private func reiniciarCronometro() { detenerCronometro(); tiempoRestante = tiempoTotal }
-   
+    
     private func CardContainer(
         width: CGFloat,
         height: CGFloat,
