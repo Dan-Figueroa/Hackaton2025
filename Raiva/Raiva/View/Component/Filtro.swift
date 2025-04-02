@@ -15,7 +15,7 @@ struct Filtro: View {
     
     var body: some View {
         Rectangle()
-            .frame(width: 300, height: 300)
+            .frame(width: 280, height: 150)
             .cornerRadius(30)
             .foregroundColor(.beige)
             .overlay(
@@ -28,7 +28,7 @@ struct Filtro: View {
                                 onSeleccion(opcion)
                             }) {
                                 Text(opcion)
-                                    .font(.custom("Gagalin", size: 30))
+                                    .font(.custom("Gagalin", size: 20))
                                     .frame(maxWidth: .infinity, minHeight: 44)
                                     .padding(.horizontal, 16)
                                     .padding(.bottom,5)
@@ -40,7 +40,7 @@ struct Filtro: View {
                     }
                     .padding(20)
                 }
-                .frame(width: 280, height: 280)
+                .frame(width: 200, height: 140)
             )
     }
 }

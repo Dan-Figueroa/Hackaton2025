@@ -4,7 +4,6 @@
 //
 //  Created by Dan Figueroa on 28/03/25.
 //
-
 import SwiftUI
 
 struct MisComunidadesView: View {
@@ -12,7 +11,9 @@ struct MisComunidadesView: View {
     @State private var showTwoColumns = false
     @State private var showComponent = false
     @State private var arrowImageName: String = "flecha"
-   
+    @StateObject private var filtroViewModel = FiltroViewModel()
+    
+    let opcionesFiltro = ["Todas", "Más recientes"]
     let communities = Array(repeating: (name: "Comunidad Ejemplo", icon: "perfilInvitado"), count: 6)
     
     var dynamicWidth: CGFloat {
@@ -32,14 +33,8 @@ struct MisComunidadesView: View {
             VStack(spacing: 0) {
                 ZStack {
                     HStack {
-                        CustomButton(action: {
-                            withAnimation {
-                                isPresented = false
-                            }
-                        }, style: .image(imageName: "filtrar"))
-          
+                        CustomButton(action: filtroViewModel.toggleFilter, style: .image(imageName: "filtrar"))
                         Spacer()
-                        
                         CustomButton(action: {
                             withAnimation(.spring()) {
                                 showComponent.toggle()
@@ -51,7 +46,6 @@ struct MisComunidadesView: View {
                     .padding(.top, 16)
                     .padding(.bottom, 12)
                     
-
                     if showComponent {
                         SearchBarComponent()
                             .scaleEffect(0.7)
@@ -59,7 +53,7 @@ struct MisComunidadesView: View {
                             .transition(.opacity)
                     }
                 }
-                .frame(height: 90) 
+                .frame(height: 90)
                 
                 ScrollView {
                     if showTwoColumns {
@@ -67,7 +61,7 @@ struct MisComunidadesView: View {
                             columns: [GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20)],
                             spacing: 20
                         ) {
-                            ForEach(communities.indices, id: \.self) { index in
+                            ForEach(communities.indices, id: \ .self) { index in
                                 CommunityForumComponent(
                                     communityName: communities[index].name,
                                     communityIcon: communities[index].icon
@@ -80,7 +74,7 @@ struct MisComunidadesView: View {
                         .padding(.horizontal, 16)
                     } else {
                         VStack(alignment: .leading, spacing: 16) {
-                            ForEach(communities.indices, id: \.self) { index in
+                            ForEach(communities.indices, id: \ .self) { index in
                                 CommunityForumComponent(
                                     communityName: communities[index].name,
                                     communityIcon: communities[index].icon
@@ -96,6 +90,13 @@ struct MisComunidadesView: View {
             .frame(width: dynamicWidth, height: 600)
             .background(Color.verdeBosque)
             .animation(.easeInOut, value: showTwoColumns)
+            
+            FiltroOverlay(
+                viewModel: filtroViewModel,
+                opciones: opcionesFiltro,
+                onSeleccion: { print("Filtro aplicado: \($0)") },
+                offsetX: 10, offsetY: -150
+            )
         }
     }
 }
