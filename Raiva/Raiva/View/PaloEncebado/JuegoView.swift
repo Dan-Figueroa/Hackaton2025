@@ -4,7 +4,6 @@
 //
 //  Created by Dan Figueroa on 18/03/25.
 //
-
 import SwiftUI
 
 struct JuegoView: View {
@@ -53,3 +52,4 @@ struct JuegoView: View {
         presentSideMenu: .constant(false))
     .environmentObject(AppData())
 }
+
