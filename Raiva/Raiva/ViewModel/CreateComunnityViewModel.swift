@@ -15,4 +15,16 @@ class CreateComunnityViewModel: ObservableObject {
         "perfilInvitado", "chol", "festividadChol", "chuj", "mam",
         "qanjobal", "tojolabal", "tsotsil", "tseltal", "zoque"
     ]
+    
+    
+    private var communityService = CommunityService()
+    
+    func crearComunidad(comunidad: Community){
+        communityService.guardarComunidad(comunidad: comunidad)
+    }
+    
+    func returnComunity(communityName: String, communityDescription: String,communityProfileImage: String, communityOwner: String) -> Community{
+        let community: Community = Community(communityName: communityName, communityDescription: communityDescription, communityProfileImage: communityProfileImage, communityPortraitImage: communityProfileImage, communityOwner: communityOwner)
+        return community
+    }
 }

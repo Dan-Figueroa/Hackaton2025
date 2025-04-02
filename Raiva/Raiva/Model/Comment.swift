@@ -13,6 +13,4 @@ struct Comment: Codable, Hashable{
     var forumID: String
     var title: String
     var body: String
-    
-    
 }

@@ -10,6 +10,7 @@ import Combine
 
 class ForumViewModel: ObservableObject {
     @Published var users: [User] = []
+    @Published var forums: [Forum] = []
     @Published var errorMessage: String?
     @Published var user: User?
     
@@ -22,37 +23,42 @@ class ForumViewModel: ObservableObject {
     
     init(connection: FirebaseConnectable = FirebaseConnection.shared) {
         self.connection = connection
-        cargarUsuariosEnTiempoReal()
-    }
-
-    func cargarUsuariosUnaVez() {
-            Task {
-                do {
-                    let fetchedUsuarios = try await userService.obtenerTodosLosUsuarios()
-                    await MainActor.run {
-                        self.users = fetchedUsuarios
-                    }
-                } catch {
-                    print("Error al cargar usuarios: \(error)")
-                }
-            }
-        }
-    func cargarUsuariosEnTiempoReal() {
-            userService.observarUsuariosEnTiempoReal { [weak self] usuarios in
-                DispatchQueue.main.async {
-                    self?.users = usuarios
-                }
-            }
-        }
-    func agregarUsuario(user: User) {
-            userService.guardarUsuario(usuario: user)
-        }
-    func crearForo(userID: String, foro: Forum){
-        forumService.guardarForo(forum: foro)
+        cargarForosEnTiempoReal()
     }
     
-    func crearComunidad(ownerID: String, comunidad: Community){
-        communityService.guardarComunidad(comunidad: comunidad)
+    func cargarForosEnTiempoReal(){
+        forumService.observarForosEnTiempoReal{ [weak self] foros in
+            DispatchQueue.main.async{
+                self?.forums = foros
+            }
+        }
+    }
+    
+    func cargarForosOnce(){
+        Task{
+            do{
+                let fetchedForos = try await forumService.obtenerTodosLosForos()
+                await MainActor.run{
+                    self.forums = fetchedForos
+                }
+            }catch{
+                print("Error de cargar usuarios: \(error)")
+            }
+        }
+    }
+    
+    func cargarUsuariosEnTiempoReal() {
+        userService.observarUsuariosEnTiempoReal { [weak self] usuarios in
+            DispatchQueue.main.async {
+                self?.users = usuarios
+            }
+        }
+    }
+    func agregarUsuario(user: User) {
+        userService.guardarUsuario(usuario: user)
+    }
+    func crearForo(userID: String, foro: Forum){
+        forumService.guardarForo(forum: foro)
     }
     
     func getUsuarioPorUserName(userName: String) {
@@ -70,5 +76,5 @@ class ForumViewModel: ObservableObject {
             }
         }
     }
-
+    
 }

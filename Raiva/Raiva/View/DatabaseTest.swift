@@ -36,7 +36,7 @@ struct DatabaseTest: View {
             .padding(.top)
         }
         .refreshable {
-            viewModel.cargarUsuariosUnaVez()
+            viewModel.cargarUsuariosEnTiempoReal()
         }
     }
 }

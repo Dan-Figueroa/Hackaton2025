@@ -13,6 +13,7 @@ final class CurrentUser{
     private var _user: User? // Contenedor del usario actual
     
     var id: String { _user?.id ?? "" }
+    
     var userName: String { _user?.userName ?? "perfilInvitado" }
     
     var profilePicture: String { _user?.profilePicture ?? "profileInvitado" }

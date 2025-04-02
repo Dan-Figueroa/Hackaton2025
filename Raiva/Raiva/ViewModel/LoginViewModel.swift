@@ -36,6 +36,7 @@ class LoginViewModel: ObservableObject {
             await MainActor.run {
                 if let fetchedUser = fetchedUser {
                     self.user = fetchedUser
+                    print("MADAFAAAK\(fetchedUser.id)")
                     CurrentUser.shared.updateUser(user: fetchedUser)
                     errorMessage = nil
                 } else {
