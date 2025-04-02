@@ -9,13 +9,14 @@ import SwiftUI
 
 struct SideMenuButtonsComponent: View {
     @Binding var selectedButton: String
-    @Binding var showComunidadesSheet: Bool
-
+    @Binding var showComunidades: Bool
+    @Binding var showComunidadesView: Bool
+    
     let buttons: [(imageName: String, text: String, action: () -> Void)] = [
         ("inicio", "INICIO", { print("Navegando a la pantalla de inicio") }),
         ("misForos", "MIS FOROS", { print("Mostrando mis foros") }),
         ("misComunidades", "MIS COMUNIDADES", {
-            
+            // Acción manejada en el botón
         }),
         ("popular", "POPULAR", { print("Mostrando contenido popular") }),
         ("comunidades", "COMUNIDADES", { print("Explorando todas las comunidades") })
@@ -36,7 +37,14 @@ struct SideMenuButtonsComponent: View {
                     action: {
                         selectedButton = button.text
                         if button.text == "MIS COMUNIDADES" {
-                            showComunidadesSheet = true
+                            showComunidades = true
+                            showComunidadesView = false
+                        } else if button.text == "COMUNIDADES" {
+                            showComunidadesView = true
+                            showComunidades = false
+                        } else if button.text == "INICIO" {
+                            showComunidadesView = false
+                            showComunidades = false
                         }
                         button.action()
                     },

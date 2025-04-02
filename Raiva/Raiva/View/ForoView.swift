@@ -14,7 +14,8 @@ struct ForoView: View {
     @State private var showComunidades = false
     @State private var isPresented: Bool = false
     @State private var showAltaForo = false
- 
+    @State private var showComunidadesView = false
+    @State private var showCreateComunity = false 
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -27,6 +28,7 @@ struct ForoView: View {
                         }
                     }
                 }
+            
             HStack(spacing: 40) {
                 VStack(alignment: .leading, spacing: 110) {
                     Button {
@@ -37,7 +39,11 @@ struct ForoView: View {
                     }
                     .padding(.top, -10)
                     
-                    SideMenuButtonsComponent(selectedButton: $selectedButton, showComunidadesSheet: $showComunidades)
+                    SideMenuButtonsComponent(
+                        selectedButton: $selectedButton,
+                        showComunidades: $showComunidades,
+                        showComunidadesView: $showComunidadesView
+                    )
                 }
                 .frame(width: 270, height: 809, alignment: .leading)
                 .background(Color.verdeBosque.opacity(0.8))
@@ -54,6 +60,24 @@ struct ForoView: View {
                                 insertion: .opacity.combined(with: .scale(scale: 0.95)),
                                 removal: .opacity
                             ))
+                    } else if showComunidadesView {
+                        if showCreateComunity {
+                            CreateComunity(showCreateComunity: $showCreateComunity)
+                                .frame(width: 880, height: 809)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .transition(.asymmetric(
+                                    insertion: .opacity.combined(with: .scale(scale: 0.95)),
+                                    removal: .opacity
+                                ))
+                        } else {
+                            ComunidadesView(showCreateComunity: $showCreateComunity)
+                                .frame(width: 880, height: 809)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .transition(.asymmetric(
+                                    insertion: .opacity.combined(with: .scale(scale: 0.95)),
+                                    removal: .opacity
+                                ))
+                        }
                     } else {
                         InicioView(showAltaForo: $showAltaForo)
                             .frame(width: 880, height: 809)
@@ -62,13 +86,17 @@ struct ForoView: View {
                     }
                 }
                 .animation(.spring(duration: 0.4, bounce: 0.1), value: showAltaForo)
+                .animation(.spring(duration: 0.4, bounce: 0.1), value: showComunidadesView)
+                .animation(.spring(duration: 0.4, bounce: 0.1), value: showCreateComunity)
                 .zIndex(1)
             }
+            
             if showComunidades {
                 MisComunidadesView(isPresented: $showComunidades)
                     .offset(x: 300, y: 140)
             }
-        }.onAppear{
+        }
+        .onAppear {
             if CurrentUser.shared.isLogged != true {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     isPresented.toggle()
