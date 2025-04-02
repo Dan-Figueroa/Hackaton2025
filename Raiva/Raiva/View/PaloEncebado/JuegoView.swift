@@ -8,6 +8,8 @@ import SwiftUI
 
 struct JuegoView: View {
     @Binding var presentSideMenu: Bool
+    @State private var mostrarJuegoPrincipal = false
+    @State private var mostrarInstrucciones = false
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -21,35 +23,41 @@ struct JuegoView: View {
             }, style: .image(imageName: "Sonido1"))
             .scaleEffect(0.8)
             
-            
-            VStack{
+            VStack {
                 Image("logoPE").resizable()
                     .frame(width: 700, height: 300)
                 
-                VStack(spacing:10) {
+                VStack(spacing: 10) {
                     ZStack {
+                       
                         CustomButton(action: {
-                                
+                            mostrarInstrucciones = true
                         }, style: .image(imageName: "instrucciones"))
-                            .scaleEffect(6)
-                            .offset(y: 100)
+                        .scaleEffect(6)
+                        .offset(y: 100)
                         
                         CustomButton(action: {
-                            
+                            mostrarJuegoPrincipal = true
                         }, style: .image(imageName: "jugar"))
                         .scaleEffect(2.5)
                     }
-                
                 }
-            }.padding(.trailing,-300)
-                .padding(.top, 110)
+            }
+            .padding(.trailing, -300)
+            .padding(.top, 110)
+        
+            .fullScreenCover(isPresented: $mostrarJuegoPrincipal) {
+                JuegoPrincipal()
+            }
+           
+            .fullScreenCover(isPresented: $mostrarInstrucciones) {
+                InstruccionesView(presentSideMenu: .constant(false))
+            }
         }
     }
 }
 
 #Preview {
-    JuegoView(
-        presentSideMenu: .constant(false))
-    .environmentObject(AppData())
+    JuegoView(presentSideMenu: .constant(false))
+        .environmentObject(AppData())
 }
-
