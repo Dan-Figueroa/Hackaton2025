@@ -27,17 +27,6 @@ struct RegisterView: View {
                                 .padding(.top, 40)
                             Spacer()
                         }
-                       
-                        VStack {
-                            HStack {
-                                CustomButton(action: {}, style: .image(imageName: "x"))
-                                    .scaleEffect(0.5)
-                                    .padding(.leading, -5)
-                                    .padding(.top, 2)
-                                Spacer()
-                            }
-                            Spacer()
-                        }
                     }
                     .frame(width: 400, height: 600)
                 )
