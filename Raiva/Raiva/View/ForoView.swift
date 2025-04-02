@@ -53,7 +53,7 @@ struct ForoView: View {
                     Color.clear
                     
                     if showAltaForo {
-                        AltaForo(isPresented: $showAltaForo)
+                        AltaForo(isPresented: $showAltaForo, comunidadSeleccionada: communityData)
                             .frame(width: 880, height: 809)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .transition(.asymmetric(

@@ -16,11 +16,11 @@ struct DatabaseTest: View {
         ScrollView {
             VStack {
                 Button("Agregar Usuario") {
-                    viewModel.getUsuarioPorUserName(userName: "Jesus Ortega A.")
+                    print("hoal")
                 }
                 .padding()
                 
-                ForEach(viewModel.forums, id: \.self) { usuario in
+                ForEach(viewModel.communities, id: \.self) { usuario in
                     //                    ForumComponent(communityData: communityData, userData: userData, forumData: forumData)
                     UserRowView(user: usuario)
                 }.padding()
@@ -42,13 +42,13 @@ struct DatabaseTest: View {
 }
 
 struct UserRowView: View {
-    let user: Forum
+    let user: Community
     
     var body: some View {
         HStack {
-            Text(user.title)
+            Text(user.communityName)
             Spacer()
-            Text(user.userID)
+            Text(user.communityOwner)
         }
         .padding()
         .background(Color.gray.opacity(0.1))

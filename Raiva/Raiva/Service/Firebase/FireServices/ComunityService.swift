@@ -46,7 +46,7 @@ class CommunityService {
     
     func obtenerTodasLasComunidades() async throws -> [Community] {
         do {
-            let snapshot = try await connection.databaseReference.child("communities").getData()
+            let snapshot = try await connection.databaseReference.child("comunidad").getData()
             
             guard let value = snapshot.value as? [String: Any] else {
                 return []

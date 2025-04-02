@@ -43,6 +43,7 @@ class ForumViewModel: ObservableObject {
                 let fetchedForos = try await forumService.obtenerTodosLosForos()
                 await MainActor.run{
                     self.forums = fetchedForos
+                    print("forumsCreated \(forums)")
                 }
             }catch{
                 print("Error de cargar usuarios: \(error)")
