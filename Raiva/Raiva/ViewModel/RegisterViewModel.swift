@@ -15,7 +15,7 @@ class RegisterViewModel: ObservableObject {
     
     @Published var availableImages: [String] = [
         "perfilInvitado", "cool", "jesus", "nina", "nino",
-        "qanjobal", "tojolabal", "tsotsil", "tseltal", "zoque"
+        "imagen1", "imagen2", "imagen3", "imagen4", "imagen5","imagen6","imagen7","imgaen8",   "imagen9","imagen10","imagen11","imagen12","imagen13","imqgen14","imagen15","imagen16","imagen17"
     ]
     
     var selectedCommunityName: String {

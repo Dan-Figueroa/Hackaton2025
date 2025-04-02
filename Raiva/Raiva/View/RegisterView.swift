@@ -97,4 +97,3 @@ struct RegisterView: View {
     RegisterView()
         .environmentObject(AppData())
 }
-
