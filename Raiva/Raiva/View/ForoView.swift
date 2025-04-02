@@ -13,7 +13,8 @@ struct ForoView: View {
     @State private var selectedButton: String = "INICIO"
     @State private var showComunidades = false
     @State private var isPresented: Bool = false
-    @State private var showCreateCommunity = false
+    @State private var showAltaForo = false
+ 
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -45,8 +46,8 @@ struct ForoView: View {
                 ZStack {
                     Color.clear
                     
-                    if showCreateCommunity {
-                        AltaForo()
+                    if showAltaForo {
+                        AltaForo(isPresented: $showAltaForo)
                             .frame(width: 880, height: 809)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .transition(.asymmetric(
@@ -54,13 +55,13 @@ struct ForoView: View {
                                 removal: .opacity
                             ))
                     } else {
-                        InicioView(showCreateComunity: $showCreateCommunity)
+                        InicioView(showCreateComunity: $showAltaForo)
                             .frame(width: 880, height: 809)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .transition(.opacity)
                     }
                 }
-                .animation(.spring(duration: 0.4, bounce: 0.1), value: showCreateCommunity)
+                .animation(.spring(duration: 0.4, bounce: 0.1), value: showAltaForo)
                 .zIndex(1)
             }
             if showComunidades {

@@ -7,8 +7,10 @@
 import SwiftUI
 
 struct AltaForo: View {
+    @Binding var isPresented: Bool
     @StateObject private var foroDataViewModel = AltaForoViewModel()
     @State private var wordCount: Int = 0
+    
     
     var body: some View {
         Rectangle()
@@ -19,7 +21,9 @@ struct AltaForo: View {
             .overlay(
                 VStack(spacing: 10) {
                     HStack {
-                        CustomButton(action: {}, style: .image(imageName: "x"))
+                        CustomButton(action: {
+                            isPresented = false
+                        }, style: .image(imageName: "x"))
                             .scaleEffect(0.5)
                         
                         Spacer()
@@ -97,7 +101,7 @@ struct CommunityPickerView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Botón que muestra la selección actual
+          
             HStack {
                 Image(selectedEthnicity.imageName)
                     .resizable()
@@ -123,7 +127,7 @@ struct CommunityPickerView: View {
                 }
             }
             
-            // Opciones del picker con ScrollView
+           
             if showPicker {
                 ScrollView {
                     VStack(spacing: 0) {
@@ -162,7 +166,7 @@ struct CommunityPickerView: View {
                             .stroke(Color.verdeBosque.opacity(0.5), lineWidth: 1)
                     )
                 }
-                .frame(height: min(CGFloat(EtniasEnum.allCases.count) * 50, 200)) // Altura máxima de 200
+                .frame(height: min(CGFloat(EtniasEnum.allCases.count) * 50, 200))
                 .transition(.opacity.combined(with: .move(edge: .top)))
                 .zIndex(1)
             }
@@ -171,6 +175,5 @@ struct CommunityPickerView: View {
 }
 
 #Preview {
-    AltaForo()
-    //CommunityPickerView(selectedEthnicity: .constant(EtniasEnum.chol))
+    AltaForo(isPresented: .constant(false))
 }

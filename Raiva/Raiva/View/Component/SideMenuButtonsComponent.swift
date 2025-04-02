@@ -15,7 +15,7 @@ struct SideMenuButtonsComponent: View {
         ("inicio", "INICIO", { print("Navegando a la pantalla de inicio") }),
         ("misForos", "MIS FOROS", { print("Mostrando mis foros") }),
         ("misComunidades", "MIS COMUNIDADES", {
-            // Esta acción ahora se manejará en el CustomButton
+            
         }),
         ("popular", "POPULAR", { print("Mostrando contenido popular") }),
         ("comunidades", "COMUNIDADES", { print("Explorando todas las comunidades") })
