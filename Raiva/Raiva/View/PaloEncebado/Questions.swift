@@ -75,7 +75,7 @@ struct Questions: View {
             CardContainer(width: 360, height: 40, color: .beige, strokeColor: .brown) {
                 HStack(spacing: 80) {
                     GrayRectangle()
-                    Text("Empecemos")
+                    Text("Preguntas")
                         .font(.custom("Gagalin", size: 25))
                     GrayRectangle()
                 }

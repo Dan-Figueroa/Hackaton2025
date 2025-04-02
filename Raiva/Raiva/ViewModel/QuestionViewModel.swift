@@ -24,11 +24,11 @@ class QuestionViewModel: ObservableObject {
         Question(
             texto: "La fiesta de San Sebastián Martir la celebran los:",
             opciones: ["Choles", "Tzeltales", "Tzotziles"],
-            respuestaCorrecta: 1
+            respuestaCorrecta: 2
         ),
         Question(
-            texto: "Platillo típico del pueblo originario Chol",
-            opciones: ["Tamal de chipilín", "Frijoles", "Shote"],
+            texto: "El shote es el platillo tipico de los:",
+            opciones: ["Zoques", "Mames", "Choles"],
             respuestaCorrecta: 2
         ),
         Question(
@@ -37,14 +37,14 @@ class QuestionViewModel: ObservableObject {
             respuestaCorrecta: 1
         ),
         Question(
-            texto: "El caldo de res con hierbas es local de los:",
+            texto: "El caldo de res con hierbas es el platillo local de los:",
             opciones: ["Tojolabales", "Mames", "Mixtecos"],
             respuestaCorrecta: 0
         ),
         Question(
             texto: "Corresponde a la festividad del pueblo Tzeltal:",
             opciones: ["Carnaval San Agustín", "Carnaval Coteico", "Carnaval Tenejapa"],
-            respuestaCorrecta: 1
+            respuestaCorrecta: 2
         ),
         Question(
             texto: "Cantidad de población Chuj en Chiapas:",
@@ -55,7 +55,43 @@ class QuestionViewModel: ObservableObject {
             texto: "La cantidad 49,729 es el número de habitantes de la comunidad:",
             opciones: ["Chol", "Zoque", "Mam"],
             respuestaCorrecta: 1
+        ),
+        Question(
+            texto: "¿Pueblo originario que su platillo típico no es el tamal?",
+            opciones: ["Mam", "Q'anjobal", "Zoque"],
+            respuestaCorrecta: 0
+        ),
+        Question(
+            texto: "El platillo típico del pueblo Q'anjob'al es:",
+            opciones: ["Tamal de masa", "Maíz", "Frijoles"],
+            respuestaCorrecta: 0
+        ),
+        Question(
+            texto: "¿Cuál es la bebida tradicional del pueblo Q'anjob'al asociada al trabajo en el campo?",
+            opciones: ["Atole", "Pozol", "Tepache"],
+            respuestaCorrecta: 1
+        ),
+        Question(
+            texto: "Festividad común entre la comunidad Chol:",
+            opciones: ["Día de muertos", "Santa cruz", "Fiesta de San Pedro y San Pablo"],
+            respuestaCorrecta: 2
+        ),
+        Question(
+            texto: "La cantidad 9625 corresponde a la población:",
+            opciones: ["Mam", "Q'anjob'al", "Tzeltal"],
+            respuestaCorrecta: 1
+        ),
+        Question(
+            texto: "¿Qué comunidad tiene una población de aproximadamente 13,031 personas?",
+            opciones: ["Mam","Tzotzil","Chol"],
+            respuestaCorrecta: 0
+        ),
+        Question(
+            texto: "¿Qué alimento está muy marcado en la gastronomía de los Tzotsiles?",
+            opciones: ["Trigo","Abas","Maíz"],
+            respuestaCorrecta: 2
         )
+        
     ]
     
     @Published var preguntaActual: Question
@@ -63,11 +99,12 @@ class QuestionViewModel: ObservableObject {
     @Published var mostrarResultado = false
     @Published var esCorrecto: Bool?
     @Published var respuestaSeleccionada: Int?
-    @Published var respuestaBloqueada = false // Nueva propiedad para controlar selección única
+    @Published var respuestaBloqueada = false
+    private var preguntasMostradas: [UUID] = []
     
     init() {
-        self.preguntaActual = preguntas[0]
-    }
+            self.preguntaActual = preguntas.randomElement()!
+        }
     
     func verificarRespuesta(opcionSeleccionada: Int) {
         
@@ -86,15 +123,26 @@ class QuestionViewModel: ObservableObject {
     }
     
     func siguientePregunta() {
-        if let indiceActual = preguntas.firstIndex(where: { $0.id == preguntaActual.id }) {
-            let siguienteIndice = (indiceActual + 1) % preguntas.count
-            preguntaActual = preguntas[siguienteIndice]
+            preguntasMostradas.append(preguntaActual.id)
+            
+           
+            let preguntasDisponibles = preguntas.filter { !preguntasMostradas.contains($0.id) }
+            
+            if !preguntasDisponibles.isEmpty {
+           
+                preguntaActual = preguntasDisponibles.randomElement()!
+            } else {
+               
+                reiniciarCuestionario()
+                return
+            }
+            
+            mostrarResultado = false
+            esCorrecto = nil
+            respuestaSeleccionada = nil
+            respuestaBloqueada = false
         }
-        mostrarResultado = false
-        esCorrecto = nil
-        respuestaSeleccionada = nil
-        respuestaBloqueada = false
-    }
+        
     
    
     func reiniciarCuestionario() {
