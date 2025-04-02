@@ -20,7 +20,7 @@ struct DatabaseTest: View {
                 }
                 .padding()
                 
-                ForEach(viewModel.users, id: \.self) { usuario in
+                ForEach(viewModel.forums, id: \.self) { usuario in
                     //                    ForumComponent(communityData: communityData, userData: userData, forumData: forumData)
                     UserRowView(user: usuario)
                 }.padding()
@@ -36,19 +36,19 @@ struct DatabaseTest: View {
             .padding(.top)
         }
         .refreshable {
-            viewModel.cargarUsuariosEnTiempoReal()
+            viewModel.cargarForosEnTiempoReal()
         }
     }
 }
 
 struct UserRowView: View {
-    let user: User
+    let user: Forum
     
     var body: some View {
         HStack {
-            Text(user.userName)
+            Text(user.title)
             Spacer()
-            Text(user.etnia ?? "Sin etnia")
+            Text(user.userID)
         }
         .padding()
         .background(Color.gray.opacity(0.1))

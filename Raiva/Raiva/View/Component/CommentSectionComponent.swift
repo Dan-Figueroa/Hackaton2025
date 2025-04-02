@@ -14,6 +14,8 @@ struct CommentSectionComponent: View {
             ForumComponent(communityData: communityData, userData: userData, forumData: forumData, withBackground: false) // Foro
             CommentField(text: $commentSectionViewModel.content) // Comentar
             
+            
+            
         }.background(
             Rectangle()
                 .clipShape(RoundedRectangle(cornerRadius: 20))

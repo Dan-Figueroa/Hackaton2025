@@ -79,7 +79,7 @@ struct ForoView: View {
                                 ))
                         }
                     } else {
-                        InicioView(showAltaForo: $showAltaForo)
+                        InicioView(showAltaForo: $showAltaForo, showCreateComunity: $showAltaForo)
                             .frame(width: 880, height: 809)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .transition(.opacity)

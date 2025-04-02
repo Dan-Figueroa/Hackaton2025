@@ -33,6 +33,7 @@ class ForumViewModel: ObservableObject {
             }
         }
     }
+
     
     func cargarForosOnce(){
         Task{
