@@ -166,7 +166,7 @@ struct JuegoPrincipal: View {
             CustomButton(action: {
                 
             }, style: .image(imageName: "exit"))
-        }
+        }.padding(.leading,-20)
     }
 }
 

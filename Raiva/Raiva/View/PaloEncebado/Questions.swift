@@ -4,7 +4,6 @@
 //
 //  Created by Dan Figueroa on 01/04/25.
 //
-
 import SwiftUI
 
 struct Questions: View {
@@ -15,7 +14,6 @@ struct Questions: View {
     
     var body: some View {
         ZStack(alignment: .center) {
-            // Fondo principal
             CardContainer(width: 700, height: 500, color: .arena)
             
          
@@ -87,8 +85,8 @@ struct Questions: View {
     private var tiempoColor: Color {
         let porcentaje = tiempoRestante / tiempoTotal
         switch porcentaje {
-        case 0..<0.2: return .red
-        case 0.2..<0.5: return .orange
+        case 0..<0.3: return .red
+        case 0.2..<0.6: return .orange
         default: return .green
         }
     }
