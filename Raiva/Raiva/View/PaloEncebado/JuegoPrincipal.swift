@@ -42,7 +42,7 @@ struct JuegoPrincipal: View {
             personLeftCard
             personRightCard
          
-            /*HStack {
+            HStack {
                
                 Button(action: {
                     juegoVM.subirIzquierdo()
@@ -75,11 +75,11 @@ struct JuegoPrincipal: View {
                 }
                 .padding(.top, 20)
                 Spacer()
-            }*/
+            }
         }
     }
 
-    /*struct ControlButton: View {
+    struct ControlButton: View {
         let systemName: String
         let color: Color
         
@@ -90,7 +90,7 @@ struct JuegoPrincipal: View {
                 .background(Circle().fill(color).shadow(radius: 5))
                 .padding()
         }
-    }*/
+    }
     
     private var playerCard: some View {
         ZStack {
