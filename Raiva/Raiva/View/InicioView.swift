@@ -9,6 +9,7 @@ import SwiftUI
 
 struct InicioView: View {
     @Binding var showCreateComunity: Bool
+    @StateObject var foroViewModel = ForumViewModel()
     
     var body: some View {
         VStack {
@@ -25,11 +26,8 @@ struct InicioView: View {
             
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 10) {
-                    ForEach(0..<10, id: \.self) { _ in
-                        Rectangle()
-                            .fill(Color.verdeBosque)
-                            .frame(width: 1100, height: 150)
-                            .cornerRadius(10)
+                    ForEach(foroViewModel.forums, id: \.self) { forum in
+//                        ForumComponent(communityData: <#T##Community#>, userData: <#T##User#>, forumData: <#T##Forum#>, withBackground: <#T##Bool#>)
                     }
                 }
                 .padding()

@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct ForoView: View {
+    @StateObject var ForoViewModel = ForumViewModel()
     @Binding var presentSideMenu: Bool
     @Binding var selectedSideMenuTab: Int
     @State private var selectedButton: String = "INICIO"
@@ -46,7 +47,7 @@ struct ForoView: View {
                     Color.clear
                     
                     if showCreateCommunity {
-                        CreateComunity(showCreateComunity: $showCreateCommunity)
+                        AltaForo()
                             .frame(width: 880, height: 809)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .transition(.asymmetric(
