@@ -55,7 +55,7 @@ struct ForoView: View {
                                 removal: .opacity
                             ))
                     } else {
-                        InicioView(showCreateComunity: $showAltaForo)
+                        InicioView(showAltaForo: $showAltaForo)
                             .frame(width: 880, height: 809)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .transition(.opacity)

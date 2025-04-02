@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InicioView: View {
-    @Binding var showCreateComunity: Bool
+    @Binding var showAltaForo: Bool
     @StateObject var foroViewModel = ForumViewModel()
     
     var body: some View {
@@ -18,7 +18,7 @@ struct InicioView: View {
                     print("Filtrar presionado")
                 },
                 createAction: {
-                    showCreateComunity = true
+                    showAltaForo = true
                 }
             )
             .padding(.top, 30)
