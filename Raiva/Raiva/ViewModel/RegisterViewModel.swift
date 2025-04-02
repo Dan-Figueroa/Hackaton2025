@@ -13,6 +13,9 @@ class RegisterViewModel: ObservableObject {
     @Published var selectedEthnicity: EtniasEnum = .zoque
     @Published var selectedImage: String = "perfilInvitado"
     
+    /// Services
+    private var userService = UserService()
+    
     @Published var availableImages: [String] = [
         "perfilInvitado", "cool", "jesus", "nina", "nino",
         "imagen1", "imagen2", "imagen3", "imagen4", "imagen5","imagen6","imagen7","imgaen8",   "imagen9","imagen10","imagen11","imagen12","imagen13","imqgen14","imagen15","imagen16","imagen17"
@@ -20,5 +23,9 @@ class RegisterViewModel: ObservableObject {
     
     var selectedCommunityName: String {
         selectedEthnicity.rawValue
+    }
+    
+    func agregarUsuario(user: User) {
+        userService.guardarUsuario(usuario: user)
     }
 }

@@ -11,7 +11,6 @@ struct AltaForo: View {
     @StateObject private var foroDataViewModel = AltaForoViewModel()
     @State private var wordCount: Int = 0
     
-    
     var body: some View {
         Rectangle()
             .frame(width: 900, height: 700)
@@ -24,13 +23,13 @@ struct AltaForo: View {
                         CustomButton(action: {
                             isPresented = false
                         }, style: .image(imageName: "x"))
-                            .scaleEffect(0.5)
+                        .scaleEffect(0.5)
                         
                         Spacer()
                         
                         CommunityPickerView(selectedEthnicity: $foroDataViewModel.selectedEthnicity)
                         
-
+                        
                         Spacer()
                     }
                     .padding(.top, 10)
@@ -95,77 +94,93 @@ struct AltaForo: View {
     }
 }
 
+struct SelectedComunity: View{
+    @State var image: String
+    @State var text: String
+    @State var isSelected: Bool
+    var body: some View{
+        HStack {
+            Image(image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 25, height: 25)
+            
+            Text(text)
+                .foregroundColor(.arena)
+            
+            Spacer()
+            
+            Image(systemName: "chevron.down")
+                .rotationEffect(.degrees(isSelected ? 180 : 0))
+                .foregroundColor(.arena)
+        }
+    }
+}
+
+struct CommunityList: View{
+    @State var comunidadSeleccionada: EtniasEnum
+    @State var showPicker: Bool = true
+    var comunidades: [Community] = []
+    var body: some View{
+        ScrollView{
+            VStack(spacing: 0) {
+                ForEach(EtniasEnum.allCases, id: \.self) { comunidad in
+                    HStack {
+                        Image(comunidad.imageName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
+                        
+                        Text(comunidad.rawValue)
+                            .foregroundColor(.arena)
+                        
+                        Spacer()
+                        
+                        if comunidadSeleccionada == comunidad {
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.arena)
+                        }
+                    }
+                    .padding()
+                    .frame(width: 250, height: 40)
+                    .background(Color.verdeBosque.opacity(0.3))
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        withAnimation {
+                            comunidadSeleccionada = comunidad
+                            showPicker = false
+                        }
+                    }
+                }
+            }
+            .cornerRadius(8)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.verdeBosque.opacity(0.5), lineWidth: 1)
+            )
+        }
+    }
+}
+
 struct CommunityPickerView: View {
     @Binding var selectedEthnicity: EtniasEnum
     @State private var showPicker = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-          
-            HStack {
-                Image(selectedEthnicity.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 25, height: 25)
-                
-                Text(selectedEthnicity.rawValue)
-                    .foregroundColor(.arena)
-                
-                Spacer()
-                
-                Image(systemName: "chevron.down")
-                    .rotationEffect(.degrees(showPicker ? 180 : 0))
-                    .foregroundColor(.arena)
-            }
-            .padding()
-            .frame(width: 250)
-            .background(Color.verdeBosque.opacity(0.4))
-            .cornerRadius(8)
-            .onTapGesture {
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    showPicker.toggle()
-                }
-            }
-            
-           
-            if showPicker {
-                ScrollView {
-                    VStack(spacing: 0) {
-                        ForEach(EtniasEnum.allCases, id: \.self) { ethnicity in
-                            HStack {
-                                Image(ethnicity.imageName)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 25, height: 25)
-                                
-                                Text(ethnicity.rawValue)
-                                    .foregroundColor(.arena)
-                                
-                                Spacer()
-                                
-                                if selectedEthnicity == ethnicity {
-                                    Image(systemName: "checkmark")
-                                        .foregroundColor(.arena)
-                                }
-                            }
-                            .padding()
-                            .frame(width: 250, height: 40)
-                            .background(Color.verdeBosque.opacity(0.3))
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                withAnimation {
-                                    selectedEthnicity = ethnicity
-                                    showPicker = false
-                                }
-                            }
-                        }
+            SelectedComunity(image: selectedEthnicity.imageName, text: selectedEthnicity.rawValue, isSelected: showPicker)
+                .padding()
+                .frame(width: 250)
+                .background(Color.verdeBosque.opacity(0.4))
+                .cornerRadius(8)
+                .onTapGesture {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        showPicker.toggle()
                     }
-                    .cornerRadius(8)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.verdeBosque.opacity(0.5), lineWidth: 1)
-                    )
                 }
+            
+            if showPicker {
+                CommunityList(comunidadSeleccionada: selectedEthnicity)
                 .frame(height: min(CGFloat(EtniasEnum.allCases.count) * 50, 200))
                 .transition(.opacity.combined(with: .move(edge: .top)))
                 .zIndex(1)

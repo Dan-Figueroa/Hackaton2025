@@ -38,18 +38,19 @@ struct InicioView: View {
                                 .foregroundStyle(.red)
                         }
                     }
-                    }
                 }
             }
-            
-            FiltroOverlay(
-                viewModel: filtroViewModel,
-                opciones: opcionesFiltro,
-                onSeleccion: { print("Filtro aplicado: \($0)") },
-                offsetX: -270, offsetY: -560
-            )
         }
+        
+        FiltroOverlay(
+            viewModel: filtroViewModel,
+            opciones: opcionesFiltro,
+            onSeleccion: { print("Filtro aplicado: \($0)") },
+            offsetX: -270, offsetY: -560
+        )
     }
+}
+
     #Preview {
         ForoView(
             presentSideMenu: .constant(false),

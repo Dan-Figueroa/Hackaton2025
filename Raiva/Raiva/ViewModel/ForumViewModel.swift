@@ -11,6 +11,7 @@ import Combine
 class ForumViewModel: ObservableObject {
     @Published var users: [User] = []
     @Published var forums: [Forum] = []
+    @Published var communities: [Community] = []
     @Published var errorMessage: String?
     @Published var user: User?
     
@@ -24,6 +25,7 @@ class ForumViewModel: ObservableObject {
     init(connection: FirebaseConnectable = FirebaseConnection.shared) {
         self.connection = connection
         cargarForosEnTiempoReal()
+        getComunidadesOnce()
     }
     
     func cargarForosEnTiempoReal(){
@@ -55,9 +57,20 @@ class ForumViewModel: ObservableObject {
             }
         }
     }
-    func agregarUsuario(user: User) {
-        userService.guardarUsuario(usuario: user)
+    
+    func getComunidadesOnce(){
+        Task{
+            do{
+                let fetchComunidades = try await communityService.obtenerTodasLasComunidades()
+                await MainActor.run{
+                    self.communities = fetchComunidades
+                }
+            }catch{
+                print("error")
+            }
+        }
     }
+    
     func crearForo(userID: String, foro: Forum){
         forumService.guardarForo(forum: foro)
     }

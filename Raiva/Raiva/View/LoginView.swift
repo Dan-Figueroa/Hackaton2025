@@ -12,6 +12,7 @@ struct LoginView: View {
     @StateObject private var loginViewModel = LoginViewModel()
     @State private var rememberMe = false
     @State private var norobot = false
+    @State var showRegister = false
     
     var body: some View {
         ZStack {
@@ -77,6 +78,7 @@ struct LoginView: View {
                         ZStack() {
                             CustomButton(
                                 action: {
+                                    showRegister.toggle()
                                 },
                                 style: .standard(
                                     fontColor: .verdeBosque,
@@ -116,7 +118,11 @@ struct LoginView: View {
                         
                     }
                 )
-        }
+        }.sheet(isPresented: $showRegister) {
+            RegisterView()}
+            .environmentObject(AppData())
+            .presentationBackground(.clear)
+            .interactiveDismissDisabled(true)
     }
 }
 

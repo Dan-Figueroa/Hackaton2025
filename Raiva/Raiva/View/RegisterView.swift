@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RegisterView: View {
-    @StateObject private var registerData = RegisterViewModel()
+    @StateObject private var registerViewModel = RegisterViewModel()
     @State private var rememberMe = false
     @State private var norobot = false
     @State private var showSheet = false
@@ -42,13 +42,13 @@ struct RegisterView: View {
                             .foregroundColor(Color.verdeBosque)
                             .bold()
                             .font(.largeTitle)
-                            .padding(.top, 160)
-                            .padding(.bottom, 40)
+                            .padding(.top, 100)
+                            .padding(.bottom, 10)
                         
                         CustomTextField(
-                            title: "Ingresa tu correo",
+                            title: "Ingresa tu usuario",
                             placeholder: "",
-                            text: $registerData.registerCorreo,
+                            text: $registerViewModel.registerCorreo,
                             type: .normal,
                             backgroundColor: Color.verdeBosque.opacity(0.8),
                             foregroundColor: .white, tittleColor: Color.black,
@@ -60,7 +60,7 @@ struct RegisterView: View {
                         CustomTextField(
                             title: "Ingresa tu contraseña",
                             placeholder: "",
-                            text: $registerData.registerContraña,
+                            text: $registerViewModel.registerContraña,
                             type: .secure,
                             backgroundColor: Color.verdeBosque.opacity(0.8),
                             foregroundColor: .white, tittleColor: Color.black,
@@ -88,7 +88,7 @@ struct RegisterView: View {
 
                     }
                 )
-        }
+        }.background(Color.clear)
     }
 }
 

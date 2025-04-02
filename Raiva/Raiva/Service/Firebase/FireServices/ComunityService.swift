@@ -43,6 +43,40 @@ class CommunityService {
     }
     
 // MARK: - GET
+    
+    func obtenerTodasLasComunidades() async throws -> [Community] {
+        do {
+            let snapshot = try await connection.databaseReference.child("communities").getData()
+            
+            guard let value = snapshot.value as? [String: Any] else {
+                return []
+            }
+            
+            var comunidades: [Community] = []
+            for (key, comunidadData) in value {
+                if let comunidadDict = comunidadData as? [String: Any],
+                   let communityName = comunidadDict["communityName"] as? String,
+                   let communityDescription = comunidadDict["communityDescription"] as? String,
+                   let communityProfileImage = comunidadDict["communityProfileImage"] as? String,
+                   let communityPortraitImage = comunidadDict["communityPortraitImage"] as? String,
+                   let communityOwner = comunidadDict["communityOwner"] as? String {
+                    
+                    var comunidad = Community(communityName: communityName,
+                                            communityDescription: communityDescription,
+                                            communityProfileImage: communityProfileImage,
+                                            communityPortraitImage: communityPortraitImage,
+                                            communityOwner: communityOwner)
+                    comunidad.id = key
+                    comunidades.append(comunidad)
+                }
+            }
+            return comunidades
+        } catch {
+            print("Error al obtener las comunidades: \(error)")
+            throw error
+        }
+    }
+    
 // MARK: - REMOVE
     
 }

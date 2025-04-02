@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct UserInfoRegister: View {
-    @StateObject private var registerData = RegisterViewModel()
+    @StateObject private var registerViewModel = RegisterViewModel()
     @State private var rememberMe = false
     @State private var si = false
     @State private var no = false
@@ -42,13 +42,13 @@ struct UserInfoRegister: View {
                                     .frame(width: 70, height: 70)
                                     .foregroundColor(.verdeBosque)
                                 
-                                Image(registerData.selectedImage)
+                                Image(registerViewModel.selectedImage)
                                     .resizable()
                                     .scaledToFill()
                                     .frame(width: 65, height: 65)
                                     .clipShape(Circle())
                                 
-                                if registerData.selectedImage == "perfilInvitado" {
+                                if registerViewModel.selectedImage == "perfilInvitado" {
                                     CustomButton(action: {
                                         showImagePicker.toggle()
                                     }, style: .image(imageName: "camara"))
@@ -63,7 +63,7 @@ struct UserInfoRegister: View {
                                 .padding(.top, 160)
                                 .padding(.bottom, 20)
                         }
-
+                        
                         CustomCheckbox(label: "Si", isChecked: $si)
                             .padding(.leading, -130)
                             .padding(.bottom, 10)
@@ -75,7 +75,7 @@ struct UserInfoRegister: View {
                             }
                         
                         if si {
-                            Picker("Selecciona una comunidad", selection: $registerData.selectedEthnicity) {
+                            Picker("Selecciona una comunidad", selection: $registerViewModel.selectedEthnicity) {
                                 ForEach(EtniasEnum.allCases, id: \.self) { ethnicity in
                                     Text(ethnicity.rawValue).tag(ethnicity)
                                 }
@@ -90,7 +90,7 @@ struct UserInfoRegister: View {
                             CustomTextField(
                                 title: "otro:",
                                 placeholder: "",
-                                text: $registerData.registerEtnia,
+                                text: $registerViewModel.registerEtnia,
                                 type: .normal,
                                 backgroundColor: Color.beige,
                                 foregroundColor: .black, tittleColor: Color.black,
@@ -120,15 +120,22 @@ struct UserInfoRegister: View {
                                 }
                             }
                         
-                        CustomButton(action: {}, style: .standard(fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "continuar"))
-
+                        CustomButton(action: {
+                            print(registerViewModel.registerCorreo)
+                            registerViewModel.agregarUsuario(user: User(
+                                userName: registerViewModel.registerCorreo,
+                                profilePicture: registerViewModel.selectedImage,
+                                etnia: registerViewModel.selectedEthnicity.rawValue
+                            ))
+                        }, style: .standard(fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "continuar"))
+                        
                         .frame(width: 300)
                     }
                 )
         }
         .sheet(isPresented: $showImagePicker) {
-            ImagePickerComponent(selectImage: $registerData.selectedImage,
-                          availableImages: registerData.availableImages)
+            ImagePickerComponent(selectImage: $registerViewModel.selectedImage,
+                                 availableImages: registerViewModel.availableImages)
         }
     }
 }
