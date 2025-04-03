@@ -9,6 +9,7 @@ import SwiftUI
 struct InformateView: View {
     @Binding var presentSideMenu: Bool
     @State private var selectedEtnia: EtniasEnum? = .zoque
+    @State private var showModels = false
     @StateObject private var audioPlayer = AudioPlayer()
     
     var body: some View {
@@ -64,7 +65,10 @@ struct InformateView: View {
                 .frame(width: 450, height: 400)
                 
                 CustomButton(
-                    action: {},
+                    action: {
+                        showModels = true
+                        
+                    },
                     style: .standard(
                         fontColor: .beige,
                         backgroundColor: .verdeBosque,
@@ -74,11 +78,19 @@ struct InformateView: View {
             }
             .padding()
             .offset(x: 350, y: 100)
+            
+            .fullScreenCover(isPresented: $showModels) {
+                if let etnia = selectedEtnia {
+                    ModelosView(selectedEtnia: etnia)
+                }
+            }
         }
-        .onDisappear {
-            // Detener el audio cuando la vista desaparezca
-            audioPlayer.stopSound()
+        .onChange(of: showModels) {_, newValue in
+            if !newValue {
+                audioPlayer.stopSound()
+            }
         }
+        
     }
     
     @ViewBuilder

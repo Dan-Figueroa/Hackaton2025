@@ -211,10 +211,10 @@ struct JuegoPrincipal: View {
         .animation(.easeOut(duration: 0.8), value: juegoVM.rightMoveY)
     }
     
-    /*private var buttons: some View {
+    private var buttons: some View {
         HStack(spacing: 40) {
             CustomButton(action: {
-                juegoVM.subirDerecho()
+               
             }, style: .image(imageName: "back"))
             
             CustomButton(action: {
@@ -222,7 +222,7 @@ struct JuegoPrincipal: View {
             }, style: .image(imageName: "exit"))
         }
         .padding(.leading, -20)
-    }*/
+    }
 }
 
 #Preview {

@@ -8,22 +8,33 @@
 import SwiftUI
 
 struct ModelosView: View {
+    let selectedEtnia: EtniasEnum 
+        @Environment(\.dismiss) var dismiss
+    
     var body: some View {
-        ZStack{
-            
-            ARViewContainer(etnia: .chol) 
-            
-            
+        ZStack {
+            ARViewContainer(etnia: selectedEtnia)
+
             VStack {
-                CustomButton(action: {
-                    
-                }, style: .standard(fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "SALIR"))
-            }.padding(.top,700)
-                .frame(width: 400)
-        }.edgesIgnoringSafeArea(.all)
+                Spacer()
+                
+                CustomButton(
+                    action: {
+                        dismiss()
+                    },
+                    style: .standard(
+                        fontColor: .beige,
+                        backgroundColor: .verdeBosque,
+                        buttonName: "SALIR"
+                    )
+                ).frame(width: 300)
+                .padding(.bottom, 40)
+            }
+        }
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
 #Preview {
-    ModelosView()
+    ModelosView(selectedEtnia: .chol)
 }

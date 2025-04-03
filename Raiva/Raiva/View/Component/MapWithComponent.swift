@@ -18,7 +18,7 @@ struct MapWithLocations: View {
             LocationComponent(state: selectedEtnia == .zoque ? .verde : .rojo, action: {
                 selectedEtnia = .zoque
             })
-            .position(x: 538, y: 148)
+            .position(x: 528, y: 152)
             
             LocationComponent(state: selectedEtnia == .tsotsil ? .verde : .rojo, action: {
                 selectedEtnia = .tsotsil
