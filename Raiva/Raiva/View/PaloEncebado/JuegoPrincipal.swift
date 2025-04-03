@@ -12,11 +12,10 @@ struct JuegoPrincipal: View {
     @State private var mostrarEmpecemos = true
     @State private var mostrarBusqueda = false
     @State private var encontradoOponente = false
-    var person: Int = 1
-    @StateObject private var audioPlayer = AudioPlayer()
+    var person: Int = 0
+
     var body: some View {
         ZStack {
-            // Vista principal del juego
             ZStack(alignment: .center) {
                 Background(imageName: "fondoPES")
                 
@@ -55,7 +54,7 @@ struct JuegoPrincipal: View {
                 Empecemos()
                     .transition(.opacity)
                     .onAppear {
-                        audioPlayer.playSound(named: "musicaFondo", loop: true)
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {
                                 mostrarEmpecemos = false
@@ -120,21 +119,7 @@ struct JuegoPrincipal: View {
                 }
             )
     }
-    
-    private var coinsRightCard: some View {
-        Rectangle()
-            .frame(width: 220, height: 70)
-            .foregroundColor(.black.opacity(0.3))
-            .cornerRadius(30)
-            .overlay(
-                HStack(spacing: 20) {
-                    Image("moneda")
-                    Text("\(juegoVM.rightCoins)")
-                        .font(.custom("Gagalin", size: 40))
-                        .foregroundColor(.arena)
-                }
-            )
-    }
+
     
     private var scoreCard: some View {
         Rectangle()
@@ -196,9 +181,7 @@ struct JuegoPrincipal: View {
     
     private var buttons: some View {
         HStack(spacing: 40) {
-            CustomButton(action: {
-                juegoVM.subirIzquierdo()
-            }, style: .image(imageName: "music"))
+            
             
             CustomButton(action: {
                 juegoVM.subirDerecho()

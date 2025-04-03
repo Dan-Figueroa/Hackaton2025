@@ -10,6 +10,8 @@ struct JuegoView: View {
     @Binding var presentSideMenu: Bool
     @State private var mostrarJuegoPrincipal = false
     @State private var mostrarInstrucciones = false
+    @StateObject private var audioPlayer = AudioPlayer()
+    @State private var isSoundOn = true
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -17,12 +19,19 @@ struct JuegoView: View {
             MenuButton(presentSideMenu: $presentSideMenu)
             
             Spacer()
-            
+         
             CustomButton(action: {
-                
-            }, style: .image(imageName: "Sonido1"))
-            .scaleEffect(0.8)
-            .padding(.leading, 1100)
+                isSoundOn.toggle()
+                if isSoundOn {
+                    audioPlayer.playSound(named: "musicaFondo", loop: true)
+                } else {
+                    audioPlayer.stopSound()
+                }
+            }, style: .image(imageName: isSoundOn ? "music" : "nomusic"))
+            .scaleEffect(1)
+            .padding(.top,20)
+            
+            .padding(.leading, 1000)
             
             VStack {
                 Image("logoPE").resizable()
@@ -48,15 +57,27 @@ struct JuegoView: View {
         
             .fullScreenCover(isPresented: $mostrarJuegoPrincipal) {
                 JuegoPrincipal()
+                    .onDisappear {
+                        if isSoundOn {
+                            audioPlayer.playSound(named: "musicaFondo", loop: true)
+                        }
+                    }
             }
            
             .fullScreenCover(isPresented: $mostrarInstrucciones) {
                 InstruccionesView(presentSideMenu: .constant(false))
             }
         }
+        .onAppear {
+            if isSoundOn {
+                audioPlayer.playSound(named: "musicaFondo", loop: true)
+            }
+        }
+        .onDisappear {
+            audioPlayer.stopSound()
+        }
     }
 }
-
 #Preview {
     JuegoView(presentSideMenu: .constant(false))
         .environmentObject(AppData())
