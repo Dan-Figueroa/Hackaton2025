@@ -8,6 +8,8 @@ import SwiftUI
 
 struct MisComunidadesView: View {
     @Binding var isPresented: Bool
+    @State var isShowing: Bool = false
+    @State private var selectedCommunity: Community = communityData
     @State private var showTwoColumns = false
     @State private var showComponent = false
     @State private var arrowImageName: String = "flecha"
@@ -61,29 +63,50 @@ struct MisComunidadesView: View {
                             spacing: 20
                         ) {
                             ForEach(comunidadesVM.getCommunitiesForUser(userID: CurrentUser.shared.id), id: \.id) { community in
-                                CommunityForumComponent(
-                                    communityName: community.communityName,
-                                    communityIcon: community.communityProfileImage
-                                )
-                                .frame(width: 200, height: 100)
-                                .padding(.vertical, 12)
-                                .padding(.horizontal, 12)
+                                
+                                Button {
+                                    selectedCommunity = community
+                                    isShowing.toggle()
+                                } label: {
+                                    CommunityForumComponent(
+                                        communityName: community.communityName,
+                                        communityIcon: community.communityProfileImage
+                                    )
+                                    .frame(width: 200, height: 100)
+                                    .padding(.vertical, 12)
+                                    .padding(.horizontal, 12)
+                                }
+
+                                
+                                
                             }
                         }
                         .padding(.horizontal, 16)
                     } else {
                         VStack(alignment: .leading, spacing: 16) {
                             ForEach(comunidadesVM.getCommunitiesForUser(userID: CurrentUser.shared.id), id: \.id) { community in
-                                CommunityForumComponent(
-                                    communityName: community.communityName,
-                                    communityIcon: community.communityProfileImage
-                                )
-                                .frame(width: 250, height: 100)
-                                .padding(.vertical, 12)
+                                
+                                Button {
+                                    selectedCommunity = community
+                                    isShowing.toggle()
+                                } label: {
+                                    CommunityForumComponent(
+                                        communityName: community.communityName,
+                                        communityIcon: community.communityProfileImage
+                                    )
+                                    .frame(width: 200, height: 100)
+                                    .padding(.vertical, 12)
+                                    .padding(.horizontal, 12)
+                                }
                             }
                         }
                         .padding(.horizontal, 16)
                     }
+                }.sheet(isPresented: $isShowing) {
+                    CommunityView(
+                        showCommunity: $isShowing,
+                        community: $selectedCommunity
+                    ).presentationBackground(.clear)
                 }
             }
             .frame(width: dynamicWidth, height: 600)
@@ -104,6 +127,6 @@ struct MisComunidadesView: View {
 }
 
 #Preview {
-    MisComunidadesView(isPresented: .constant(true))
+    MisComunidadesView(isPresented: .constant(true), isShowing: true)
 }
 
