@@ -10,16 +10,24 @@ import RealityKit
 import SwiftUI
 
 class ARService {
+    
     func createARView() -> ARView {
         let arView = ARView(frame: .zero)
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = [.horizontal]
         arView.session.run(configuration)
         
-        if let combinedModel = loadCustomModel(baseName: genderEnum.man.rawValue, clothingName: getModel(etnia: .chuj, gender: .man), skinColor: .skin) {
-            combinedModel.position = [0, 0, -0.5]
+        if let combinedModel = loadCustomModel(baseName: genderEnum.woman.rawValue,
+                                               clothingName: getModel(etnia: .qanjobal, gender: .woman),
+                                              skinColor: .skin) {
+            // Ajustar posición (1 metro frente al usuario)
+            combinedModel.position = [0, 0, -1]
             
-            let anchor = AnchorEntity(plane: .horizontal)
+            // Rotar el modelo para que mire hacia la cámara
+            combinedModel.orientation = simd_quatf(angle: .pi, axis: [0, 1, 0])
+            
+            // Crear un anchor en lugar de uno de plano horizontal
+            let anchor = AnchorEntity(world: [0, 0, -1])
             anchor.addChild(combinedModel)
             arView.scene.anchors.append(anchor)
         }

@@ -12,7 +12,7 @@ struct RaivaApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
-            MainTabbedView()
+            ContentView()
                 .environmentObject(AppData())
         }
     }
