@@ -12,19 +12,21 @@ class JuegoPrincipalViewModel: ObservableObject {
     @Published var coins: Int = 0
     @Published var leftScore: Int = 0
     @Published var rightScore: Int = 0
-    @Published var leftMoveY: Int = 170
+    @Published var leftMoveY: Int = 130
     @Published var rightMoveY: Int = 170
     
-    private let minY: Int = -50
+    private let minY: Int = -80
     private let maxY: Int = 170
   
+    
+    //subir
     func subirIzquierdo(cantidad: Int = 90) {
         guard leftMoveY > minY else { return }
         leftMoveY -= cantidad
         leftScore += 1  
         darMonedaIzquierda()
     }
-
+    //subir
     func subirDerecho(cantidad: Int = 90) {
         guard rightMoveY > minY else { return }
         rightMoveY -= cantidad

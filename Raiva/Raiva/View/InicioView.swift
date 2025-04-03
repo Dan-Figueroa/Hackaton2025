@@ -42,6 +42,7 @@ struct InicioView: View {
                                     .foregroundStyle(.red)
                             }
                         }
+
                     }
                 }
                 .padding()

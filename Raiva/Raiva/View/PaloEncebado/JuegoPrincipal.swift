@@ -9,10 +9,13 @@ import SwiftUI
 struct JuegoPrincipal: View {
     @StateObject private var juegoVM = JuegoPrincipalViewModel()
     @Environment(\.dismiss) var dismiss
-    @State private var mostrarEmpecemos = true 
+    @State private var mostrarEmpecemos = true
+    @State private var mostrarBusqueda = false
+    @State private var encontradoOponente = false
+    
     var body: some View {
         ZStack {
-          
+            // Vista principal del juego
             ZStack(alignment: .center) {
                 Background(imageName: "fondoPES")
                 
@@ -44,51 +47,40 @@ struct JuegoPrincipal: View {
                 personLeftCard
                 personRightCard
             }
-            .disabled(mostrarEmpecemos)
+            .disabled(mostrarEmpecemos || mostrarBusqueda)
+        
             if mostrarEmpecemos {
                 Empecemos()
                     .transition(.opacity)
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {
                                 mostrarEmpecemos = false
+                                mostrarBusqueda = true
+                                
+                                // Simulación de encontrar oponente después de 7 segundos
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    encontradoOponente = true
+                                }
                             }
                         }
                     }
                     .zIndex(1)
             }
-        }
-    }
-            /*HStack {
-               
-                Button(action: {
-                    juegoVM.subirIzquierdo()
-                }) {
-                    ControlButton(systemName: "arrow.up.circle.fill", color: .blue)
-                }
-                
-                Spacer()
-                Button(action: {
-                    juegoVM.subirDerecho()
-                }) {
-                    ControlButton(systemName: "arrow.up.circle.fill", color: .red)
-                }
+            
+            // Vista de búsqueda
+            if mostrarBusqueda {
+                BusquedaView(shouldDismiss: $encontradoOponente)
+                    .transition(.opacity)
+                    .onChange(of: encontradoOponente) { _, newValue in
+                        if newValue {
+                            withAnimation {
+                                mostrarBusqueda = false
+                            }
+                        }
+                    }
+                    .zIndex(1)
             }
-            .padding(.horizontal, 40)
-            .frame(maxHeight: .infinity, alignment: .bottom)
-            .padding(.bottom, 50)*/
-    
-
-    struct ControlButton: View {
-        let systemName: String
-        let color: Color
-        
-        var body: some View {
-            Image(systemName: systemName)
-                .font(.system(size: 60))
-                .foregroundColor(.white)
-                .background(Circle().fill(color).shadow(radius: 5))
-                .padding()
         }
     }
     
@@ -140,34 +132,60 @@ struct JuegoPrincipal: View {
     }
     
     private var personLeftCard: some View {
-        Image("personajeIzquierdo")
-            .scaleEffect(1.2)
-            .offset(x: -275, y: CGFloat(juegoVM.leftMoveY))
-            .animation(.easeOut(duration: 0.8), value: juegoVM.leftMoveY)
+        
+        VStack {
+            Text("Jesus")
+                .font(.custom("Gagalin", size: 20))
+                .offset(x: -305, y: CGFloat(juegoVM.leftMoveY))
+            Image(systemName: "arrowshape.down.fill")
+                .resizable()
+                .frame(width: 30, height: 30)
+                .foregroundColor(.blue)
+                .offset(x: -305, y: CGFloat(juegoVM.leftMoveY))
+            
+             Image("personajeIzquierdo")
+                .scaleEffect(1.2)
+                .offset(x: -275, y: CGFloat(juegoVM.leftMoveY))
+                
+        }.animation(.easeOut(duration: 0.8), value: juegoVM.leftMoveY)
+
     }
     
     private var personRightCard: some View {
-        Image("personajeDerecho")
-            .scaleEffect(1.2)
-            .offset(x: 260, y: CGFloat(juegoVM.rightMoveY))
-            .animation(.easeOut(duration: 0.8), value: juegoVM.rightMoveY)
+        VStack {
+            Text("Dan")
+                .font(.custom("Gagalin", size: 20))
+                .offset(x: 290, y: CGFloat(juegoVM.rightMoveY))
+            Image(systemName: "arrowshape.down.fill")
+                .resizable()
+                .frame(width: 30, height: 30)
+                .foregroundColor(.red)
+                .offset(x: 290, y: CGFloat(juegoVM.rightMoveY))
+            
+            Image("personajeDerecho")
+                .scaleEffect(1.2)
+                .offset(x: 260, y: CGFloat(juegoVM.rightMoveY))
+        }
+        .animation(.easeOut(duration: 0.8), value: juegoVM.rightMoveY)
     }
     
-    private var buttons: some View{
-        HStack (spacing: 40){
+    private var buttons: some View {
+        HStack(spacing: 40) {
             CustomButton(action: {
-                
+                juegoVM.subirIzquierdo()
             }, style: .image(imageName: "music"))
             
             CustomButton(action: {
-                juegoVM.reiniciarPosiciones()
-                juegoVM.reiniciarScores()
+                juegoVM.subirDerecho()
+                //juegoVM.reiniciarPosiciones()
+                //juegoVM.reiniciarScores()
             }, style: .image(imageName: "back"))
             
             CustomButton(action: {
                 dismiss()
             }, style: .image(imageName: "exit"))
-        }.padding(.leading,-20)
+        }
+        .padding(.leading, -20)
     }
 }
 

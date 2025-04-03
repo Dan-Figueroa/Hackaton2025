@@ -119,10 +119,15 @@ struct LoginView: View {
                     }
                 )
         }.sheet(isPresented: $showRegister) {
-            RegisterView()}
-            .environmentObject(AppData())
-            .presentationBackground(.clear)
-            .interactiveDismissDisabled(true)
+            RegisterView()
+                .environmentObject(AppData())
+                .presentationBackground(.clear)
+                .interactiveDismissDisabled(true)
+            
+            
+        }
+        
+            
     }
 }
 
