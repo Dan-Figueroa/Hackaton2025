@@ -10,6 +10,7 @@ import SwiftUI
 struct InstruccionesView: View {
     @Binding var presentSideMenu: Bool
     @Environment(\.dismiss) var dismiss
+    @StateObject private var audioPlayer = AudioPlayer()
     
     var body: some View {
         ZStack(alignment: .center) {
@@ -22,6 +23,7 @@ struct InstruccionesView: View {
             
             HStack {
                 CustomButton(action: {
+                    audioPlayer.playSound(named: "popBotones", loop: false)
                     dismiss()
                 }, style: .image(imageName: "regresar"))
                 .padding(.leading, -23)

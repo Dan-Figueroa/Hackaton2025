@@ -11,7 +11,7 @@ struct Questions: View {
     @StateObject private var timerVM = TimerViewModel(tiempoTotal: 10)
     @StateObject private var questionVM = QuestionViewModel()
     @Binding var mostrarPregunta: Bool
-    
+    @StateObject private var audioPlayer = AudioPlayer()
     @State private var mostrarAnimacionRespuesta = false
     @State private var mostrarMonedasGanadas = false
     private let recompensaMonedas = 100
@@ -154,6 +154,7 @@ struct Questions: View {
     }
     
     private func responderPregunta(index: Int) {
+        //audioPlayer.playSound(named: "popBotones", loop: false)
         questionVM.verificarRespuesta(opcionSeleccionada: index)
         
         withAnimation(.easeInOut(duration: 0.3)) {
@@ -163,12 +164,15 @@ struct Questions: View {
         // Asignar recompensa si es correcto
         if questionVM.esCorrecto == true {
             juegoVM.recompensarRespuestaCorrecta(jugadorIzquierdo: true)
+            audioPlayer.playSound(named: "sonidoAcierto", loop: false)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 withAnimation {
                     mostrarMonedasGanadas = true
                 }
             }
+        }else{
+            audioPlayer.playSound(named: "lose", loop: false)
         }
         
         timerVM.detener()

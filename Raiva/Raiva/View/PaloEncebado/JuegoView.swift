@@ -41,12 +41,14 @@ struct JuegoView: View {
                     ZStack {
                         CustomButton(action: {
                             mostrarInstrucciones = true
+                            audioPlayer.playSound(named: "popBotones", loop: false)
                         }, style: .image(imageName: "instrucciones"))
                         .scaleEffect(6)
                         .offset(y: 100)
                         
                         CustomButton(action: {
                             mostrarJuegoPrincipal = true
+                            audioPlayer.playSound(named: "popBotones", loop: false)
                         }, style: .image(imageName: "jugar"))
                         .scaleEffect(2.5)
                     }

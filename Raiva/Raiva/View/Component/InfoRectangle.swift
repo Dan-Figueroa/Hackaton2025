@@ -33,7 +33,7 @@ struct InfoRectangle: View {
                     Image(imageName)
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 200)
+                        .frame(width :250,height: 200)
                         .cornerRadius(30)
                 }
             )
