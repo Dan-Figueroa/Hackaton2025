@@ -7,12 +7,13 @@
 import SwiftUI
 
 struct UserInfoRegister: View {
-    @StateObject private var registerViewModel = RegisterViewModel()
+    @StateObject var registerViewModel: RegisterViewModel
     @State private var si = false
     @State private var no = false
     @State private var nose = false
     @State private var showImagePicker = false
     @ObservedObject var coordinator: RegistrationCoordinator
+    @State var newUser: User = userData
     
     var body: some View {
         ZStack {
@@ -132,11 +133,15 @@ struct UserInfoRegister: View {
                         // Botón de continuar
                         CustomButton(
                             action: {
-                                registerViewModel.agregarUsuario(user: User(
+                                newUser = User(
                                     userName: registerViewModel.registerCorreo,
                                     profilePicture: registerViewModel.selectedImage,
                                     etnia: registerViewModel.selectedEthnicity.rawValue
-                                ))
+                                )
+                                registerViewModel.agregarUsuario(user: newUser)
+                                
+                                CurrentUser.shared.updateUser(user: newUser)
+                                
                             },
                             style: .standard(
                                 fontColor: .beige,
@@ -165,6 +170,8 @@ struct UserInfoRegister: View {
 }
 
 #Preview {
-    UserInfoRegister(coordinator: RegistrationCoordinator())
+    let registerViewModel = RegisterViewModel()
+    let coordinator = RegistrationCoordinator()
+    return UserInfoRegister(registerViewModel: registerViewModel, coordinator: coordinator)
         .environmentObject(AppData())
 }

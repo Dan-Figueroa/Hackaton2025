@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,

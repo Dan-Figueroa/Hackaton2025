@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CommunityView: View {
-    @StateObject private var communityVM = CreateComunnityViewModel()
-    @StateObject private var misComunidadesViewModel = MisComunidadesViewModel()
+    @StateObject var communityVM = CreateComunnityViewModel()
+    @StateObject  var misComunidadesViewModel = MisComunidadesViewModel()
     @Binding var showCommunity: Bool
     @Binding var community: Community
     @State private var showAltaForo = false
@@ -42,7 +42,7 @@ struct CommunityView: View {
                 Spacer()
             }
             .frame(width: 900, height: 700)
-        
+            
             Circle()
                 .fill(Color.arena.opacity(0.4))
                 .frame(width: 180, height: 180)
@@ -63,7 +63,7 @@ struct CommunityView: View {
                 .padding(.top, 90)
             
             VStack(alignment: .leading, spacing: 10) {
-               
+                
                 Text(community.communityName)
                     .font(.custom("Gagalin", size: 30))
                     .foregroundColor(.beige)
@@ -71,7 +71,7 @@ struct CommunityView: View {
                     .padding(.leading, 40)
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
-              
+                
                 ScrollView {
                     Text(community.communityDescription)
                         .font(.custom("Gagalin", size: 15))
@@ -80,8 +80,10 @@ struct CommunityView: View {
                         .padding(.horizontal, 40)
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                .frame(height: 80)
-             
+                .frame(height: 40)
+                
+                Spacer()
+                
                 HStack(spacing: -180) {
                     CustomButton(
                         action: {
@@ -94,7 +96,7 @@ struct CommunityView: View {
                             isSelected: false
                         )
                     ).frame(width: 530)
-                    .scaleEffect(0.5)
+                        .scaleEffect(0.5)
                     
                     if !isJoined{
                         CustomButton(
@@ -115,15 +117,15 @@ struct CommunityView: View {
                 }
                 .padding(.leading,330)
                 
-                ScrollView {
-                    Rectangle().frame(width: 800, height:170 )
-                        .foregroundColor(.verdeBosque)
-                        .cornerRadius(30)
-                }
+                Spacer()
+                
+                CommunityForumsScroll(communityID: community.id)
+                    .frame(width: 800, height: 200)
+                    .padding(.bottom, 50)
             }
-            .frame(width: 800, alignment: .leading)
+            .frame(width: 800, alignment: .center)
             .padding(.top, 290)
-         
+            
             CustomButton(action: {
                 showCommunity = false
             }, style: .image(imageName: "x"))
@@ -135,22 +137,66 @@ struct CommunityView: View {
         .frame(width: 900, height: 700)
         .sheet(isPresented: $showAltaForo) {
             AltaForo(isPresented: $showAltaForo, comunidadSeleccionada: communityData)
-            .presentationBackground(.clear)
-    }
+                .presentationBackground(.clear)
+        }
     }
 }
 
+struct CommunityForumsScroll: View {
+    @StateObject var viewModel: CommunityForumsViewModel
+    
+    // Inicializador que recibe el communityID
+    init(communityID: String) {
+        _viewModel = StateObject(wrappedValue: CommunityForumsViewModel(communityID: communityID))
+    }
+    
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                if viewModel.forums.isEmpty {
+                    Text("No hay publicaciones en esta comunidad")
+                        .font(.custom("Gagalin", size: 16))
+                        .foregroundColor(.beige)
+                        .padding(.top, 20)
+                } else {
+                    ForEach(viewModel.forums, id: \.id) { forum in
+                        if let displayData = viewModel.getDisplayData(for: forum) {
+                            ForumComponent(
+                                communityData: displayData.community,
+                                userData: displayData.user,
+                                forumData: forum,
+                                withBackground: false
+                            )
+                            .padding(.horizontal, 20)
+                        }
+                    }
+                }
+            }
+            .padding(.vertical, 10)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .background(Color.verdeBosque.opacity(0.7))
+        
+        .cornerRadius(20)
+        .onAppear {
+            viewModel.loadData() // Cargar datos cuando aparece
+        }
+    }
+}
+
+
+
 #Preview {
-    // Crear un binding para showCommunity
+    // Create bindings for preview
     let showCommunity = Binding<Bool>(
         get: { false },
         set: { _ in }
     )
     
-    // Crear un binding para community con datos de ejemplo
     let community = Binding<Community>(
         get: {
             Community(
+                id: "preview123",
                 communityName: "Comunidad de Surf",
                 communityDescription: "Un lugar para los amantes del surf y el océano",
                 communityProfileImage: "surf_profile",
@@ -161,8 +207,15 @@ struct CommunityView: View {
         set: { _ in }
     )
     
+    // Create mock ViewModels
+    let communityVM = CreateComunnityViewModel()
+    let misComunidadesVM = MisComunidadesViewModel()
+    
     CommunityView(
+        communityVM: communityVM,
+        misComunidadesViewModel: misComunidadesVM,
         showCommunity: showCommunity,
         community: community
     )
+    .environmentObject(AppData()) // Add if needed
 }

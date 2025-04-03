@@ -70,7 +70,7 @@ struct MisComunidadesView: View {
                                 } label: {
                                     CommunityForumComponent(
                                         communityName: community.communityName,
-                                        communityIcon: community.communityProfileImage
+                                        communityIcon: community.communityProfileImage, Hstack: true
                                     )
                                     .frame(width: 200, height: 100)
                                     .padding(.vertical, 12)
@@ -92,7 +92,7 @@ struct MisComunidadesView: View {
                                 } label: {
                                     CommunityForumComponent(
                                         communityName: community.communityName,
-                                        communityIcon: community.communityProfileImage
+                                        communityIcon: community.communityProfileImage, Hstack: true
                                     )
                                     .frame(width: 200, height: 100)
                                     .padding(.vertical, 12)

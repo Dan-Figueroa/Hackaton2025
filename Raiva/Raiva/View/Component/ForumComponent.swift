@@ -49,7 +49,7 @@ private struct HeadData: View{
         HStack{
             UserViewType(imageName: userImageName, name: userName, style: .horizontal)
             Spacer()
-            CommunityForumComponent(communityName: communityName, communityIcon: communityIcon)
+            CommunityForumComponent(communityName: communityName, communityIcon: communityIcon, Hstack: false)
         }.frame(maxWidth: .infinity, alignment: .center)
     }
 }

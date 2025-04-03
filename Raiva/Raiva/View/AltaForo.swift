@@ -109,6 +109,7 @@ struct AltaForo: View {
 struct CommunityPickerView: View {
     @Binding var comunidadSeleccionada: Community
     @ObservedObject var vm = ForumViewModel()
+    @ObservedObject var misComunidadesViewModel = MisComunidadesViewModel()
     @State private var showPicker = false
     var onCommunitySelected: (Community) -> Void
     
@@ -142,7 +143,7 @@ struct CommunityPickerView: View {
             if showPicker {
                 ScrollView {
                     VStack(spacing: 0) {
-                        ForEach(vm.communities, id: \.id) { comunidad in
+                        ForEach(misComunidadesViewModel.getCommunitiesForUser(userID: CurrentUser.shared.id), id: \.id) { comunidad in
                             HStack {
                                 Image(comunidad.communityProfileImage)
                                     .resizable()
