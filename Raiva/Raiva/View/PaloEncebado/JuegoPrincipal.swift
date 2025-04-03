@@ -13,6 +13,7 @@ struct JuegoPrincipal: View {
     @State private var mostrarBusqueda = false
     @State private var encontradoOponente = false
     var person: Int = 1
+    @StateObject private var audioPlayer = AudioPlayer()
     var body: some View {
         ZStack {
             // Vista principal del juego
@@ -54,6 +55,7 @@ struct JuegoPrincipal: View {
                 Empecemos()
                     .transition(.opacity)
                     .onAppear {
+                        audioPlayer.playSound(named: "músicaFondo", loop: true)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {
                                 mostrarEmpecemos = false
