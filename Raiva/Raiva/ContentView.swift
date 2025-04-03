@@ -9,8 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        ARViewContainer()
-            .edgesIgnoringSafeArea(.all)
+        ZStack {
+            ARViewContainer(etnia: .chol) // Cambia la etnia aquí
+                
+        }.edgesIgnoringSafeArea(.all)
     }
 }
 #Preview {

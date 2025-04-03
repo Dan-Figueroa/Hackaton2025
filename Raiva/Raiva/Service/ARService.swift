@@ -10,67 +10,65 @@ import RealityKit
 import SwiftUI
 
 class ARService {
-    
-    func createARView() -> ARView {
+    func createDualCultureView(etnia: EtniasEnum) -> ARView {
         let arView = ARView(frame: .zero)
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = [.horizontal]
         arView.session.run(configuration)
         
-        // Primer modelo (Mujer Chuj)
-        if let model1 = loadCustomModel(
+        // Modelo Mujer
+        if let womanModel = loadCustomModel(
             baseName: genderEnum.woman.rawValue,
-            clothingName: getModel(etnia: .chuj, gender: .woman),
+            clothingName: getModel(etnia: etnia, gender: .woman),
             skinColor: .skin
         ) {
-            model1.position = [-0.5, 0, -1] // Posición a la izquierda
-            model1.orientation = simd_quatf(angle: .pi/2, axis: [0, 1, 0])
+            womanModel.position = [-0.5, 0, -1] // Izquierda
+            womanModel.orientation = simd_quatf(angle: .pi/2, axis: [0, 1, 0])
             
-            let anchor1 = AnchorEntity(plane: .horizontal)
-            anchor1.addChild(model1)
-            arView.scene.anchors.append(anchor1)
+            let womanAnchor = AnchorEntity(plane: .horizontal)
+            womanAnchor.addChild(womanModel)
+            arView.scene.anchors.append(womanAnchor)
         }
         
-        // Segundo modelo (Hombre de otra etnia, por ejemplo Tzotzil)
-        if let model2 = loadCustomModel(
+        // Modelo Hombre
+        if let manModel = loadCustomModel(
             baseName: genderEnum.man.rawValue,
-            clothingName: getModel(etnia: .chuj, gender: .man),
+            clothingName: getModel(etnia: etnia, gender: .man),
             skinColor: .skin
         ) {
-            model2.position = [0.5, 0, -1] // Posición a la derecha
-            model2.orientation = simd_quatf(angle: .pi/2, axis: [0, 1, 0])
+            manModel.position = [0.5, 0, -1] // Derecha
+            manModel.orientation = simd_quatf(angle: .pi/2, axis: [0, 1, 0])
             
-            let anchor2 = AnchorEntity(plane: .horizontal)
-            anchor2.addChild(model2)
-            arView.scene.anchors.append(anchor2)
+            let manAnchor = AnchorEntity(plane: .horizontal)
+            manAnchor.addChild(manModel)
+            arView.scene.anchors.append(manAnchor)
         }
         
         return arView
     }
     
-    func loadCustomModel(baseName: String, clothingName: String, skinColor: UIColor) -> ModelEntity? {
+    private func loadCustomModel(baseName: String, clothingName: String, skinColor: UIColor) -> ModelEntity? {
         guard let baseEntity = try? ModelEntity.loadModel(named: baseName),
               let clothingEntity = try? ModelEntity.loadModel(named: clothingName) else {
-            print("Error al cargar \(baseName) o \(clothingName)")
+            print("Error al cargar: Base=\(baseName) o Ropa=\(clothingName)")
             return nil
         }
         
         clothingEntity.position = .zero
         baseEntity.addChild(clothingEntity)
         
+        // Aplicar color de piel
         if let modelComponent = baseEntity.model {
-            var newMaterials: [RealityKit.Material] = []
-            for material in modelComponent.materials {
-                if var physMaterial = material as? PhysicallyBasedMaterial {
-                    physMaterial.baseColor.tint = skinColor
-                    newMaterials.append(physMaterial)
-                } else {
-                    newMaterials.append(material)
+            var materials = modelComponent.materials
+            for i in 0..<materials.count {
+                if var material = materials[i] as? PhysicallyBasedMaterial {
+                    material.baseColor.tint = skinColor
+                    materials[i] = material
                 }
             }
-            baseEntity.model?.materials = newMaterials
+            baseEntity.model?.materials = materials
         }
+        
         return baseEntity
     }
 }
-

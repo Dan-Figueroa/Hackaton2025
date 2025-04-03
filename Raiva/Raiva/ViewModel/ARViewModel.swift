@@ -9,10 +9,10 @@ import SwiftUI
 import ARKit
 import RealityKit
 
-class ARViewModel: ObservableObject {
+/*class ARViewModel: ObservableObject {
     private let arService = ARService()
     
     func getARView() -> ARView {
         return arService.createARView()
     }
-}
+}*/
