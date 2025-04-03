@@ -23,7 +23,7 @@ struct ComunidadesView: View {
             
             ZStack {
                 Rectangle()
-                    .frame(width: 1100, height: 700)
+                    .frame(maxWidth: .infinity, maxHeight: 700)
                     .foregroundColor(.verdeBosque.opacity(0.6))
                     .cornerRadius(20)
                     .overlay{
@@ -52,8 +52,16 @@ struct ListaComunidades: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 10) {
                 ForEach(filtroViewModel.communities, id: \.self) { comunidades in
-                    UserViewType(imageName: comunidades.communityProfileImage, name: comunidades.communityName, style: .horizontal)
-                        .frame(width: 300, height: 230)
+                    
+                    Button {
+                        print("goa")
+                    } label: {
+                        UserViewType(imageName: comunidades.communityProfileImage, name: comunidades.communityName, style: .horizontal)
+                    }.frame(width: 300, height: 230)
+
+                    
+                    
+                        
                 }
             }
             .padding()

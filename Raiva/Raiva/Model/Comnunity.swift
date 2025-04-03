@@ -13,5 +13,4 @@ struct Community: Codable, Hashable {
     var communityProfileImage: String
     var communityPortraitImage: String
     var communityOwner: String
-    
 }

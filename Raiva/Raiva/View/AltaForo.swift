@@ -8,9 +8,18 @@ import SwiftUI
 
 struct AltaForo: View {
     @Binding var isPresented: Bool
-    @StateObject private var foroDataViewModel = AltaForoViewModel()
+    @StateObject private var foroDataViewModel: AltaForoViewModel
     @State private var wordCount: Int = 0
     @State var comunidadSeleccionada: Community
+    
+    // Inicializador personalizado
+    init(isPresented: Binding<Bool>, comunidadSeleccionada: Community) {
+        self._isPresented = isPresented
+        self._comunidadSeleccionada = State(initialValue: comunidadSeleccionada)
+        self._foroDataViewModel = StateObject(
+            wrappedValue: AltaForoViewModel(selectedCommunity: comunidadSeleccionada)
+        )
+    }
     
     var body: some View {
         Rectangle()
@@ -28,12 +37,18 @@ struct AltaForo: View {
                         
                         Spacer()
                         
-                        CommunityPickerView(comunidadSeleccionada: comunidadSeleccionada)
+                        CommunityPickerView(
+                            comunidadSeleccionada: $comunidadSeleccionada,
+                            onCommunitySelected: { newCommunity in
+                                foroDataViewModel.selectedEthnicity = newCommunity
+                            }
+                        )
                         
                         Spacer()
                     }
                     .padding(.top, 10)
                     
+                    // Resto del código igual...
                     HStack {
                         UserViewType(imageName: CurrentUser.shared.profilePicture, name: CurrentUser.shared.userName, style: .horizontal)
                             .scaleEffect(1.2)
@@ -78,9 +93,8 @@ struct AltaForo: View {
                         Spacer()
                         CustomButton(action: {
                             print("Publicando: \(foroDataViewModel.postTitle)")
-                            
                             foroDataViewModel.publicar()
-                            
+                            isPresented = false
                         }, style: .standard(fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "Publicar"))
                         .frame(width: 150)
                         .padding(.top, 20)
@@ -92,15 +106,14 @@ struct AltaForo: View {
     }
 }
 
-
 struct CommunityPickerView: View {
-    @State var comunidadSeleccionada: Community
+    @Binding var comunidadSeleccionada: Community
     @ObservedObject var vm = ForumViewModel()
     @State private var showPicker = false
+    var onCommunitySelected: (Community) -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-          
             HStack {
                 Image(comunidadSeleccionada.communityProfileImage)
                     .resizable()
@@ -126,26 +139,21 @@ struct CommunityPickerView: View {
                 }
             }
             
-           
             if showPicker {
-                //CommunityList(comunidadSeleccionada: comunidadSeleccionada, showPicker: $showPicker)
                 ScrollView {
                     VStack(spacing: 0) {
                         ForEach(vm.communities, id: \.id) { comunidad in
                             HStack {
-                                // Usamos communityProfileImage que es String
                                 Image(comunidad.communityProfileImage)
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 25, height: 25)
                                 
-                                // Mostramos el nombre de la comunidad
                                 Text(comunidad.communityName)
                                     .foregroundColor(.arena)
                                 
                                 Spacer()
                                 
-                                // Comparamos por ID para mayor seguridad
                                 if comunidadSeleccionada.id == comunidad.id {
                                     Image(systemName: "checkmark")
                                         .foregroundColor(.arena)
@@ -158,6 +166,7 @@ struct CommunityPickerView: View {
                             .onTapGesture {
                                 withAnimation {
                                     comunidadSeleccionada = comunidad
+                                    onCommunitySelected(comunidad)
                                     showPicker.toggle()
                                 }
                             }
@@ -169,7 +178,7 @@ struct CommunityPickerView: View {
                             .stroke(Color.verdeBosque.opacity(0.5), lineWidth: 1)
                     )
                 }
-                .frame(height: min(CGFloat(EtniasEnum.allCases.count) * 50, 200))
+                .frame(height: min(CGFloat(vm.communities.count) * 50, 200))
                 .transition(.opacity.combined(with: .move(edge: .top)))
                 .zIndex(1)
             }

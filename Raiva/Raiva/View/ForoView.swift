@@ -71,7 +71,8 @@ struct ForoView: View {
                                 ))
                         } else {
                             ComunidadesView(showCreateComunity: $showCreateComunity)
-                                .frame(width: 880, height: 809)
+                                .frame(width: 800, height: 809)
+                                .padding(.trailing, 20)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .transition(.asymmetric(
                                     insertion: .opacity.combined(with: .scale(scale: 0.95)),

@@ -9,8 +9,12 @@ import SwiftUI
 
 struct CommunityView: View {
     @StateObject private var communityVM = CreateComunnityViewModel()
+    @StateObject private var misComunidadesViewModel = MisComunidadesViewModel()
     @Binding var showCommunity: Bool
+    @Binding var community: Community
     @State private var showAltaForo = false
+    
+    @State var isJoined: Bool = false
     var body: some View {
         ZStack {
             Rectangle()
@@ -92,17 +96,20 @@ struct CommunityView: View {
                     ).frame(width: 530)
                     .scaleEffect(0.5)
                     
-                    CustomButton(
-                        action: {
-                            
-                        },
-                        style: .standard(
-                            fontColor: .beige,
-                            backgroundColor: .arena.opacity(0.4),
-                            buttonName: "UNIRSE"
+                    if !isJoined{
+                        CustomButton(
+                            action: {
+                                misComunidadesViewModel.subirForumUser(fu: ForumUsers(userID: CurrentUser.shared.id, forumID: community.id))
+                                isJoined.toggle()
+                            },
+                            style: .standard(
+                                fontColor: .beige,
+                                backgroundColor: .arena.opacity(0.4),
+                                buttonName: "UNIRSE"
+                            )
                         )
-                    )
-                    .frame(width: 140)
+                        .frame(width: 140)
+                    }
                 }
                 .padding(.leading,330)
                 
@@ -132,5 +139,28 @@ struct CommunityView: View {
 }
 
 #Preview {
-    CommunityView(showCommunity: .constant(false))
+    // Crear un binding para showCommunity
+    let showCommunity = Binding<Bool>(
+        get: { false },
+        set: { _ in }
+    )
+    
+    // Crear un binding para community con datos de ejemplo
+    let community = Binding<Community>(
+        get: {
+            Community(
+                communityName: "Comunidad de Surf",
+                communityDescription: "Un lugar para los amantes del surf y el océano",
+                communityProfileImage: "surf_profile",
+                communityPortraitImage: "surf_portrait",
+                communityOwner: "user123"
+            )
+        },
+        set: { _ in }
+    )
+    
+    CommunityView(
+        showCommunity: showCommunity,
+        community: community
+    )
 }

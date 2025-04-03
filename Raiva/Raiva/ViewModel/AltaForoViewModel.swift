@@ -7,26 +7,41 @@
 import Foundation
 
 class AltaForoViewModel: ObservableObject {
-    @Published var users: [User] = []
-    @Published var selectedEthnicity: Community = communityData
+    @Published var selectedEthnicity: Community
     @Published var postTitle: String = ""
     @Published var postContent: String = ""
     
     private var forumService = ForumService()
-
+    
+    init(selectedCommunity: Community) {
+        self.selectedEthnicity = selectedCommunity
+    }
+    
     var selectedCommunityName: String {
         selectedEthnicity.communityName
     }
     
-    func crearForo(foro: Forum){
+    func crearForo(foro: Forum) {
         forumService.guardarForo(forum: foro)
     }
     
-    func publicar(){
-        let comunidad = selectedEthnicity
-        let tittle = postTitle
-        let content = postContent
+    func publicar() {
+        guard !postTitle.isEmpty, !postContent.isEmpty else {
+            print("Error: Título o contenido vacío")
+            return
+        }
         
-        crearForo(foro: Forum(userID: CurrentUser.shared.id, communityID: comunidad.id, title: tittle, body: content))
+        let nuevoForo = Forum(
+            userID: CurrentUser.shared.id,
+            communityID: selectedEthnicity.id,
+            title: postTitle,
+            body: postContent
+        )
+        
+        crearForo(foro: nuevoForo)
+        
+        // Limpiar después de publicar
+        postTitle = ""
+        postContent = ""
     }
 }

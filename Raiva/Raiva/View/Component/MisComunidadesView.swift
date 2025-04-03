@@ -12,10 +12,9 @@ struct MisComunidadesView: View {
     @State private var showComponent = false
     @State private var arrowImageName: String = "flecha"
     @StateObject private var filtroViewModel = FiltroViewModel()
+    @StateObject private var comunidadesVM = MisComunidadesViewModel()
     
     let opcionesFiltro = ["Todas", "Más recientes"]
-    let communities = Array(repeating: (name: "Comunidad Ejemplo", icon: "perfilInvitado"), count: 6)
-    
     var dynamicWidth: CGFloat {
         showTwoColumns ? 500 : 300
     }
@@ -61,10 +60,10 @@ struct MisComunidadesView: View {
                             columns: [GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20)],
                             spacing: 20
                         ) {
-                            ForEach(communities.indices, id: \ .self) { index in
+                            ForEach(comunidadesVM.getCommunitiesForUser(userID: "-OMVx_zLKidSzuepp_pr"), id: \.id) { community in
                                 CommunityForumComponent(
-                                    communityName: communities[index].name,
-                                    communityIcon: communities[index].icon
+                                    communityName: community.communityName,
+                                    communityIcon: community.communityProfileImage
                                 )
                                 .frame(width: 200, height: 100)
                                 .padding(.vertical, 12)
@@ -74,10 +73,10 @@ struct MisComunidadesView: View {
                         .padding(.horizontal, 16)
                     } else {
                         VStack(alignment: .leading, spacing: 16) {
-                            ForEach(communities.indices, id: \ .self) { index in
+                            ForEach(comunidadesVM.getCommunitiesForUser(userID: "-OMVx_zLKidSzuepp_pr"), id: \.id) { community in
                                 CommunityForumComponent(
-                                    communityName: communities[index].name,
-                                    communityIcon: communities[index].icon
+                                    communityName: community.communityName,
+                                    communityIcon: community.communityProfileImage
                                 )
                                 .frame(width: 250, height: 100)
                                 .padding(.vertical, 12)
@@ -97,6 +96,9 @@ struct MisComunidadesView: View {
                 onSeleccion: { print("Filtro aplicado: \($0)") },
                 offsetX: 10, offsetY: -150
             )
+        }
+        .onAppear {
+            comunidadesVM.loadInitialData()
         }
     }
 }

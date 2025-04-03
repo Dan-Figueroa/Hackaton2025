@@ -36,18 +36,14 @@ struct InicioView: View {
                                     forumData: forum,
                                     withBackground: true
                                 )
-                                
-                                Text("\(index + 1)")
-                                    .font(.custom("futura", size: 50))
-                                    .foregroundStyle(.red)
                             }
                         }
 
                     }
                 }
-                .padding()
+                .padding([.trailing, .bottom], 23)
             }
-        }
+        }.padding(.trailing, 50)
         
         FiltroOverlay(
             viewModel: filtroViewModel,
