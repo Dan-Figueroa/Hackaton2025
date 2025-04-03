@@ -18,13 +18,12 @@ struct Questions: View {
     
     var body: some View {
         ZStack(alignment: .center) {
-            // Fondo de la tarjeta
+            
             RoundedRectangle(cornerRadius: 30)
                 .frame(width: 700, height: 500)
                 .foregroundColor(.arena)
                 .shadow(radius: 10)
             
-            // Contenido principal
             RoundedRectangle(cornerRadius: 30)
                 .frame(width: 660, height: 450)
                 .foregroundColor(.beige)
@@ -34,7 +33,7 @@ struct Questions: View {
                 )
                 .overlay(
                     VStack(spacing: 10) {
-                        // Timer
+                        
                         ZStack(alignment: .leading) {
                             RoundedRectangle(cornerRadius: 5)
                                 .frame(width: 560, height: 30)
