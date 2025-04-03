@@ -8,8 +8,7 @@
 import Foundation
 
 class JuegoPrincipalViewModel: ObservableObject {
-    @Published var user: User?
-    @Published var leftCoins: Int = 0  // Monedas del jugador izquierdo
+    @Published var leftCoins: Int = 0
     @Published var rightCoins: Int = 0
     @Published var leftScore: Int = 0
     @Published var rightScore: Int = 0
@@ -18,9 +17,7 @@ class JuegoPrincipalViewModel: ObservableObject {
     
     private let minY: Int = -80
     private let maxY: Int = 130
-  
     
-    //subir
     func subirIzquierdo(cantidad: Int = 90) {
         guard leftMoveY > minY else { return }
         leftMoveY -= cantidad
@@ -53,9 +50,14 @@ class JuegoPrincipalViewModel: ObservableObject {
         rightScore = 0
     }
         
-        // Opcional: función para reiniciar monedas
     func reiniciarMonedas() {
         leftCoins = 0
         rightCoins = 0
+    }
+    
+    func reiniciarJuego() {
+        reiniciarPosiciones()
+        reiniciarScores()
+        reiniciarMonedas()
     }
 }

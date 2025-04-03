@@ -12,6 +12,8 @@ struct JuegoPrincipal: View {
     @State private var mostrarEmpecemos = true
     @State private var mostrarBusqueda = false
     @State private var encontradoOponente = false
+    @State private var mostrarPregunta = false
+    @State private var juegoTerminado = false
     var person: Int = 0
 
     var body: some View {
@@ -29,7 +31,6 @@ struct JuegoPrincipal: View {
                         playerCard
                         coinsLeftCard
                         scoreCard
-                        //coinsRightCard
                     }
                     .padding(.bottom, 100)
                     
@@ -48,19 +49,17 @@ struct JuegoPrincipal: View {
                 personLeftCard
                 personRightCard
             }
-            .disabled(mostrarEmpecemos || mostrarBusqueda)
+            .disabled(mostrarEmpecemos || mostrarBusqueda || mostrarPregunta || juegoTerminado)
         
             if mostrarEmpecemos {
                 Empecemos()
                     .transition(.opacity)
                     .onAppear {
-                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {
                                 mostrarEmpecemos = false
                                 mostrarBusqueda = true
                                 
-                                // Simulación de encontrar oponente después de 7 segundos
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                     encontradoOponente = true
                                 }
@@ -70,7 +69,6 @@ struct JuegoPrincipal: View {
                     .zIndex(1)
             }
             
-            // Vista de búsqueda
             if mostrarBusqueda {
                 BusquedaView(shouldDismiss: $encontradoOponente)
                     .transition(.opacity)
@@ -78,10 +76,42 @@ struct JuegoPrincipal: View {
                         if newValue {
                             withAnimation {
                                 mostrarBusqueda = false
+                                // Esperar 3 segundos antes de mostrar la pregunta
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    mostrarPregunta = true
+                                }
                             }
                         }
                     }
                     .zIndex(1)
+            }
+            
+            if mostrarPregunta {
+                Questions()
+                    .transition(.opacity)
+                    .environmentObject(juegoVM)
+                    .onDisappear {
+                        // Verificar si el juego ha terminado
+                        if juegoVM.leftScore >= 3 || juegoVM.rightScore >= 3 {
+                            juegoTerminado = true
+                        } else {
+                            // Mostrar siguiente pregunta después de un tiempo
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                mostrarPregunta = true
+                            }
+                        }
+                    }
+                    .zIndex(2)
+            }
+            
+            if juegoTerminado {
+                GanadorView(ganador: juegoVM.leftScore >= 3 ? "Jugador Izquierdo" : "Jugador Derecho", action: {
+                    juegoVM.reiniciarJuego()
+                    juegoTerminado = false
+                    mostrarPregunta = false
+                })
+                .transition(.opacity)
+                .zIndex(3)
             }
         }
     }
@@ -110,8 +140,7 @@ struct JuegoPrincipal: View {
                         Text("\(juegoVM.leftCoins)")
                             .font(.custom("Gagalin", size: 40))
                             .foregroundColor(.arena)
-                        
-                    }else{
+                    } else {
                         Text("\(juegoVM.rightCoins)")
                             .font(.custom("Gagalin", size: 40))
                             .foregroundColor(.arena)
@@ -119,7 +148,6 @@ struct JuegoPrincipal: View {
                 }
             )
     }
-
     
     private var scoreCard: some View {
         Rectangle()
@@ -142,7 +170,6 @@ struct JuegoPrincipal: View {
     }
     
     private var personLeftCard: some View {
-        
         VStack {
             Text("Jesus")
                 .font(.custom("Gagalin", size: 20))
@@ -156,9 +183,8 @@ struct JuegoPrincipal: View {
              Image("personajeIzquierdo")
                 .scaleEffect(1.2)
                 .offset(x: -275, y: CGFloat(juegoVM.leftMoveY))
-                
-        }.animation(.easeOut(duration: 0.8), value: juegoVM.leftMoveY)
-
+        }
+        .animation(.easeOut(duration: 0.8), value: juegoVM.leftMoveY)
     }
     
     private var personRightCard: some View {
@@ -181,12 +207,8 @@ struct JuegoPrincipal: View {
     
     private var buttons: some View {
         HStack(spacing: 40) {
-            
-            
             CustomButton(action: {
                 juegoVM.subirDerecho()
-                //juegoVM.reiniciarPosiciones()
-                //juegoVM.reiniciarScores()
             }, style: .image(imageName: "back"))
             
             CustomButton(action: {
@@ -194,6 +216,35 @@ struct JuegoPrincipal: View {
             }, style: .image(imageName: "exit"))
         }
         .padding(.leading, -20)
+    }
+}
+
+struct GanadorView: View {
+    let ganador: String
+    let action: () -> Void
+    
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.7)
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack(spacing: 30) {
+                Text("¡GANADOR!")
+                    .font(.custom("Gagalin", size: 50))
+                    .foregroundColor(.arena)
+                
+                Text(ganador)
+                    .font(.custom("Gagalin", size: 40))
+                    .foregroundColor(.white)
+                
+                CustomButton(action: action, style: .standard(fontColor: .blanco, backgroundColor: .arena, buttonName: "Jugar de nuevo"))
+                    .frame(width: 200)
+            }
+            .padding(40)
+            .background(Color.beige)
+            .cornerRadius(20)
+            .shadow(radius: 10)
+        }
     }
 }
 

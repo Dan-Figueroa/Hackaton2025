@@ -7,18 +7,20 @@
 import SwiftUI
 
 struct Questions: View {
+    @EnvironmentObject private var juegoVM: JuegoPrincipalViewModel
     @StateObject private var timerVM = TimerViewModel(tiempoTotal: 10)
     @StateObject private var questionVM = QuestionViewModel()
+    @Environment(\.presentationMode) var presentationMode
+    
+    @State private var respuestaCorrecta = false
+    @State private var esperandoCierre = false
     
     var body: some View {
         ZStack(alignment: .center) {
-
             CardContainer(width: 700, height: 500, color: .arena)
-            
             
             CardContainer(width: 660, height: 450, color: .beige, strokeColor: .brown) {
                 VStack(spacing: 10) {
-                    
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 5)
                             .frame(width: 560, height: 30)
@@ -37,13 +39,11 @@ struct Questions: View {
                     .padding(.bottom, 80)
                     .padding(.top, 10)
                  
-                    
                     Text(questionVM.preguntaActual.texto)
                         .frame(width: 560)
                         .font(.custom("Gagalin", size: 25))
                         .multilineTextAlignment(.center)
                         .padding(.bottom, 60)
-                    
                     
                     HStack(spacing: 20) {
                         ForEach(0..<questionVM.preguntaActual.opciones.count, id: \.self) { index in
@@ -58,20 +58,19 @@ struct Questions: View {
                                 )
                             )
                             .frame(width: 180, height: 50)
+                            .disabled(questionVM.respuestaBloqueada)
                         }
                     }
                 }
                 .padding(.horizontal, 20)
             }
             
-           
             VStack {
                 CardContainer(width: 400, height: 60, color: .arena)
                 Spacer().frame(height: 95)
             }
             .offset(y: -190)
             
-           
             CardContainer(width: 360, height: 40, color: .beige, strokeColor: .brown) {
                 HStack(spacing: 80) {
                     GrayRectangle()
@@ -88,6 +87,34 @@ struct Questions: View {
         }
         .onDisappear {
             timerVM.detener()
+        }
+        .onChange(of: questionVM.esCorrecto) {_, correcto in
+            if correcto == true {
+                respuestaCorrecta = true
+                juegoVM.subirIzquierdo() // O subirDerecho() según el jugador
+                
+                if timerVM.tiempoRestante > 0 {
+                    esperandoCierre = true
+                } else {
+                    cerrarPregunta()
+                }
+            }
+        }
+        .onChange(of: timerVM.tiempoRestante) {_, tiempo in
+            if tiempo <= 0 && respuestaCorrecta && esperandoCierre {
+                cerrarPregunta()
+            } else if tiempo <= 0 {
+                // Tiempo agotado sin respuesta correcta
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }
+        }
+    }
+    
+    private func cerrarPregunta() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            presentationMode.wrappedValue.dismiss()
         }
     }
     
@@ -110,7 +137,6 @@ struct Questions: View {
         default: return .green
         }
     }
-    
     
     private func CardContainer(
         width: CGFloat,
@@ -139,10 +165,9 @@ struct Questions: View {
             .foregroundColor(.gray)
             .cornerRadius(10)
     }
-    
-    
 }
 
 #Preview {
     Questions()
+        .environmentObject(JuegoPrincipalViewModel())
 }
