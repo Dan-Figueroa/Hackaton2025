@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RegisterView: View {
-    @StateObject private var registerViewModel = RegisterViewModel()
+    @StateObject var registerViewModel = RegisterViewModel()
     @State private var rememberMe = false
     @State private var norobot = false
     @ObservedObject var coordinator: RegistrationCoordinator
@@ -99,7 +99,7 @@ struct RegisterView: View {
         .background(Color.clear)
         // Sheet para información adicional del usuario
         .sheet(isPresented: $coordinator.isUserInfoViewPresented) {
-            UserInfoRegister(coordinator: coordinator)
+            UserInfoRegister(registerViewModel: registerViewModel, coordinator: coordinator)
                 .environmentObject(AppData())
                 .presentationBackground(.clear)
                 .interactiveDismissDisabled(true)
