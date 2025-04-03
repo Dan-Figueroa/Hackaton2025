@@ -55,7 +55,7 @@ struct JuegoPrincipal: View {
                 Empecemos()
                     .transition(.opacity)
                     .onAppear {
-                        audioPlayer.playSound(named: "músicaFondo", loop: true)
+                        audioPlayer.playSound(named: "musicaFondo", loop: true)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {
                                 mostrarEmpecemos = false

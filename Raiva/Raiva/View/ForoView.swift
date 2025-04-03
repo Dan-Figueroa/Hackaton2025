@@ -15,7 +15,8 @@ struct ForoView: View {
     @State private var isPresented: Bool = false
     @State private var showAltaForo = false
     @State private var showComunidadesView = false
-    @State private var showCreateComunity = false 
+    @State private var showCreateComunity = false
+    @StateObject private var registrationCoordinator = RegistrationCoordinator()
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -105,10 +106,15 @@ struct ForoView: View {
             }
         }
         .sheet(isPresented: $isPresented) {
-            LoginView()
-                .environmentObject(AppData())
-                .presentationBackground(.clear)
-                .interactiveDismissDisabled(true)
+                    LoginView()
+                        .environmentObject(AppData())
+                        .presentationBackground(.clear)
+                        .interactiveDismissDisabled(true)
+                }
+        .onChange(of: registrationCoordinator.isRegisterViewPresented) { oldValue, newValue in
+            if newValue {
+                isPresented = false
+            }
         }
     }
 }

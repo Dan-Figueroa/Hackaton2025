@@ -8,15 +8,15 @@ import SwiftUI
 
 struct UserInfoRegister: View {
     @StateObject private var registerViewModel = RegisterViewModel()
-    @State private var rememberMe = false
     @State private var si = false
     @State private var no = false
     @State private var nose = false
     @State private var showImagePicker = false
+    @ObservedObject var coordinator: RegistrationCoordinator
     
     var body: some View {
         ZStack {
-            
+            // Fondo verde con logo
             Rectangle()
                 .foregroundColor(Color.verdeBosque)
                 .frame(width: 400, height: 600)
@@ -29,6 +29,7 @@ struct UserInfoRegister: View {
                     }
                 )
             
+            // Formulario de información
             Rectangle()
                 .foregroundColor(Color.beige)
                 .frame(width: 400, height: 480)
@@ -36,6 +37,7 @@ struct UserInfoRegister: View {
                 .offset(y: 70)
                 .overlay(
                     VStack {
+                        // Foto de perfil y pregunta
                         HStack {
                             ZStack {
                                 Circle()
@@ -49,14 +51,16 @@ struct UserInfoRegister: View {
                                     .clipShape(Circle())
                                 
                                 if registerViewModel.selectedImage == "perfilInvitado" {
-                                    CustomButton(action: {
-                                        showImagePicker.toggle()
-                                    }, style: .image(imageName: "camara"))
+                                    CustomButton(
+                                        action: { showImagePicker.toggle() },
+                                        style: .image(imageName: "camara")
+                                    )
                                     .scaleEffect(0.7)
                                 }
                             }
                             .padding(.top, 160)
                             .padding(.bottom, 40)
+                            
                             Text("¿Perteneces a un pueblo originario?")
                                 .foregroundColor(Color.verdeBosque)
                                 .bold()
@@ -64,6 +68,7 @@ struct UserInfoRegister: View {
                                 .padding(.bottom, 20)
                         }
                         
+                        // Opción Sí
                         CustomCheckbox(label: "Si", isChecked: $si)
                             .padding(.leading, -130)
                             .padding(.bottom, 10)
@@ -74,6 +79,7 @@ struct UserInfoRegister: View {
                                 }
                             }
                         
+                        // Selector de etnia (si seleccionó Sí)
                         if si {
                             Picker("Selecciona una comunidad", selection: $registerViewModel.selectedEthnicity) {
                                 ForEach(EtniasEnum.allCases, id: \.self) { ethnicity in
@@ -93,13 +99,15 @@ struct UserInfoRegister: View {
                                 text: $registerViewModel.registerEtnia,
                                 type: .normal,
                                 backgroundColor: Color.beige,
-                                foregroundColor: .black, tittleColor: Color.black,
+                                foregroundColor: .black,
+                                tittleColor: Color.black,
                                 width: 200,
                                 borderColor: Color.arena
                             )
                             .padding(.bottom, 20)
                         }
                         
+                        // Opción No
                         CustomCheckbox(label: "No", isChecked: $no)
                             .padding(.leading, -130)
                             .padding(.bottom, 20)
@@ -110,6 +118,7 @@ struct UserInfoRegister: View {
                                 }
                             }
                         
+                        // Opción Prefiero no decirlo
                         CustomCheckbox(label: "Prefiero no decirlo", isChecked: $nose)
                             .padding(.leading, -95)
                             .padding(.bottom, 20)
@@ -120,26 +129,42 @@ struct UserInfoRegister: View {
                                 }
                             }
                         
-                        CustomButton(action: {
-                            print(registerViewModel.registerCorreo)
-                            registerViewModel.agregarUsuario(user: User(
-                                userName: registerViewModel.registerCorreo,
-                                profilePicture: registerViewModel.selectedImage,
-                                etnia: registerViewModel.selectedEthnicity.rawValue
-                            ))
-                        }, style: .standard(fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "continuar"))
-                        
+                        // Botón de continuar
+                        CustomButton(
+                            action: {
+                                registerViewModel.agregarUsuario(user: User(
+                                    userName: registerViewModel.registerCorreo,
+                                    profilePicture: registerViewModel.selectedImage,
+                                    etnia: registerViewModel.selectedEthnicity.rawValue
+                                ))
+                            },
+                            style: .standard(
+                                fontColor: .beige,
+                                backgroundColor: .verdeBosque,
+                                buttonName: "continuar"
+                            )
+                        )
                         .frame(width: 300)
                     }
                 )
         }
+        // Selector de imagen
         .sheet(isPresented: $showImagePicker) {
-            ImagePickerComponent(selectImage: $registerViewModel.selectedImage,
-                                 availableImages: registerViewModel.availableImages)
+            ImagePickerComponent(
+                selectImage: $registerViewModel.selectedImage,
+                availableImages: registerViewModel.availableImages
+            )
+        }
+        // Cierre al completar registro
+        .onChange(of: registerViewModel.registrationComplete) { oldValue, newValue in
+            if newValue {
+                coordinator.completeRegistration()
+            }
         }
     }
 }
+
 #Preview {
-    UserInfoRegister()
+    UserInfoRegister(coordinator: RegistrationCoordinator())
         .environmentObject(AppData())
 }

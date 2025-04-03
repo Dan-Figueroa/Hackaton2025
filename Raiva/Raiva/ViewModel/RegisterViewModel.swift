@@ -12,6 +12,8 @@ class RegisterViewModel: ObservableObject {
     @Published var registerEtnia: String = ""
     @Published var selectedEthnicity: EtniasEnum = .zoque
     @Published var selectedImage: String = "perfilInvitado"
+    @Published var shouldContinue = false
+    @Published var registrationComplete = false
     
     /// Services
     private var userService = UserService()
@@ -27,5 +29,8 @@ class RegisterViewModel: ObservableObject {
     
     func agregarUsuario(user: User) {
         userService.guardarUsuario(usuario: user)
+        DispatchQueue.main.async {
+                    self.registrationComplete = true
+        }
     }
 }

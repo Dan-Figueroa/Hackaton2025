@@ -12,7 +12,7 @@ struct LoginView: View {
     @StateObject private var loginViewModel = LoginViewModel()
     @State private var rememberMe = false
     @State private var norobot = false
-    @State var showRegister = false
+    @StateObject private var registrationCoordinator = RegistrationCoordinator()
     
     var body: some View {
         ZStack {
@@ -78,7 +78,8 @@ struct LoginView: View {
                         ZStack() {
                             CustomButton(
                                 action: {
-                                    showRegister.toggle()
+                                
+                                    registrationCoordinator.isRegisterViewPresented = true
                                 },
                                 style: .standard(
                                     fontColor: .verdeBosque,
@@ -118,13 +119,11 @@ struct LoginView: View {
                         
                     }
                 )
-        }.sheet(isPresented: $showRegister) {
-            RegisterView()
+        }.sheet(isPresented: $registrationCoordinator.isRegisterViewPresented) {
+            RegisterView(coordinator: registrationCoordinator)
                 .environmentObject(AppData())
                 .presentationBackground(.clear)
                 .interactiveDismissDisabled(true)
-            
-            
         }
         
             

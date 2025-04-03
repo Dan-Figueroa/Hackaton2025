@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct pruebasheets: View {
+/*struct pruebasheets: View {
     @State private var showSheet1 = false
     @State private var showSheet2 = false
     @StateObject private var sheetViewModel = LoginViewModel()
@@ -35,6 +35,7 @@ struct pruebasheets: View {
         }
         .sheet(isPresented: $showSheet2) {
             RegisterView()
+            
                 .environmentObject(AppData())
                 .presentationBackground(.clear)
                 .interactiveDismissDisabled(true)
@@ -45,3 +46,4 @@ struct pruebasheets: View {
 #Preview {
     pruebasheets()
 }
+*/
