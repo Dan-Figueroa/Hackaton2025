@@ -125,7 +125,7 @@ struct CommunityView: View {
         }
         .frame(width: 900, height: 700)
         .sheet(isPresented: $showAltaForo) {
-            AltaForo(isPresented: $showAltaForo)
+            AltaForo(isPresented: $showAltaForo, comunidadSeleccionada: communityData)
             .presentationBackground(.clear)
     }
     }
