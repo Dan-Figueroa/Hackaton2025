@@ -8,22 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var viewModel = ARViewModel()
     var body: some View {
-        VStack {
-            Text("Hello, world!")
-                .font(.custom("Gagalin", size:48))
-                .foregroundColor(Color.beige)
-            ARViewContainer(viewModel: viewModel)
-                        .edgesIgnoringSafeArea(.all)
-            
-                
-        }.ignoresSafeArea(.all)
-        .background(Color.verdeBosque)
-        .padding()
+        ARViewContainer()
+            .edgesIgnoringSafeArea(.all)
     }
 }
-
 #Preview {
     ContentView()
 }

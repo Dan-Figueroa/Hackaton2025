@@ -10,16 +10,11 @@ import ARKit
 import RealityKit
 
 struct ARViewContainer: UIViewRepresentable {
-    @ObservedObject var viewModel: ARViewModel
-
     func makeUIView(context: Context) -> ARView {
-        return viewModel.getARView()
+        return ARService().createARView()
     }
-
+    
     func updateUIView(_ uiView: ARView, context: Context) {}
 }
 
-#Preview {
-    ARViewContainer(viewModel: ARViewModel())
-}
 

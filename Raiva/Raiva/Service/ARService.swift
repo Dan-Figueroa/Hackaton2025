@@ -17,20 +17,34 @@ class ARService {
         configuration.planeDetection = [.horizontal]
         arView.session.run(configuration)
         
-        if let combinedModel = loadCustomModel(baseName: genderEnum.woman.rawValue,
-                                               clothingName: getModel(etnia: .qanjobal, gender: .woman),
-                                              skinColor: .skin) {
-            // Ajustar posición (1 metro frente al usuario)
-            combinedModel.position = [0, 0, -1]
+        // Primer modelo (Mujer Chuj)
+        if let model1 = loadCustomModel(
+            baseName: genderEnum.woman.rawValue,
+            clothingName: getModel(etnia: .chuj, gender: .woman),
+            skinColor: .skin
+        ) {
+            model1.position = [-0.5, 0, -1] // Posición a la izquierda
+            model1.orientation = simd_quatf(angle: .pi/2, axis: [0, 1, 0])
             
-            // Rotar el modelo para que mire hacia la cámara
-            combinedModel.orientation = simd_quatf(angle: .pi, axis: [0, 1, 0])
-            
-            // Crear un anchor en lugar de uno de plano horizontal
-            let anchor = AnchorEntity(world: [0, 0, -1])
-            anchor.addChild(combinedModel)
-            arView.scene.anchors.append(anchor)
+            let anchor1 = AnchorEntity(plane: .horizontal)
+            anchor1.addChild(model1)
+            arView.scene.anchors.append(anchor1)
         }
+        
+        // Segundo modelo (Hombre de otra etnia, por ejemplo Tzotzil)
+        if let model2 = loadCustomModel(
+            baseName: genderEnum.man.rawValue,
+            clothingName: getModel(etnia: .chuj, gender: .man),
+            skinColor: .skin
+        ) {
+            model2.position = [0.5, 0, -1] // Posición a la derecha
+            model2.orientation = simd_quatf(angle: .pi/2, axis: [0, 1, 0])
+            
+            let anchor2 = AnchorEntity(plane: .horizontal)
+            anchor2.addChild(model2)
+            arView.scene.anchors.append(anchor2)
+        }
+        
         return arView
     }
     
