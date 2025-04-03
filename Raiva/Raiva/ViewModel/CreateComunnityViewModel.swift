@@ -7,8 +7,8 @@
 
 import Foundation
 class CreateComunnityViewModel: ObservableObject {
-    @Published var communityName: String = ""
-    @Published var communityDescription: String = ""
+    @Published var communityName: String = "Zoques"
+    @Published var communityDescription: String = "La comunidad zoque es una de las principales en la cultura chiapaneca ya que se encuentra en los altos de este y mas cercano a la frontera con veracruz"
     @Published var selectImage: String = "perfilInvitado" // communityProfileImage
     
     @Published var availableImages: [String] = [
