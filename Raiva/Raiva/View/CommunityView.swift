@@ -25,7 +25,7 @@ struct CommunityView: View {
             
             VStack(spacing: 0) {
                 ZStack {
-                    Image(communityVM.selectImage)
+                    Image(community.communityProfileImage)
                         .resizable()
                         .scaledToFill()
                         .frame(height: 180)
@@ -48,7 +48,7 @@ struct CommunityView: View {
                 .frame(width: 180, height: 180)
                 .overlay(
                     ZStack {
-                        Image(communityVM.selectImage)
+                        Image(community.communityProfileImage)
                             .resizable()
                             .scaledToFill()
                             .frame(width: 160, height: 160)
@@ -64,7 +64,7 @@ struct CommunityView: View {
             
             VStack(alignment: .leading, spacing: 10) {
                
-                Text(communityVM.communityName)
+                Text(community.communityName)
                     .font(.custom("Gagalin", size: 30))
                     .foregroundColor(.beige)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -73,7 +73,7 @@ struct CommunityView: View {
                     .minimumScaleFactor(0.5)
               
                 ScrollView {
-                    Text(communityVM.communityDescription)
+                    Text(community.communityDescription)
                         .font(.custom("Gagalin", size: 15))
                         .foregroundColor(.beige)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -100,6 +100,8 @@ struct CommunityView: View {
                         CustomButton(
                             action: {
                                 misComunidadesViewModel.subirForumUser(fu: ForumUsers(userID: CurrentUser.shared.id, forumID: community.id))
+                                
+                                
                                 isJoined.toggle()
                             },
                             style: .standard(

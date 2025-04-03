@@ -42,29 +42,34 @@ struct ComunidadesView: View {
 }
 
 struct ListaComunidades: View {
+    @State private var selectedCommunity: Community = communityData
     @State private var columns: [GridItem] = [
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible(), spacing: 16)
     ]
     @StateObject private var filtroViewModel = FiltroViewModel()
+    @State var isPresented: Bool = false
     
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 10) {
                 ForEach(filtroViewModel.communities, id: \.self) { comunidades in
-                    
                     Button {
-                        print("goa")
+                        selectedCommunity = comunidades
+                        isPresented.toggle()
                     } label: {
                         UserViewType(imageName: comunidades.communityProfileImage, name: comunidades.communityName, style: .horizontal)
-                    }.frame(width: 300, height: 230)
-
-                    
-                    
-                        
+                    }
+                    .contentShape(Rectangle())
+                    .frame(width: 300, height: 230)
                 }
             }
             .padding()
+        }.sheet(isPresented: $isPresented) {
+            CommunityView(
+                showCommunity: $isPresented,
+                community: $selectedCommunity
+            ).presentationBackground(.clear)
         }
     }
 }

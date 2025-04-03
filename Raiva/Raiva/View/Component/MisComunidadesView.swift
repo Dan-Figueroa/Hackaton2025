@@ -60,7 +60,7 @@ struct MisComunidadesView: View {
                             columns: [GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20)],
                             spacing: 20
                         ) {
-                            ForEach(comunidadesVM.getCommunitiesForUser(userID: "-OMVx_zLKidSzuepp_pr"), id: \.id) { community in
+                            ForEach(comunidadesVM.getCommunitiesForUser(userID: CurrentUser.shared.id), id: \.id) { community in
                                 CommunityForumComponent(
                                     communityName: community.communityName,
                                     communityIcon: community.communityProfileImage
@@ -73,7 +73,7 @@ struct MisComunidadesView: View {
                         .padding(.horizontal, 16)
                     } else {
                         VStack(alignment: .leading, spacing: 16) {
-                            ForEach(comunidadesVM.getCommunitiesForUser(userID: "-OMVx_zLKidSzuepp_pr"), id: \.id) { community in
+                            ForEach(comunidadesVM.getCommunitiesForUser(userID: CurrentUser.shared.id), id: \.id) { community in
                                 CommunityForumComponent(
                                     communityName: community.communityName,
                                     communityIcon: community.communityProfileImage

@@ -15,12 +15,7 @@ struct CommunityForumComponent: View {
         GeometryReader { geometry in
             let size = min(geometry.size.width, geometry.size.height)
             
-            HStack(spacing: size * 0.05) {
-                Text(communityName)
-                    .font(.custom("Gagalin", size: size * 0.25))
-                    .foregroundColor(Color.arena.opacity(0.8))
-                    .minimumScaleFactor(0.7)
-                    .lineLimit(1)
+            VStack(spacing: size * 0.05) {
                 
                 Image(communityIcon)
                     .resizable()
@@ -28,8 +23,15 @@ struct CommunityForumComponent: View {
                     .frame(width: size * 0.4, height: size * 0.4)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.arena, lineWidth: 2))
+                
+                Text(communityName)
+                    .font(.custom("Gagalin", size: size * 0.25))
+                    .foregroundColor(Color.arena.opacity(0.8))
+                    .minimumScaleFactor(0.7)
+                    .lineLimit(1)
+                
             }
-            .frame(width: geometry.size.width, height: geometry.size.height, alignment: .trailing)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         }
     }
 }
