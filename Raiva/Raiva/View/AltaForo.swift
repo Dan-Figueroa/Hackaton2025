@@ -78,7 +78,9 @@ struct AltaForo: View {
                         Spacer()
                         CustomButton(action: {
                             print("Publicando: \(foroDataViewModel.postTitle)")
+                            
                             foroDataViewModel.publicar()
+                            
                         }, style: .standard(fontColor: .beige, backgroundColor: .verdeBosque, buttonName: "Publicar"))
                         .frame(width: 150)
                         .padding(.top, 20)

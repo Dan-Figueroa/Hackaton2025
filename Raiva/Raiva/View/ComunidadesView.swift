@@ -11,7 +11,7 @@ struct ComunidadesView: View {
     @Binding var showCreateComunity: Bool
     @StateObject private var filtroViewModel = FiltroViewModel()
     let opcionesFiltro = ["Todas", "Populares", "Más recientes", "Más antiguas"]
-
+    
     var body: some View {
         VStack {
             HeadComponent(
@@ -20,12 +20,15 @@ struct ComunidadesView: View {
             )
             .padding(.top, 30)
             .padding(.bottom, 20)
-
+            
             ZStack {
                 Rectangle()
                     .frame(width: 1100, height: 700)
                     .foregroundColor(.verdeBosque.opacity(0.6))
                     .cornerRadius(20)
+                    .overlay{
+                            ListaComunidades()
+                    }
                 
                 FiltroOverlay(
                     viewModel: filtroViewModel,
@@ -34,6 +37,26 @@ struct ComunidadesView: View {
                     offsetX: -280, offsetY: -310
                 )
             }
+        }
+    }
+}
+
+struct ListaComunidades: View {
+    @State private var columns: [GridItem] = [
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible(), spacing: 16)
+    ]
+    @StateObject private var filtroViewModel = FiltroViewModel()
+    
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 10) {
+                ForEach(filtroViewModel.communities, id: \.self) { comunidades in
+                    UserViewType(imageName: comunidades.communityProfileImage, name: comunidades.communityName, style: .horizontal)
+                        .frame(width: 300, height: 230)
+                }
+            }
+            .padding()
         }
     }
 }

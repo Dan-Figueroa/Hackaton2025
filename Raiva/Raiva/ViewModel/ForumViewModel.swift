@@ -9,9 +9,13 @@ import Foundation
 import Combine
 
 class ForumViewModel: ObservableObject {
+    
+    
     @Published var users: [User] = []
     @Published var forums: [Forum] = []
     @Published var communities: [Community] = []
+    
+    
     @Published var errorMessage: String?
     @Published var user: User?
     
@@ -26,6 +30,7 @@ class ForumViewModel: ObservableObject {
         self.connection = connection
         cargarForosEnTiempoReal()
         getComunidadesOnce()
+        cargarUsuariosEnTiempoReal()
     }
     
     func cargarForosEnTiempoReal(){

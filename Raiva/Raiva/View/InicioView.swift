@@ -10,6 +10,7 @@ import SwiftUI
 struct InicioView: View {
     @Binding var showAltaForo: Bool
     @StateObject private var foroViewModel = ForumViewModel()
+    @StateObject private var forumDisplayViewModel = ForumDisplayViewModel()
     @StateObject private var filtroViewModel = FiltroViewModel()
     @Binding var showCreateComunity: Bool
     @State var count: Int = 0
@@ -26,19 +27,24 @@ struct InicioView: View {
             
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 10) {
-                    ForEach(Array(foroViewModel.forums.enumerated()), id: \ .element) { index, forum in
-                        ZStack{
-                            ForumComponent(
-                                communityData: communityData,
-                                userData: userData,
-                                forumData: forumData,
-                                withBackground: true)
-                            Text("\(index + 1)")
-                                .font(.custom("futura", size: 50))
-                                .foregroundStyle(.red)
+                    ForEach(Array(forumDisplayViewModel.forums.enumerated()), id: \.element.id) { index, forum in
+                        if let displayData = forumDisplayViewModel.getForumDisplayData(for: forum) {
+                            ZStack {
+                                ForumComponent(
+                                    communityData: displayData.community,
+                                    userData: displayData.user,
+                                    forumData: forum,
+                                    withBackground: true
+                                )
+                                
+                                Text("\(index + 1)")
+                                    .font(.custom("futura", size: 50))
+                                    .foregroundStyle(.red)
+                            }
                         }
                     }
                 }
+                .padding()
             }
         }
         

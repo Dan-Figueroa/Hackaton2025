@@ -8,14 +8,14 @@ import Foundation
 
 class AltaForoViewModel: ObservableObject {
     @Published var users: [User] = []
-    @Published var selectedEthnicity: EtniasEnum = .zoque
+    @Published var selectedEthnicity: Community = communityData
     @Published var postTitle: String = ""
     @Published var postContent: String = ""
     
     private var forumService = ForumService()
 
     var selectedCommunityName: String {
-        selectedEthnicity.rawValue
+        selectedEthnicity.communityName
     }
     
     func crearForo(foro: Forum){
@@ -27,6 +27,6 @@ class AltaForoViewModel: ObservableObject {
         let tittle = postTitle
         let content = postContent
         
-        crearForo(foro: Forum(userID: CurrentUser.shared.id, communityID: comunidad.rawValue, title: tittle, body: content))
+        crearForo(foro: Forum(userID: CurrentUser.shared.id, communityID: comunidad.id, title: tittle, body: content))
     }
 }
