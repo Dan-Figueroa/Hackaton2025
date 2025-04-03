@@ -143,7 +143,24 @@ class QuestionViewModel: ObservableObject {
             respuestaBloqueada = false
         }
         
-    
+    func prepararPreguntaAleatoria() {
+        // Reiniciar estado para nueva pregunta
+        mostrarResultado = false
+        esCorrecto = nil
+        respuestaSeleccionada = nil
+        respuestaBloqueada = false
+        
+        // Obtener pregunta aleatoria que no sea la actual
+        var preguntasDisponibles = preguntas
+        preguntasDisponibles.removeAll { $0.id == preguntaActual.id }
+        
+        if let nuevaPregunta = preguntasDisponibles.randomElement() {
+            preguntaActual = nuevaPregunta
+        } else {
+            // Si solo queda una pregunta, usar esa
+            preguntaActual = preguntas.randomElement()!
+        }
+    }
    
     func reiniciarCuestionario() {
         preguntaActual = preguntas[0]

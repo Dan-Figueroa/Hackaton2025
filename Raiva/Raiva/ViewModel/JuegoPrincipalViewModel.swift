@@ -32,12 +32,21 @@ class JuegoPrincipalViewModel: ObservableObject {
         darMonedaDerecha()
     }
         
-    private func darMonedaDerecha() {
-        rightCoins += 100
+    func darMonedaDerecha(cantidad: Int = 100) {
+           rightCoins += cantidad
     }
-        
-    private func darMonedaIzquierda() {
-        leftCoins += 100
+           
+    func darMonedaIzquierda(cantidad: Int = 100) {
+           leftCoins += cantidad
+    }
+    
+    func recompensarRespuestaCorrecta(jugadorIzquierdo: Bool) {
+            let cantidad = 0
+            if jugadorIzquierdo {
+                darMonedaIzquierda(cantidad: cantidad)
+            } else {
+                darMonedaDerecha(cantidad: cantidad)
+            }
     }
         
     func reiniciarPosiciones() {

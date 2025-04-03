@@ -14,7 +14,7 @@ struct JuegoPrincipal: View {
     @State private var encontradoOponente = false
     @State private var mostrarPregunta = false
     @State private var juegoTerminado = false
-    var person: Int = 0
+    var person: Int = 1
 
     var body: some View {
         ZStack {
@@ -76,7 +76,6 @@ struct JuegoPrincipal: View {
                         if newValue {
                             withAnimation {
                                 mostrarBusqueda = false
-                                // Esperar 3 segundos antes de mostrar la pregunta
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                     mostrarPregunta = true
                                 }
@@ -87,15 +86,13 @@ struct JuegoPrincipal: View {
             }
             
             if mostrarPregunta {
-                Questions()
+                Questions(mostrarPregunta: $mostrarPregunta)
                     .transition(.opacity)
                     .environmentObject(juegoVM)
                     .onDisappear {
-                        // Verificar si el juego ha terminado
                         if juegoVM.leftScore >= 3 || juegoVM.rightScore >= 3 {
                             juegoTerminado = true
                         } else {
-                            // Mostrar siguiente pregunta después de un tiempo
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                 mostrarPregunta = true
                             }
@@ -105,10 +102,18 @@ struct JuegoPrincipal: View {
             }
             
             if juegoTerminado {
-                GanadorView(ganador: juegoVM.leftScore >= 3 ? "Jugador Izquierdo" : "Jugador Derecho", action: {
+                PerdedorView(ganador: juegoVM.leftScore >= 3 ? "Jugador Izquierdo" : "Jugador Derecho", action: {
                     juegoVM.reiniciarJuego()
                     juegoTerminado = false
                     mostrarPregunta = false
+                    encontradoOponente = false
+                    mostrarBusqueda = true
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        encontradoOponente = true
+                    }
+                }, action2: {
+                    
                 })
                 .transition(.opacity)
                 .zIndex(3)
@@ -216,35 +221,6 @@ struct JuegoPrincipal: View {
             }, style: .image(imageName: "exit"))
         }
         .padding(.leading, -20)
-    }
-}
-
-struct GanadorView: View {
-    let ganador: String
-    let action: () -> Void
-    
-    var body: some View {
-        ZStack {
-            Color.black.opacity(0.7)
-                .edgesIgnoringSafeArea(.all)
-            
-            VStack(spacing: 30) {
-                Text("¡GANADOR!")
-                    .font(.custom("Gagalin", size: 50))
-                    .foregroundColor(.arena)
-                
-                Text(ganador)
-                    .font(.custom("Gagalin", size: 40))
-                    .foregroundColor(.white)
-                
-                CustomButton(action: action, style: .standard(fontColor: .blanco, backgroundColor: .arena, buttonName: "Jugar de nuevo"))
-                    .frame(width: 200)
-            }
-            .padding(40)
-            .background(Color.beige)
-            .cornerRadius(20)
-            .shadow(radius: 10)
-        }
     }
 }
 
