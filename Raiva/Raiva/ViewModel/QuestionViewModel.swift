@@ -100,11 +100,13 @@ class QuestionViewModel: ObservableObject {
     @Published var esCorrecto: Bool?
     @Published var respuestaSeleccionada: Int?
     @Published var respuestaBloqueada = false
+    
+    
     private var preguntasMostradas: [UUID] = []
     
     init() {
-            self.preguntaActual = preguntas.randomElement()!
-        }
+        self.preguntaActual = preguntas.randomElement()!
+    }
     
     func verificarRespuesta(opcionSeleccionada: Int) {
         

@@ -26,15 +26,29 @@ struct InformateView: View {
                 Spacer()
             }
             .offset(x: -280, y: 70)
+            .onChange(of: selectedEtnia) { _, _ in
+                audioPlayer.stopSound()
+            }
 
             MenuButton(presentSideMenu: $presentSideMenu)
 
             VStack(spacing: 50) {
                 Rectangle()
                     .overlay(
-                        Text(selectedEtnia?.rawValue.uppercased() ?? "SELECCIONA UNA ETNIA")
-                            .font(.custom("Gagalin", size: 70))
-                            .foregroundStyle(Color.beige)
+                        HStack(spacing:30){
+                            Text(selectedEtnia?.rawValue.uppercased() ?? "SELECCIONA UNA ETNIA")
+                                .font(.custom("Gagalin", size: 50))
+                                .foregroundStyle(Color.beige)
+                            
+                            if let selectedEtnia = selectedEtnia,
+                               let infoEtnia = getInfoEtnia(selectedEtnia: selectedEtnia) {
+                                CustomButton(action: {
+                                    audioPlayer.stopSound()
+                                    audioPlayer.playSound(named: infoEtnia.poblacioninfo[1], loop: false)
+                                }, style: .image(imageName: "Sonido1"))
+                                .scaleEffect(0.6)
+                            }
+                        }
                     )
                     .foregroundColor(Color.verdeBosque)
                     .frame(width: 400, height: 100)
@@ -43,25 +57,27 @@ struct InformateView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack {
                         if let infoEtnia = getInfoEtnia(selectedEtnia: selectedEtnia) {
-
                             createInfoRectangles(for: infoEtnia)
                         }
                     }
-                    
                 }
                 .frame(width: 450, height: 400)
                 
                 CustomButton(
                     action: {},
                     style: .standard(
-                    fontColor: .beige,
-                    backgroundColor: .verdeBosque,
-                    buttonName: "Simulacion"
+                        fontColor: .beige,
+                        backgroundColor: .verdeBosque,
+                        buttonName: "Simulacion"
                     )
                 ).frame(width: 200)
             }
             .padding()
             .offset(x: 350, y: 100)
+        }
+        .onDisappear {
+            // Detener el audio cuando la vista desaparezca
+            audioPlayer.stopSound()
         }
     }
     
@@ -70,40 +86,28 @@ struct InformateView: View {
         InfoRectangle(
             title: "POBLACIÓN",
             subtitle: infoEtnia.poblacion.formatted(),
-            imageName: infoEtnia.poblacioninfo[0],
-            soundButtonAction: {
-                audioPlayer.playSound(named: infoEtnia.poblacioninfo[1])
-            }
+            imageName: infoEtnia.poblacioninfo[0]
         )
         
         InfoRectangle(
             title: "PLATILLO TÍPICO",
             subtitle: infoEtnia.platillo[0],
-            imageName: infoEtnia.platillo[1],
-            soundButtonAction: {
-                audioPlayer.playSound(named: infoEtnia.platillo[2])
-            }
+            imageName: infoEtnia.platillo[1]
         )
         
         InfoRectangle(
             title: "VESTIMENTA",
             subtitle: "",
-            imageName: infoEtnia.vestimenta[0],
-            soundButtonAction: {
-                audioPlayer.playSound(named: infoEtnia.vestimenta[1])
-            }
+            imageName: infoEtnia.vestimenta[0]
         )
         
         InfoRectangle(
             title: "FESTIVIDAD",
             subtitle: infoEtnia.festividad[0],
-            imageName: infoEtnia.festividad[1],
-            soundButtonAction: {
-                audioPlayer.playSound(named: infoEtnia.festividad[2])
-            }
+            imageName: infoEtnia.festividad[1]
         )
-        
     }
+    
     private func getInfoEtnia(selectedEtnia: EtniasEnum?) -> InfoEtnia? {
         return infoEtnias.first { $0.etnia == selectedEtnia }
     }

@@ -14,6 +14,8 @@ class ForumDisplayViewModel: ObservableObject {
     @Published var forums: [Forum] = []
     @Published private var users: [User] = []
     @Published private var communities: [Community] = []
+    @Published var misForos: [Forum] = []
+    @Published var forosPopulares: [Forum] = []
     
     // Diccionarios para acceso rápido
     private var usersDict: [String: User] = [:]

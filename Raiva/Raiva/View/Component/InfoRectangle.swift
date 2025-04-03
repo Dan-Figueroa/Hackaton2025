@@ -37,12 +37,5 @@ struct InfoRectangle: View {
                         .cornerRadius(30)
                 }
             )
-            .overlay(alignment: .topTrailing) {
-                if let soundButtonAction {
-                    CustomButton(action: soundButtonAction, style: .smallImage(imageName: "sonido1"))
-                        .padding(5)
-                }
-            }
-            .padding(.horizontal, 10)
     }
 }

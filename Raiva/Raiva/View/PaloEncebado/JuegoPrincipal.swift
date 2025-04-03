@@ -14,7 +14,8 @@ struct JuegoPrincipal: View {
     @State private var encontradoOponente = false
     @State private var mostrarPregunta = false
     @State private var juegoTerminado = false
-    var person: Int = 1
+    var personD: Int = 1
+    var personI: Int = 0
 
     var body: some View {
         ZStack {
@@ -44,7 +45,7 @@ struct JuegoPrincipal: View {
                     
                     Spacer()
                     
-                    buttons
+                    //buttons
                 }
                 personLeftCard
                 personRightCard
@@ -59,7 +60,7 @@ struct JuegoPrincipal: View {
                             withAnimation {
                                 mostrarEmpecemos = false
                                 mostrarBusqueda = true
-                                
+                                //busqueda
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                     encontradoOponente = true
                                 }
@@ -102,7 +103,7 @@ struct JuegoPrincipal: View {
             }
             
             if juegoTerminado {
-                PerdedorView(ganador: juegoVM.leftScore >= 3 ? "Jugador Izquierdo" : "Jugador Derecho", action: {
+                GanadorView(ganador: juegoVM.leftScore >= 3 ? "Jugador Izquierdo" : "Jugador Derecho", action: {
                     juegoVM.reiniciarJuego()
                     juegoTerminado = false
                     mostrarPregunta = false
@@ -113,7 +114,7 @@ struct JuegoPrincipal: View {
                         encontradoOponente = true
                     }
                 }, action2: {
-                    
+                    //no ocupa nada
                 })
                 .transition(.opacity)
                 .zIndex(3)
@@ -141,7 +142,7 @@ struct JuegoPrincipal: View {
             .overlay(
                 HStack(spacing: 20) {
                     Image("moneda")
-                    if (person != 0){
+                    if (personD == 1){
                         Text("\(juegoVM.leftCoins)")
                             .font(.custom("Gagalin", size: 40))
                             .foregroundColor(.arena)
@@ -210,7 +211,7 @@ struct JuegoPrincipal: View {
         .animation(.easeOut(duration: 0.8), value: juegoVM.rightMoveY)
     }
     
-    private var buttons: some View {
+    /*private var buttons: some View {
         HStack(spacing: 40) {
             CustomButton(action: {
                 juegoVM.subirDerecho()
@@ -221,7 +222,7 @@ struct JuegoPrincipal: View {
             }, style: .image(imageName: "exit"))
         }
         .padding(.leading, -20)
-    }
+    }*/
 }
 
 #Preview {

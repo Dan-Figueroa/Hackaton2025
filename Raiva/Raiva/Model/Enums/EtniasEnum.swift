@@ -12,7 +12,7 @@ enum EtniasEnum: String, CaseIterable {
     case tseltal = "Tzeltal"
     case tojolabal = "Tojolabal"
     case chuj = "Chuj"
-    case qanjobal = "Qanjobal"
+    case qanjobal = "Q'anjob'al"
     case mam = "Mam"
     
     

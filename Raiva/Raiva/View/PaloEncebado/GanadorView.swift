@@ -11,7 +11,8 @@ struct GanadorView: View {
     let ganador: String
     let action: () -> Void
     let action2: ()-> Void
-    
+    @Environment(\.dismiss) private var dismiss
+    @StateObject private var audioPlayer = AudioPlayer()
     var body: some View {
         ZStack {
             Color.black.opacity(0.7)
@@ -28,8 +29,11 @@ struct GanadorView: View {
                 CustomButton(action: action, style: .standard(fontColor: .blanco, backgroundColor: .green, buttonName: "Jugar de nuevo"))
                     .frame(width: 200)
                 
-                CustomButton(action: action, style: .standard(fontColor: .blanco, backgroundColor: .rojo, buttonName: "Salir"))
-                    .frame(width: 200)
+                CustomButton(action: {
+                    action2()
+                    dismiss() // Cierra el modal (JuegoPrincipal)
+                }, style: .standard(fontColor: .blanco, backgroundColor: .rojo, buttonName: "Salir"))
+                .frame(width: 200)
             }.padding(.top, 700)
         }
     }
