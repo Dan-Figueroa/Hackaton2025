@@ -12,7 +12,7 @@ struct JuegoPrincipal: View {
     @State private var mostrarEmpecemos = true
     @State private var mostrarBusqueda = false
     @State private var encontradoOponente = false
-    
+    var person: Int = 1
     var body: some View {
         ZStack {
             // Vista principal del juego
@@ -27,8 +27,9 @@ struct JuegoPrincipal: View {
                             .padding(.leading, -120)
                     
                         playerCard
-                        coinsCard
+                        coinsLeftCard
                         scoreCard
+                        //coinsRightCard
                     }
                     .padding(.bottom, 100)
                     
@@ -96,7 +97,7 @@ struct JuegoPrincipal: View {
         }
     }
     
-    private var coinsCard: some View {
+    private var coinsLeftCard: some View {
         Rectangle()
             .frame(width: 220, height: 70)
             .foregroundColor(.black.opacity(0.3))
@@ -104,7 +105,29 @@ struct JuegoPrincipal: View {
             .overlay(
                 HStack(spacing: 20) {
                     Image("moneda")
-                    Text("\(juegoVM.coins)")
+                    if (person != 0){
+                        Text("\(juegoVM.leftCoins)")
+                            .font(.custom("Gagalin", size: 40))
+                            .foregroundColor(.arena)
+                        
+                    }else{
+                        Text("\(juegoVM.rightCoins)")
+                            .font(.custom("Gagalin", size: 40))
+                            .foregroundColor(.arena)
+                    }
+                }
+            )
+    }
+    
+    private var coinsRightCard: some View {
+        Rectangle()
+            .frame(width: 220, height: 70)
+            .foregroundColor(.black.opacity(0.3))
+            .cornerRadius(30)
+            .overlay(
+                HStack(spacing: 20) {
+                    Image("moneda")
+                    Text("\(juegoVM.rightCoins)")
                         .font(.custom("Gagalin", size: 40))
                         .foregroundColor(.arena)
                 }
