@@ -23,7 +23,7 @@ struct SideMenuView: View {
                 
                 VStack(alignment: .leading, spacing: 20) {
                     UserViewType(
-                        imageName: (CurrentUser.shared.isLogged) ? CurrentUser.shared.profilePicture : "cool",
+                        imageName: (CurrentUser.shared.isLogged) ? CurrentUser.shared.profilePicture : "perfilInvitado",
                         name: (CurrentUser.shared.isLogged) ? CurrentUser.shared.userName : "Invitado",
                         style: .vertical
                     )
