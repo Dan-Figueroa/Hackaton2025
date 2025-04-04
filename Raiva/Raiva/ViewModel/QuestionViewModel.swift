@@ -95,46 +95,41 @@ class QuestionViewModel: ObservableObject {
     ]
     
     @Published var preguntaActual: Question
-    @Published var puntuacion = 0
-    @Published var mostrarResultado = false
-    @Published var esCorrecto: Bool?
-    @Published var respuestaSeleccionada: Int?
-    @Published var respuestaBloqueada = false
-    
-    
-    private var preguntasMostradas: [UUID] = []
-    
-    init() {
-        self.preguntaActual = preguntas.randomElement()!
-    }
-    
-    func verificarRespuesta(opcionSeleccionada: Int) {
+        @Published var puntuacion = 0
+        @Published var mostrarResultado = false
+        @Published var esCorrecto: Bool?
+        @Published var respuestaSeleccionada: Int?
+        @Published var respuestaBloqueada = false
         
-        guard !respuestaBloqueada else { return }
+        private var preguntasMostradas: [UUID] = []
         
-        respuestaSeleccionada = opcionSeleccionada
-        respuestaBloqueada = true
-        
-        if opcionSeleccionada == preguntaActual.respuestaCorrecta {
-            puntuacion += 10
-            esCorrecto = true
-        } else {
-            esCorrecto = false
+        init() {
+            self.preguntaActual = preguntas.randomElement()!
         }
-        mostrarResultado = true
-    }
-    
-    func siguientePregunta() {
+        
+        func verificarRespuesta(opcionSeleccionada: Int) {
+            guard !respuestaBloqueada else { return }
+            
+            respuestaSeleccionada = opcionSeleccionada
+            respuestaBloqueada = true
+            
+            if opcionSeleccionada == preguntaActual.respuestaCorrecta {
+                puntuacion += 10
+                esCorrecto = true
+            } else {
+                esCorrecto = false
+            }
+            mostrarResultado = true
+        }
+        
+        func siguientePregunta() {
             preguntasMostradas.append(preguntaActual.id)
             
-           
             let preguntasDisponibles = preguntas.filter { !preguntasMostradas.contains($0.id) }
             
             if !preguntasDisponibles.isEmpty {
-           
                 preguntaActual = preguntasDisponibles.randomElement()!
             } else {
-               
                 reiniciarCuestionario()
                 return
             }
@@ -144,32 +139,29 @@ class QuestionViewModel: ObservableObject {
             respuestaSeleccionada = nil
             respuestaBloqueada = false
         }
-        
-    func prepararPreguntaAleatoria() {
-        // Reiniciar estado para nueva pregunta
-        mostrarResultado = false
-        esCorrecto = nil
-        respuestaSeleccionada = nil
-        respuestaBloqueada = false
-        
-        // Obtener pregunta aleatoria que no sea la actual
-        var preguntasDisponibles = preguntas
-        preguntasDisponibles.removeAll { $0.id == preguntaActual.id }
-        
-        if let nuevaPregunta = preguntasDisponibles.randomElement() {
-            preguntaActual = nuevaPregunta
-        } else {
-            // Si solo queda una pregunta, usar esa
-            preguntaActual = preguntas.randomElement()!
+            
+        func prepararPreguntaAleatoria() {
+            mostrarResultado = false
+            esCorrecto = nil
+            respuestaSeleccionada = nil
+            respuestaBloqueada = false
+            
+            var preguntasDisponibles = preguntas
+            preguntasDisponibles.removeAll { $0.id == preguntaActual.id }
+            
+            if let nuevaPregunta = preguntasDisponibles.randomElement() {
+                preguntaActual = nuevaPregunta
+            } else {
+                preguntaActual = preguntas.randomElement()!
+            }
+        }
+       
+        func reiniciarCuestionario() {
+            preguntaActual = preguntas[0]
+            puntuacion = 0
+            mostrarResultado = false
+            esCorrecto = nil
+            respuestaSeleccionada = nil
+            respuestaBloqueada = false
         }
     }
-   
-    func reiniciarCuestionario() {
-        preguntaActual = preguntas[0]
-        puntuacion = 0
-        mostrarResultado = false
-        esCorrecto = nil
-        respuestaSeleccionada = nil
-        respuestaBloqueada = false
-    }
-}

@@ -14,6 +14,13 @@ class JuegoPrincipalViewModel: ObservableObject {
     @Published var rightScore: Int = 0
     @Published var leftMoveY: Int = 130
     @Published var rightMoveY: Int = 130
+    @Published var esTurnoDelBot = false
+    @Published var jugadorActual: Jugador = .izquierdo
+    
+    enum Jugador {
+        case izquierdo
+        case derecho
+    }
     
     private let minY: Int = -80
     private let maxY: Int = 130
@@ -33,20 +40,31 @@ class JuegoPrincipalViewModel: ObservableObject {
     }
         
     func darMonedaDerecha(cantidad: Int = 100) {
-           rightCoins += cantidad
+        rightCoins += cantidad
     }
            
     func darMonedaIzquierda(cantidad: Int = 100) {
-           leftCoins += cantidad
+        leftCoins += cantidad
     }
     
     func recompensarRespuestaCorrecta(jugadorIzquierdo: Bool) {
-            let cantidad = 0
-            if jugadorIzquierdo {
-                darMonedaIzquierda(cantidad: cantidad)
-            } else {
-                darMonedaDerecha(cantidad: cantidad)
-            }
+        let cantidad = 100
+        if jugadorIzquierdo {
+            darMonedaIzquierda(cantidad: cantidad)
+        } else {
+            darMonedaDerecha(cantidad: cantidad)
+        }
+    }
+    
+    func manejarRespuestaCorrecta(para jugador: Jugador) {
+        switch jugador {
+        case .izquierdo:
+            subirIzquierdo()
+            recompensarRespuestaCorrecta(jugadorIzquierdo: true)
+        case .derecho:
+            subirDerecho()
+            recompensarRespuestaCorrecta(jugadorIzquierdo: false)
+        }
     }
         
     func reiniciarPosiciones() {
@@ -64,9 +82,16 @@ class JuegoPrincipalViewModel: ObservableObject {
         rightCoins = 0
     }
     
+    func alternarTurno() {
+        esTurnoDelBot.toggle()
+        jugadorActual = (jugadorActual == .izquierdo) ? .derecho : .izquierdo
+    }
+    
     func reiniciarJuego() {
         reiniciarPosiciones()
         reiniciarScores()
         reiniciarMonedas()
+        jugadorActual = .izquierdo
+        esTurnoDelBot = false
     }
 }

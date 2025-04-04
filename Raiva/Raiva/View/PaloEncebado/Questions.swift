@@ -14,11 +14,11 @@ struct Questions: View {
     @StateObject private var audioPlayer = AudioPlayer()
     @State private var mostrarAnimacionRespuesta = false
     @State private var mostrarMonedasGanadas = false
+    @State private var botEstaPensando = false
     private let recompensaMonedas = 100
     
     var body: some View {
         ZStack(alignment: .center) {
-            
             RoundedRectangle(cornerRadius: 30)
                 .frame(width: 700, height: 500)
                 .foregroundColor(.arena)
@@ -33,7 +33,6 @@ struct Questions: View {
                 )
                 .overlay(
                     VStack(spacing: 10) {
-                        
                         ZStack(alignment: .leading) {
                             RoundedRectangle(cornerRadius: 5)
                                 .frame(width: 560, height: 30)
@@ -52,18 +51,18 @@ struct Questions: View {
                         .padding(.bottom, 80)
                         .padding(.top, 10)
                         
-                        // Pregunta
                         Text(questionVM.preguntaActual.texto)
                             .frame(width: 560)
                             .font(.custom("Gagalin", size: 25))
                             .multilineTextAlignment(.center)
                             .padding(.bottom, 60)
                         
-                        // Opciones de respuesta
                         HStack(spacing: 20) {
                             ForEach(0..<questionVM.preguntaActual.opciones.count, id: \.self) { index in
                                 Button(action: {
-                                    responderPregunta(index: index)
+                                    if !juegoVM.esTurnoDelBot {
+                                        responderPregunta(index: index)
+                                    }
                                 }) {
                                     Text(questionVM.preguntaActual.opciones[index])
                                         .font(.custom("Gagalin", size: 20))
@@ -76,14 +75,13 @@ struct Questions: View {
                                                 .stroke(Color.brown, lineWidth: 2)
                                         )
                                 }
-                                .disabled(questionVM.respuestaBloqueada)
+                                .disabled(questionVM.respuestaBloqueada || juegoVM.esTurnoDelBot)
                             }
                         }
                     }
                     .padding(.horizontal, 20)
                 )
             
-            // Encabezado
             VStack {
                 RoundedRectangle(cornerRadius: 30)
                     .frame(width: 400, height: 60)
@@ -115,7 +113,6 @@ struct Questions: View {
                 )
                 .offset(y: -237)
             
-            // Animación de respuesta y monedas
             if mostrarAnimacionRespuesta {
                 VStack(spacing: 10) {
                     Text(questionVM.esCorrecto == true ? "¡Correcto!" : "Incorrecto")
@@ -137,6 +134,17 @@ struct Questions: View {
                 }
                 .transition(.scale)
             }
+            
+            if juegoVM.esTurnoDelBot && !botEstaPensando {
+                Color.black.opacity(0.01)
+                    .onAppear {
+                        botEstaPensando = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            responderComoBot()
+                            botEstaPensando = false
+                        }
+                    }
+            }
         }
         .frame(height: 170)
         .onAppear {
@@ -146,24 +154,37 @@ struct Questions: View {
         .onDisappear {
             timerVM.detener()
         }
-        .onChange(of: timerVM.tiempoRestante) {_, tiempo in
+        .onChange(of: timerVM.tiempoRestante) { _, tiempo in
             if tiempo <= 0 && !questionVM.respuestaBloqueada {
                 manejarTiempoAgotado()
             }
         }
     }
     
+    private func responderComoBot() {
+        let acierta = Double.random(in: 0...1) < 0.7
+        let respuesta: Int
+        
+        if acierta {
+            respuesta = questionVM.preguntaActual.respuestaCorrecta
+        } else {
+            let opcionesIncorrectas = questionVM.preguntaActual.opciones.indices
+                .filter { $0 != questionVM.preguntaActual.respuestaCorrecta }
+            respuesta = opcionesIncorrectas.randomElement() ?? 0
+        }
+        
+        responderPregunta(index: respuesta)
+    }
+    
     private func responderPregunta(index: Int) {
-        //audioPlayer.playSound(named: "popBotones", loop: false)
         questionVM.verificarRespuesta(opcionSeleccionada: index)
         
         withAnimation(.easeInOut(duration: 0.3)) {
             mostrarAnimacionRespuesta = true
         }
         
-        // Asignar recompensa si es correcto
         if questionVM.esCorrecto == true {
-            juegoVM.recompensarRespuestaCorrecta(jugadorIzquierdo: true)
+            juegoVM.manejarRespuestaCorrecta(para: juegoVM.jugadorActual)
             audioPlayer.playSound(named: "sonidoAcierto", loop: false)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -171,7 +192,7 @@ struct Questions: View {
                     mostrarMonedasGanadas = true
                 }
             }
-        }else{
+        } else {
             audioPlayer.playSound(named: "lose", loop: false)
         }
         
@@ -180,11 +201,9 @@ struct Questions: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             withAnimation {
                 mostrarPregunta = false
-                
-                if questionVM.esCorrecto == true {
-                    juegoVM.subirIzquierdo()
-                }
             }
+            
+            juegoVM.alternarTurno()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 resetearParaSiguientePregunta()
@@ -201,6 +220,8 @@ struct Questions: View {
             withAnimation {
                 mostrarPregunta = false
             }
+            
+            juegoVM.alternarTurno()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 resetearParaSiguientePregunta()

@@ -44,8 +44,6 @@ struct JuegoPrincipal: View {
                     }
                     
                     Spacer()
-                    
-                    //buttons
                 }
                 personLeftCard
                 personRightCard
@@ -60,7 +58,6 @@ struct JuegoPrincipal: View {
                             withAnimation {
                                 mostrarEmpecemos = false
                                 mostrarBusqueda = true
-                                //busqueda
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                     encontradoOponente = true
                                 }
@@ -90,6 +87,10 @@ struct JuegoPrincipal: View {
                 Questions(mostrarPregunta: $mostrarPregunta)
                     .transition(.opacity)
                     .environmentObject(juegoVM)
+                    .onAppear {
+                        juegoVM.jugadorActual = .izquierdo
+                        juegoVM.esTurnoDelBot = false
+                    }
                     .onDisappear {
                         if juegoVM.leftScore >= 3 || juegoVM.rightScore >= 3 {
                             juegoTerminado = true
@@ -113,14 +114,13 @@ struct JuegoPrincipal: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         encontradoOponente = true
                     }
-                }, action2: {
-                    //no ocupa nada
-                })
+                }, action2: {})
                 .transition(.opacity)
                 .zIndex(3)
             }
         }
     }
+    
     
     private var playerCard: some View {
         ZStack {
