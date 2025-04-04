@@ -28,9 +28,18 @@ class RegisterViewModel: ObservableObject {
     }
     
     func agregarUsuario(user: User) {
-        userService.guardarUsuario(usuario: user)
-        DispatchQueue.main.async {
-                    self.registrationComplete = true
+            userService.guardarUsuario(usuario: user) { [weak self] result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let userWithID):
+                        // Actualizar el estado con el usuario que incluye el ID
+                        self?.registrationComplete = true
+                        // Aquí podrías también actualizar CurrentUser.shared si es necesario
+                    case .failure(let error):
+                        print("Error al guardar usuario: \(error.localizedDescription)")
+                        // Manejar el error adecuadamente
+                    }
+                }
+            }
         }
-    }
 }

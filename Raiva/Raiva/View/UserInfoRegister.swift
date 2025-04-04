@@ -134,10 +134,12 @@ struct UserInfoRegister: View {
                         CustomButton(
                             action: {
                                 newUser = User(
+                                    id: "",
                                     userName: registerViewModel.registerCorreo,
                                     profilePicture: registerViewModel.selectedImage,
                                     etnia: registerViewModel.selectedEthnicity.rawValue
                                 )
+                                
                                 registerViewModel.agregarUsuario(user: newUser)
                                 
                                 CurrentUser.shared.updateUser(user: newUser)

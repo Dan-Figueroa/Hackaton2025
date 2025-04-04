@@ -18,25 +18,32 @@ class UserService{
     
     // MARK: - Upload
     
-    func guardarUsuario(usuario: User) {
-        let usersRef = connection.databaseReference.child("users")
-        let newUserRef = usersRef.childByAutoId() // Firebase genera un ID único
-        
-        let usuarioDict: [String: Any] = [
-            "id" : newUserRef.key ?? "Unknown",
-            "userName": usuario.userName,
-            "profilePicture": usuario.profilePicture,
-            "etnia": usuario.etnia ?? ""
-        ]
-        
-        newUserRef.setValue(usuarioDict) { (error, ref) in
-            if let error = error {
-                print("Error al guardar el usuario: \(error)")
-            } else {
-                print("Usuario guardado con éxito con ID: \(newUserRef.key ?? "Unknown")")
+    func guardarUsuario(usuario: User, completion: @escaping (Result<User, Error>) -> Void) {
+            let usersRef = connection.databaseReference.child("users")
+            let newUserRef = usersRef.childByAutoId()
+            
+            // Crear copia mutable del usuario con el nuevo ID
+            var usuarioActualizado = usuario
+            usuarioActualizado.id = newUserRef.key ?? UUID().uuidString
+            
+            let usuarioDict: [String: Any] = [
+                "id": usuarioActualizado.id,
+                "userName": usuarioActualizado.userName,
+                "profilePicture": usuarioActualizado.profilePicture,
+                "etnia": usuarioActualizado.etnia ?? ""
+            ]
+            
+            newUserRef.setValue(usuarioDict) { (error, ref) in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    CurrentUser.shared.updateUser(user: usuarioActualizado)
+                    completion(.success(usuarioActualizado))
+                }
             }
         }
-    }
+    
+    func updateUser(usuario: User){ CurrentUser.shared.updateUser(user: usuario)}
     
     // MARK: - GET
     /// Real time
