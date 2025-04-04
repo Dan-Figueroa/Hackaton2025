@@ -13,7 +13,6 @@ struct JuegoPrincipal: View {
     @State private var mostrarBusqueda = false
     @State private var encontradoOponente = false
     @State private var mostrarPregunta = false
-    @State private var juegoTerminado = false
     var personD: Int = 1
     var personI: Int = 0
 
@@ -48,7 +47,7 @@ struct JuegoPrincipal: View {
                 personLeftCard
                 personRightCard
             }
-            .disabled(mostrarEmpecemos || mostrarBusqueda || mostrarPregunta || juegoTerminado)
+            .disabled(mostrarEmpecemos || mostrarBusqueda || mostrarPregunta || juegoVM.juegoTerminado)
         
             if mostrarEmpecemos {
                 Empecemos()
@@ -92,8 +91,8 @@ struct JuegoPrincipal: View {
                         juegoVM.esTurnoDelBot = false
                     }
                     .onDisappear {
-                        if juegoVM.leftScore >= 3 || juegoVM.rightScore >= 3 {
-                            juegoTerminado = true
+                        if juegoVM.juegoTerminado {
+                            // No hacer nada, ya que el juego terminó
                         } else {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                 mostrarPregunta = true
@@ -103,21 +102,36 @@ struct JuegoPrincipal: View {
                     .zIndex(2)
             }
             
-            if juegoTerminado {
-                GanadorView(ganador: juegoVM.leftScore >= 3 ? "Jugador Izquierdo" : "Jugador Derecho", action: {
-                    juegoVM.reiniciarJuego()
-                    juegoTerminado = false
-                    mostrarPregunta = false
-                    encontradoOponente = false
-                    mostrarBusqueda = true
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        encontradoOponente = true
-                    }
-                }, action2: {})
-                .transition(.opacity)
-                .zIndex(3)
+            if juegoVM.juegoTerminado {
+                if juegoVM.ganador == "Jugador Izquierdo" {
+                    GanadorView(ganador: juegoVM.ganador, action: {
+                        reiniciarJuegoCompleto()
+                    }, action2: {
+                        dismiss()
+                    })
+                    .transition(.opacity)
+                    .zIndex(3)
+                } else {
+                    PerdedorView(ganador: juegoVM.ganador, action: {
+                        reiniciarJuegoCompleto()
+                    }, action2: {
+                        dismiss()
+                    })
+                    .transition(.opacity)
+                    .zIndex(3)
+                }
             }
+        }
+    }
+    
+    private func reiniciarJuegoCompleto() {
+        juegoVM.reiniciarJuego()
+        mostrarPregunta = false
+        encontradoOponente = false
+        mostrarBusqueda = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            encontradoOponente = true
         }
     }
     
@@ -195,7 +209,7 @@ struct JuegoPrincipal: View {
     
     private var personRightCard: some View {
         VStack {
-            Text("Dan")
+            Text("IA")
                 .font(.custom("Gagalin", size: 20))
                 .offset(x: 290, y: CGFloat(juegoVM.rightMoveY))
             Image(systemName: "arrowshape.down.fill")

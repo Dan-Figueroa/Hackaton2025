@@ -16,6 +16,8 @@ class JuegoPrincipalViewModel: ObservableObject {
     @Published var rightMoveY: Int = 130
     @Published var esTurnoDelBot = false
     @Published var jugadorActual: Jugador = .izquierdo
+    @Published var juegoTerminado = false
+    @Published var ganador: String = ""
     
     enum Jugador {
         case izquierdo
@@ -30,6 +32,7 @@ class JuegoPrincipalViewModel: ObservableObject {
         leftMoveY -= cantidad
         leftScore += 1
         darMonedaIzquierda()
+        verificarGanador()
     }
         
     func subirDerecho(cantidad: Int = 90) {
@@ -37,6 +40,7 @@ class JuegoPrincipalViewModel: ObservableObject {
         rightMoveY -= cantidad
         rightScore += 1
         darMonedaDerecha()
+        verificarGanador()
     }
         
     func darMonedaDerecha(cantidad: Int = 100) {
@@ -66,6 +70,22 @@ class JuegoPrincipalViewModel: ObservableObject {
             recompensarRespuestaCorrecta(jugadorIzquierdo: false)
         }
     }
+    
+    func alternarTurno() {
+        guard !juegoTerminado else { return }
+        esTurnoDelBot.toggle()
+        jugadorActual = (jugadorActual == .izquierdo) ? .derecho : .izquierdo
+    }
+    
+    func verificarGanador() {
+        if leftScore >= 3 {
+            ganador = "Jugador Izquierdo"
+            juegoTerminado = true
+        } else if rightScore >= 3 {
+            ganador = "Jugador Derecho"
+            juegoTerminado = true
+        }
+    }
         
     func reiniciarPosiciones() {
         leftMoveY = maxY
@@ -82,16 +102,13 @@ class JuegoPrincipalViewModel: ObservableObject {
         rightCoins = 0
     }
     
-    func alternarTurno() {
-        esTurnoDelBot.toggle()
-        jugadorActual = (jugadorActual == .izquierdo) ? .derecho : .izquierdo
-    }
-    
     func reiniciarJuego() {
         reiniciarPosiciones()
         reiniciarScores()
         reiniciarMonedas()
         jugadorActual = .izquierdo
         esTurnoDelBot = false
+        juegoTerminado = false
+        ganador = ""
     }
 }

@@ -29,40 +29,30 @@ struct GanadorView: View {
             
             HStack {
                 CustomButton(action: {
-                    // 1. Sonido al presionar el botón
                     audioPlayer.playSound(named: "sonidoBajarPalo", loop: false)
-                    
-                    
-                    
-                    // Ejecutar la acción
                     action()
                 }, style: .standard(fontColor: .blanco, backgroundColor: .green, buttonName: "Jugar de nuevo"))
                 .frame(width: 200)
                 
                 CustomButton(action: {
-                    // Sonido al presionar el botón
                     audioPlayer.playSound(named: "popBotones", loop: false)
-    
-                        action2()
-                        dismiss()
-                    
+                    action2()
                 }, style: .standard(fontColor: .blanco, backgroundColor: .rojo, buttonName: "Salir"))
                 .frame(width: 200)
             }
             .padding(.top, 700)
         }
         .onAppear {
-            
             audioPlayer.playSound(named: "ganador", loop: false)
         }
         .onDisappear {
-           
             audioPlayer.stopSound()
         }
     }
 }
-    struct GanadorView_Previews: PreviewProvider {
-        static var previews: some View {
-            GanadorView(ganador: "Jugador Izquierdo", action: {},action2: {})
-        }
+
+struct GanadorView_Previews: PreviewProvider {
+    static var previews: some View {
+        GanadorView(ganador: "Jugador Izquierdo", action: {}, action2: {})
     }
+}

@@ -60,7 +60,7 @@ struct Questions: View {
                         HStack(spacing: 20) {
                             ForEach(0..<questionVM.preguntaActual.opciones.count, id: \.self) { index in
                                 Button(action: {
-                                    if !juegoVM.esTurnoDelBot {
+                                    if !juegoVM.esTurnoDelBot && !juegoVM.juegoTerminado {
                                         responderPregunta(index: index)
                                     }
                                 }) {
@@ -75,7 +75,7 @@ struct Questions: View {
                                                 .stroke(Color.brown, lineWidth: 2)
                                         )
                                 }
-                                .disabled(questionVM.respuestaBloqueada || juegoVM.esTurnoDelBot)
+                                .disabled(questionVM.respuestaBloqueada || juegoVM.esTurnoDelBot || juegoVM.juegoTerminado)
                             }
                         }
                     }
@@ -118,8 +118,9 @@ struct Questions: View {
                     Text(questionVM.esCorrecto == true ? "¡Correcto!" : "Incorrecto")
                         .font(.custom("Gagalin", size: 40))
                         .foregroundColor(questionVM.esCorrecto == true ? .green : .red)
+                        .transition(.scale)
                     
-                    if mostrarMonedasGanadas {
+                    if mostrarMonedasGanadas && questionVM.esCorrecto == true {
                         HStack(spacing: 10) {
                             Image("moneda")
                                 .resizable()
@@ -132,10 +133,10 @@ struct Questions: View {
                         .transition(.scale.combined(with: .opacity))
                     }
                 }
-                .transition(.scale)
+                .zIndex(1)
             }
             
-            if juegoVM.esTurnoDelBot && !botEstaPensando {
+            if juegoVM.esTurnoDelBot && !botEstaPensando && !juegoVM.juegoTerminado {
                 Color.black.opacity(0.01)
                     .onAppear {
                         botEstaPensando = true
@@ -155,14 +156,16 @@ struct Questions: View {
             timerVM.detener()
         }
         .onChange(of: timerVM.tiempoRestante) { _, tiempo in
-            if tiempo <= 0 && !questionVM.respuestaBloqueada {
+            if tiempo <= 0 && !questionVM.respuestaBloqueada && !juegoVM.juegoTerminado {
                 manejarTiempoAgotado()
             }
         }
     }
     
     private func responderComoBot() {
-        let acierta = Double.random(in: 0...1) < 0.7
+        guard !juegoVM.juegoTerminado else { return }
+        
+        let acierta = Double.random(in: 0...1) < 0.6
         let respuesta: Int
         
         if acierta {
@@ -177,6 +180,8 @@ struct Questions: View {
     }
     
     private func responderPregunta(index: Int) {
+        guard !juegoVM.juegoTerminado else { return }
+        
         questionVM.verificarRespuesta(opcionSeleccionada: index)
         
         withAnimation(.easeInOut(duration: 0.3)) {
@@ -203,10 +208,12 @@ struct Questions: View {
                 mostrarPregunta = false
             }
             
-            juegoVM.alternarTurno()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                resetearParaSiguientePregunta()
+            if !juegoVM.juegoTerminado {
+                juegoVM.alternarTurno()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    resetearParaSiguientePregunta()
+                }
             }
         }
     }
@@ -214,17 +221,22 @@ struct Questions: View {
     private func manejarTiempoAgotado() {
         withAnimation {
             mostrarAnimacionRespuesta = true
+            questionVM.esCorrecto = false
         }
+        
+        audioPlayer.playSound(named: "lose", loop: false)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             withAnimation {
                 mostrarPregunta = false
             }
             
-            juegoVM.alternarTurno()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                resetearParaSiguientePregunta()
+            if !juegoVM.juegoTerminado {
+                juegoVM.alternarTurno()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    resetearParaSiguientePregunta()
+                }
             }
         }
     }
