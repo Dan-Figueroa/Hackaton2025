@@ -209,7 +209,7 @@ struct JuegoPrincipal: View {
     
     private var personRightCard: some View {
         VStack {
-            Text("IA")
+            Text("Ia")
                 .font(.custom("Gagalin", size: 20))
                 .offset(x: 290, y: CGFloat(juegoVM.rightMoveY))
             Image(systemName: "arrowshape.down.fill")
